@@ -1,36 +1,35 @@
 package waterwise;
 
-import java.util.Date;
 import java.util.Map;
 
 public abstract class Order extends DataBaseElement {
 
     //Fields
-    private int orderID;
-    private Date startDate;
-    private Date closedDate;
+    private String orderID;
+    private String startDate;
+    private String closedDate;
     private Map<Product, Integer> listOfProducts;
     private double priceTotal;
     private String paymentType;
     private String deliveryType;
     private String orderStatus;
+    private String customerEmail;
 
-    
     //Methods
     private void CalculatePriceTotal() {
         throw new UnsupportedOperationException();
     }
-    
+
     //Getters
-    public int getOrderID() {
+    public String getOrderID() {
         return this.orderID;
     }
 
-    public Date getStartDate() {
+    public String getStartDate() {
         return this.startDate;
     }
 
-    public Date getClosedDate() {
+    public String getClosedDate() {
         return this.closedDate;
     }
 
@@ -54,5 +53,12 @@ public abstract class Order extends DataBaseElement {
         return this.orderStatus;
     }
 
-    
+    public Map<Product, Integer> getListOfProducts() {
+        return listOfProducts;
+    }
+
+    public String getCustomerEmail() {
+        return customerEmail;
+    }
+
 }

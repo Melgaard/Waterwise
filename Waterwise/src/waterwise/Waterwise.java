@@ -10,9 +10,9 @@ public class Waterwise {
     public static void main(String[] args) {
         
         
-        Gui g = new Gui();
-        
+//        Gui g = new Gui();
 
+        Order o = new Outgoing();
         
     }
 
