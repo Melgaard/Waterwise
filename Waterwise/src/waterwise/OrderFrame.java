@@ -15,6 +15,9 @@ import javax.swing.JTextField;
 public class OrderFrame extends JFrame{
 
     //Fields
+    //this will be set to the order we are working on
+    Order orderShown;
+    
     String orderID;
     String deliveryType;
     String paymentType;    
@@ -22,15 +25,19 @@ public class OrderFrame extends JFrame{
     String deliveryAddress;
     String customerName;
     String customerPhonenumber;
+    
+    //These two not done yet (not in actionlistener either
     String orderStatus;
     Map<Product, Integer> listOfProducts;
+    
+    
     JPanel ofPanel = new JPanel();
     
     JPanel orderIDPanel = new JPanel();
     JLabel orderIDLabel = new JLabel("OrdreID: ");
     JTextField orderIDField = new JTextField("", 15);
     
-    JPanel deliveryTypePanel = new JPanel();
+    JPanel deliveryTypePanel = new JPanel();    
     JLabel deliveryTypeLabel = new JLabel("Leveringstype: ");
     JTextField deliveryTypeField = new JTextField("", 15);
     
@@ -55,24 +62,25 @@ public class OrderFrame extends JFrame{
     JTextField customerPhonenumberField = new JTextField("", 15);
     
     
-    
+    //Block code that is run before the constructor
     {
         this.setTitle("WaterWise DB Project - OrderFrame");
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         this.setSize(500, 500);
         this.setLocationRelativeTo(null);
         
-        ofPanel.setLayout(new FlowLayout(1, 30, 20));
+        
+        ofPanel.setLayout(new FlowLayout());
         
         
         
         orderIDField.setEditable(true);
         orderIDPanel.add(orderIDLabel);
-        orderIDPanel.add(orderIDField);
+        orderIDPanel.add(orderIDField);        
         
         deliveryTypeField.setEditable(true);
         deliveryTypePanel.add(customerEmailLabel);
-        deliveryTypePanel.add(customerEmailField);
+        deliveryTypePanel.add(customerEmailField);        
         
         paymentTypeField.setEditable(true);
         paymentTypePanel.add(customerEmailLabel);
@@ -97,9 +105,15 @@ public class OrderFrame extends JFrame{
         
         
         ofPanel.add(orderIDPanel);
+        
+        
         ofPanel.add(deliveryTypePanel);
         ofPanel.add(paymentTypePanel);
+        
+        
         ofPanel.add(customerEmailPanel);
+        
+        
         ofPanel.add(deliveryAddressPanel);
         ofPanel.add(customerNamePanel);
         ofPanel.add(customerPhonenumberPanel);
@@ -112,6 +126,7 @@ public class OrderFrame extends JFrame{
     
     public OrderFrame(Order orderToShow){
         
+        orderShown = orderToShow;
         
         
     }

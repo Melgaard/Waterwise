@@ -4,7 +4,12 @@ import java.util.Map;
 
 public abstract class Order extends DataBaseElement {
 
+    
+
     //Fields
+    public void setCustomerEmail(String customerEmail) {
+        this.customerEmail = customerEmail;
+    }
     private String orderID;
     private String startDate;
     private String closedDate;
@@ -20,6 +25,39 @@ public abstract class Order extends DataBaseElement {
         throw new UnsupportedOperationException();
     }
 
+    //Setters
+    public void setOrderID(String orderID) {
+        this.orderID = orderID;
+    }
+
+    public void setStartDate(String startDate) {
+        this.startDate = startDate;
+    }
+
+    public void setClosedDate(String closedDate) {
+        this.closedDate = closedDate;
+    }
+
+    public void setListOfProducts(Map<Product, Integer> listOfProducts) {
+        this.listOfProducts = listOfProducts;
+    }
+
+    public void setPriceTotal(double priceTotal) {
+        this.priceTotal = priceTotal;
+    }
+
+    public void setPaymentType(String paymentType) {
+        this.paymentType = paymentType;
+    }
+
+    public void setDeliveryType(String deliveryType) {
+        this.deliveryType = deliveryType;
+    }
+
+    public void setOrderStatus(String orderStatus) {
+        this.orderStatus = orderStatus;
+    }
+    
     //Getters
     public String getOrderID() {
         return this.orderID;
