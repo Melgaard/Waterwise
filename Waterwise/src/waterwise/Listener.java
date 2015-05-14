@@ -3,6 +3,7 @@ package waterwise;
 import java.awt.event.ActionEvent;
 import java.util.Map;
 import javax.swing.AbstractAction;
+import javax.swing.JFrame;
 
 /**
  *
@@ -66,14 +67,34 @@ public class Listener {
         @Override
         public void actionPerformed(ActionEvent ae) {
 
+            //Check for error in typed data
+            
+            //Set order data to the orderframe data
             orderSaveTo.setOrderID(ofSaveFrom.orderID);
             orderSaveTo.setDeliveryType(ofSaveFrom.deliveryType);
             orderSaveTo.setPaymentType(ofSaveFrom.paymentType);
             orderSaveTo.setCustomerEmail(ofSaveFrom.customerEmail);
             
-
+            System.out.println("something needs doing!");
         }
 
     }
+    public class DisposeFrameButton extends AbstractAction {
+
+        JFrame ftd;
+        
+        public DisposeFrameButton(JFrame frameToDispose){
+            ftd = frameToDispose;
+        }
+        
+        @Override
+        public void actionPerformed(ActionEvent ae) {
+            
+            ftd.dispose();
+            
+        }
+
+    }
+    
 
 }
