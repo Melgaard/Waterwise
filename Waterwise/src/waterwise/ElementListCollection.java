@@ -9,21 +9,27 @@ import java.util.ArrayList;
 public class ElementListCollection {
 
     //Field
-    private ArrayList<Product> pList;
-    private ArrayList<Order> oList;
-    private ArrayList<Customer> cList;
+    private static ArrayList<Product> pList = new ArrayList<>();
+    private static ArrayList<Order> oList = new ArrayList<>();
+    private static ArrayList<Customer> cList = new ArrayList<>();
 
+    //Setter
+    public static void addPList(Product pToAdd){
+        pList.add(pToAdd);
+    }
+    
+    
     //Getter
-    public ArrayList<Product> getPList() {
-        return this.pList;
+    public static ArrayList<Product> getPList() {
+        return pList;
     }
 
-    public ArrayList<Order> getOList() {
-        return this.oList;
+    public static ArrayList<Order> getOList() {
+        return oList;
     }
 
-    public ArrayList<Customer> getCList() {
-        return this.cList;
+    public  static ArrayList<Customer> getCList() {
+        return cList;
     }
 
 }

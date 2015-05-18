@@ -3,7 +3,9 @@ package waterwise;
 
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.util.ArrayList;
 import java.util.Map;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -64,18 +66,21 @@ public class OrderFrame extends JFrame{
     JTextField customerPhonenumberField = new JTextField("", 15);
     
     JPanel statusPanel = new JPanel();
-    JLabel statuslabel = new JLabel("Status:");
+    JLabel statusLabel = new JLabel("Status:");
     String[] statusdrop = { "Afsluttet", "Uafsluttet"};
     JComboBox statusmenu = new JComboBox(statusdrop);
     
     JPanel productListPanel = new JPanel();
-    
+    JLabel productLabel = new JLabel("produkter:");
+    ArrayList<String> productComboList = new ArrayList<>();
+    String[] productarray = {" "};
+    JComboBox<String> productbox = new JComboBox<String>(productarray);
     
     JPanel buttonPanel = new JPanel();
     JButton confirmJButton = new JButton();
     JButton cancelJButton = new JButton();
     
-    
+        
     
     //method that builds the frame and buttons
     private void frameBuild(){
@@ -83,6 +88,8 @@ public class OrderFrame extends JFrame{
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         this.setSize(500, 500);
         this.setLocationRelativeTo(null);
+        
+        
         
         
         ofPanel.setLayout(new GridLayout(9, 1));
@@ -117,9 +124,16 @@ public class OrderFrame extends JFrame{
         customerPhonenumberPanel.add(customerPhonenumberLabel);
         customerPhonenumberPanel.add(customerPhonenumberField);
         
-        statusPanel.add(statuslabel);
+        statusPanel.add(statusLabel);
         statusPanel.add(statusmenu);
         
+        for(Product temp : ElementListCollection.getPList()){
+            productComboList.add(temp.getProductName());
+        }
+        productbox.setModel(new DefaultComboBoxModel(productComboList.toArray()));
+        
+        productListPanel.add(productLabel);
+        productListPanel.add(productbox);
         
         confirmJButton.setAction(new Listener().new SaveEditButton(this));
         cancelJButton.setAction(new Listener().new DisposeFrameButton(this));
@@ -140,6 +154,7 @@ public class OrderFrame extends JFrame{
         ofPanel.add(customerPhonenumberPanel);
         
         ofPanel.add(statusPanel);
+        ofPanel.add(productListPanel);
         ofPanel.add(buttonPanel);
         
         ofPanel.setVisible(true);

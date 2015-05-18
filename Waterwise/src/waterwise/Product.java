@@ -14,8 +14,8 @@ public class Product extends DataBaseElement {
     private Date reorderDeadline;
 
     //Constructor
-    public Product() {
-        throw new UnsupportedOperationException();
+    public Product(String nameToBe) {
+        productName = nameToBe;
     }
 
     //Getters
