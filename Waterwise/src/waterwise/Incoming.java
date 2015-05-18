@@ -17,8 +17,8 @@ public class Incoming extends Order {
     //Parameters still not correct
     public Incoming(String orderID, String paymentType) {
 
-        
-        throw new UnsupportedOperationException();
+        this.setOrderID(orderID);
+        this.setPaymentType(paymentType);
         
         
     }

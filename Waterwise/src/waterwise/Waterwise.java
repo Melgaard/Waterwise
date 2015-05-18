@@ -13,10 +13,20 @@ public class Waterwise {
         Product p = new Product("akklad");
         Product h = new Product("emil");
         
+        Order test1 = new Incoming("D8W8", "DANKORT LOL KAPPA AKKLAD");
+       
+
+        e.addOrder(test1);
+        e.addOrder(test1);
+        e.addOrder(test1);
+        e.addOrder(test1);
+        e.addOrder(test1);
+        e.addOrder(test1);
+        
         e.addPList(h);
         e.addPList(p);
         Order o = new Outgoing();
-        
+        Gui g = new Gui();
     }
     
 }

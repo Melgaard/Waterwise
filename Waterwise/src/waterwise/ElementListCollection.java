@@ -12,13 +12,17 @@ public class ElementListCollection {
     private static ArrayList<Product> pList = new ArrayList<>();
     private static ArrayList<Order> oList = new ArrayList<>();
     private static ArrayList<Customer> cList = new ArrayList<>();
+    private static ArrayList<Order> stockList = new ArrayList<>();
 
     //Setter
-    public static void addPList(Product pToAdd){
+    public static void addPList(Product pToAdd) {
         pList.add(pToAdd);
     }
     
-    
+    public void addOrder(Order newOrder) {
+        oList.add(newOrder);
+    }
+
     //Getter
     public static ArrayList<Product> getPList() {
         return pList;
@@ -28,8 +32,14 @@ public class ElementListCollection {
         return oList;
     }
 
-    public  static ArrayList<Customer> getCList() {
+    public static ArrayList<Customer> getCList() {
         return cList;
     }
+
+    public ArrayList<Order> getStockList() {
+        return this.stockList;
+    }
+
+    
 
 }
