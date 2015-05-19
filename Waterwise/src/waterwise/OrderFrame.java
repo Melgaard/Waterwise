@@ -168,7 +168,7 @@ public class OrderFrame extends JFrame {
     //method that builds the frame and buttons
     private void frameBuild() {
         this.setTitle("WaterWise DB Project - OrderFrame");
-        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         this.setSize(500, 600);
         this.setLocationRelativeTo(null);
 
