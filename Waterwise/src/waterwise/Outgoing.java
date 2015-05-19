@@ -33,7 +33,7 @@ public class Outgoing extends Order {
     //Creates an order object but no new database entry (for loading from the database)
     public Outgoing(int orderIDToLoad) {
 
-        FileWrapper.loadEntry(orderIDToLoad);
+//        FileWrapper.loadEntry(orderIDToLoad);
     }
     
     //Setter

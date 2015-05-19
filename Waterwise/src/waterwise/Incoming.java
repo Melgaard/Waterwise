@@ -32,7 +32,7 @@ public class Incoming extends Order {
     //Creates an order object but no new database entry (for loading from the database)
     public Incoming(int orderIDToLoad) {
 
-        FileWrapper.loadEntry(orderIDToLoad);
+//        FileWrapper.loadEntry(orderIDToLoad);
 
     }
 

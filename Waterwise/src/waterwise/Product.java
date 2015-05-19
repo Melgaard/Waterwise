@@ -1,51 +1,73 @@
 package waterwise;
 
-import java.util.Date;
-
-public class Product extends DataBaseElement {
+public class Product extends DataBaseElement
+{
 
     //Fields
     private int productID;
     private String productName;
     private int amountInStorage;
     private double weight;
-    private int size;
+    private String size;
     private double unitPrice;
-    private Date reorderDeadline;
+    private int reorderAmount;
 
     //Constructor
-    public Product(String nameToBe) {
+    public Product(String nameToBe)
+    {
         productName = nameToBe;
     }
 
-    //Getters
+    Product(int ID, String name, int amount, double weight, String size, double unitPrice, int reOrderAmount)
+    {
+        this.productID = ID;
+        this.productName = name;
+        this.amountInStorage = amount;
+        this.weight = weight;
+        this.size = size;
+        this.unitPrice = unitPrice;
+        this.reorderAmount = reOrderAmount;
+    }
 
-    public int getProductID() {
+    //Getters
+    public int getProductID()
+    {
         return this.productID;
     }
 
-    public String getProductName() {
+    public String getProductName()
+    {
         return this.productName;
     }
 
-    public int getAmountInStorage() {
+    public int getAmountInStorage()
+    {
         return this.amountInStorage;
     }
 
-    public double getWeight() {
+    public double getWeight()
+    {
         return this.weight;
     }
 
-    public int getSize() {
+    public String getSize()
+    {
         return this.size;
     }
 
-    public double getUnitPrice() {
+    public double getUnitPrice()
+    {
         return this.unitPrice;
     }
 
-    public Date getReorderDeadline() {
-        return this.reorderDeadline;
+    public int getReorderAmount()
+    {
+        return this.reorderAmount;
+    }
+
+    public void setReorderAmount(int reorderAmount)
+    {
+        this.reorderAmount = reorderAmount;
     }
 
 }
