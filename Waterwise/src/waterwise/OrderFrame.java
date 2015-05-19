@@ -22,8 +22,12 @@ public class OrderFrame extends JFrame{
     //Fields
     //this will be set to the order we are working on
     Order orderShown;
+    //variable to determine wheter it is an incoming or outgoing order - 
+    //true is incoming
     
     String orderID;
+    String startDate;
+    String closedDate;
     String deliveryType;
     String paymentType;    
     String customerEmail;
@@ -162,11 +166,13 @@ public class OrderFrame extends JFrame{
         this.setVisible(true);   
     }
     
-    public OrderFrame(Order orderToShow){
+    public OrderFrame(Order orderToCreate){
         
-        orderShown = orderToShow;
+        orderShown = orderToCreate;
         frameBuild();
         
     }
+    
+    
     
 }

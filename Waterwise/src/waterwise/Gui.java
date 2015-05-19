@@ -151,6 +151,7 @@ public class Gui extends JFrame {
     }
 
     private void addComponentToPane() {
+        Listener listen = new Listener();
         JTabbedPane tabbedPane = new JTabbedPane();
 
         tabbedPane.addTab(ROOT, cardRoot);
@@ -181,13 +182,15 @@ public class Gui extends JFrame {
         deleteOrder.setPreferredSize(buttonSize);
         orderSorter.setPreferredSize(buttonSize);
 
+        createOrder.addActionListener(listen.new createNewIncoming());
+        
         orderButtonPanel.add(createOrder);
         orderButtonPanel.add(editOrder);
         orderButtonPanel.add(changeStatus);
         orderButtonPanel.add(printLabel);
         orderButtonPanel.add(deleteOrder);
         orderButtonPanel.add(orderSorter);
-
+        
         orderSorter.setSelectedIndex(0);
 
         //Product

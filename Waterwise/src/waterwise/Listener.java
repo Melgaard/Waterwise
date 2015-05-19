@@ -1,7 +1,6 @@
 package waterwise;
 
 import java.awt.event.ActionEvent;
-import java.util.Map;
 import javax.swing.AbstractAction;
 import javax.swing.JFrame;
 
@@ -68,14 +67,26 @@ public class Listener {
         public void actionPerformed(ActionEvent ae) {
 
             //Check for error in typed data
+            System.out.println("something needs doing! - SaveEditButton");
             
             //Set order data to the orderframe data
-            orderSaveTo.setOrderID(ofSaveFrom.orderID);
-            orderSaveTo.setDeliveryType(ofSaveFrom.deliveryType);
-            orderSaveTo.setPaymentType(ofSaveFrom.paymentType);
-            orderSaveTo.setCustomerEmail(ofSaveFrom.customerEmail);
+            orderSaveTo.setOrderID(ofSaveFrom.orderIDField.getText());
+            orderSaveTo.setListOfProducts(ofSaveFrom.listOfProducts);
+            orderSaveTo.setDeliveryType(ofSaveFrom.deliveryTypeField.getText());
+            orderSaveTo.setPaymentType(ofSaveFrom.paymentTypeField.getText());
             
-            System.out.println("something needs doing!");
+            
+            
+            
+            if (orderSaveTo instanceof Outgoing){
+//                orderSaveTo.setSupplier(supplierField.getText());
+            }
+            else if (orderSaveTo instanceof Incoming){
+//                orderSaveTo.setCustomerPhonenumber(customerPhonenumberField.getText());
+            }
+            
+            orderSaveTo.Update();
+            ofSaveFrom.dispose();
         }
 
     }
@@ -96,5 +107,22 @@ public class Listener {
 
     }
     
+    public class createNewIncoming extends AbstractAction {
+
+        @Override
+        public void actionPerformed(ActionEvent ae) {
+            Incoming i = new Incoming();
+        }
+
+    }
+    
+     public class createNewOutgoing extends AbstractAction {
+
+        @Override
+        public void actionPerformed(ActionEvent ae) {
+             Outgoing o = new Outgoing();
+        }
+
+    }
 
 }

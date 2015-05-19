@@ -5,15 +5,26 @@ import java.util.Date;
 public class Customer extends DataBaseElement {
 
     //Fields
+    private String phonenumber;
     private String customerEmail;
     private String deliveryAddress;
     private String customerName;
-    private String phonenumber;
     private Date creationDate;
 
+    @Override
+    public void Update() {
+//        FileWrapper.createCustomer(this);
+    }
+    
     //Constructor
-    public Customer() {
-        throw new UnsupportedOperationException();
+    public Customer(String phone, String email, String deliveryaddress, String name) {
+        
+        phonenumber = phone;
+        customerEmail = email;
+        deliveryAddress = deliveryaddress;
+        customerName = name;
+        
+        this.Update();
     }
 
     //Getters

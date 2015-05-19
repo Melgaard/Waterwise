@@ -4,12 +4,7 @@ import java.util.Map;
 
 public abstract class Order extends DataBaseElement {
 
-    
-
     //Fields
-    public void setCustomerEmail(String customerEmail) {
-        this.customerEmail = customerEmail;
-    }
     private String orderID;
     private String startDate;
     private String closedDate;
@@ -18,7 +13,7 @@ public abstract class Order extends DataBaseElement {
     private String paymentType;
     private String deliveryType;
     private String orderStatus;
-    private String customerEmail;
+    private String customerPhonenumber;
 
     //Methods
     private void CalculatePriceTotal() {
@@ -26,6 +21,10 @@ public abstract class Order extends DataBaseElement {
     }
 
     //Setters
+    public void setCustomerPhonenumber(String customerPhonenumber) {
+        this.customerPhonenumber = customerPhonenumber;
+    }
+
     public void setOrderID(String orderID) {
         this.orderID = orderID;
     }
@@ -57,7 +56,7 @@ public abstract class Order extends DataBaseElement {
     public void setOrderStatus(String orderStatus) {
         this.orderStatus = orderStatus;
     }
-    
+
     //Getters
     public String getOrderID() {
         return this.orderID;
@@ -95,8 +94,8 @@ public abstract class Order extends DataBaseElement {
         return listOfProducts;
     }
 
-    public String getCustomerEmail() {
-        return customerEmail;
+    public String getCustomerPhonenumber() {
+        return customerPhonenumber;
     }
 
 }

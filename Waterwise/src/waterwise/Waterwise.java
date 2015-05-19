@@ -25,7 +25,6 @@ public class Waterwise {
         
         e.addPList(h);
         e.addPList(p);
-        Order o = new Outgoing();
         Gui g = new Gui();
     }
     

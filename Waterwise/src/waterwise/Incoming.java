@@ -3,8 +3,14 @@ package waterwise;
 public class Incoming extends Order {
 
     //Incoming specific fields
-    private String CustomerEmail;
+    private String customerPhonenumber;
 
+    //Override of databaseelement method to call the correct update method
+    @Override
+    public void Update() {
+//        FileWrapper.updateIncoming(this);
+    }
+    
     //Creates an order objects and a new database entry
     public Incoming() {
 
@@ -30,4 +36,14 @@ public class Incoming extends Order {
 
     }
 
+    
+     //Setter
+    public void setCustomerPhonenumber(String customerPhonenumber) {
+        this.customerPhonenumber = customerPhonenumber;
+    }
+
+    //Getter
+    public String getCustomerPhonenumber() {
+        return customerPhonenumber;
+    }
 }
