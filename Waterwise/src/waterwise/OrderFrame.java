@@ -161,7 +161,7 @@ public class OrderFrame extends JFrame {
 
     //Buttons
     JPanel buttonPanel = new JPanel();
-    JButton confirmJButton = new JButton("Commit");
+    JButton confirmJButton = new JButton("Committest");
     JButton cancelJButton = new JButton("Cancel");
     JButton addButton = new JButton("Add");
 
