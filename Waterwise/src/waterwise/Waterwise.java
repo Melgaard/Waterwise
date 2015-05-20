@@ -1,5 +1,8 @@
 package waterwise;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  *
  * @author BlottoG
@@ -12,8 +15,9 @@ public class Waterwise {
         ElementListCollection e = new ElementListCollection();
         Product p = new Product("akklad");
         Product h = new Product("emil");
-        
-        Order test1 = new Incoming("D8W8", "DANKORT LOL KAPPA AKKLAD");
+        Map<Product, Integer> m = new HashMap<Product, Integer>();
+        Order test1 = new Incoming("D8W8", "Startdate", "closeddate", 
+                m, "paymenttype", "deliverytype", "Uafsluttet", "26549878", false);
        
 
         e.addOrder(test1);
