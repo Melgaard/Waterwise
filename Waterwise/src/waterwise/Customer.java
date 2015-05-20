@@ -9,7 +9,7 @@ public class Customer extends DataBaseElement {
     private String customerEmail;
     private String deliveryAddress;
     private String customerName;
-    private Date creationDate;
+    private String creationDate;
 
     
 
@@ -19,24 +19,17 @@ public class Customer extends DataBaseElement {
     }
     
     //Constructor
-    public Customer(int phone, String email, String deliveryaddress, String name) {
+    public Customer(int phone, String email, String name, String deliveryaddress,  
+                     String city, String zip, String country) {
         
         phoneNumber = phone;
         customerEmail = email;
         deliveryAddress = deliveryaddress;
-        customerName = name;
+        customerName = name;    
         
         this.Update();
     }
     
-    public Customer(int phoneNumber, String email, String deliveryAddress, String name, Date creationDate)
-	{
-		this.setPhoneNumber(phoneNumber);
-		this.setCustomerEmail(email);
-		this.setDeliveryAddress(deliveryAddress);
-		this.setCustomerName(name);
-		this.setCreationDate(creationDate);
-	}
 
     //Getters
     public String getCustomerEmail() {
@@ -55,7 +48,7 @@ public class Customer extends DataBaseElement {
         return this.phoneNumber;
     }
 
-    public Date getCreationDate() {
+    public String getCreationDate() {
         return this.creationDate;
     }
     
@@ -80,7 +73,7 @@ public class Customer extends DataBaseElement {
         this.customerName = customerName;
     }
 
-    public void setCreationDate(Date creationDate)
+    public void setCreationDate(String creationDate)
     {
         this.creationDate = creationDate;
     }

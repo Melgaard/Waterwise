@@ -10,6 +10,8 @@ import javax.swing.JFrame;
  */
 public class Listener {
 
+    Controller controller = new Controller();
+    
     public Listener() {
 
     }
@@ -53,60 +55,36 @@ public class Listener {
 
     public class SaveEditButton extends AbstractAction {
 
-        Order orderSaveTo;
         OrderFrame ofSaveFrom;
-
-        public SaveEditButton(OrderFrame orderframeToSave) {
-
-            ofSaveFrom = orderframeToSave;
-            orderSaveTo = ofSaveFrom.orderShown;
-
-        }
-
+        
+        public SaveEditButton(OrderFrame ofSaveFrom) {
+            this.ofSaveFrom = ofSaveFrom;
+        }        
+        
         @Override
         public void actionPerformed(ActionEvent ae) {
-
-            //Check for error in typed data
-            System.out.println("something needs doing! - SaveEditButton");
-            
-            //Set order data to the orderframe data
-            orderSaveTo.setOrderID(ofSaveFrom.orderIDField.getText());
-            orderSaveTo.setListOfProducts(ofSaveFrom.listOfProducts);
-            orderSaveTo.setDeliveryType(ofSaveFrom.deliveryTypeField.getText());
-            orderSaveTo.setPaymentType(ofSaveFrom.paymentTypeField.getText());
-            
-            
-            
-            
-            if (orderSaveTo instanceof Outgoing){
-//                orderSaveTo.setSupplier(supplierField.getText());
-            }
-            else if (orderSaveTo instanceof Incoming){
-//                orderSaveTo.setCustomerPhonenumber(customerPhonenumberField.getText());
-            }
-            
-            orderSaveTo.Update();
-            ofSaveFrom.dispose();
+            controller.saveEditMethod(ofSaveFrom);
         }
 
     }
+
     public class DisposeFrameButton extends AbstractAction {
 
         JFrame ftd;
-        
-        public DisposeFrameButton(JFrame frameToDispose){
+
+        public DisposeFrameButton(JFrame frameToDispose) {
             ftd = frameToDispose;
         }
-        
+
         @Override
         public void actionPerformed(ActionEvent ae) {
-            
+
             ftd.dispose();
-            
+
         }
 
     }
-    
+
     public class createNewIncoming extends AbstractAction {
 
         @Override
@@ -115,12 +93,12 @@ public class Listener {
         }
 
     }
-    
-     public class createNewOutgoing extends AbstractAction {
+
+    public class createNewOutgoing extends AbstractAction {
 
         @Override
         public void actionPerformed(ActionEvent ae) {
-             Outgoing o = new Outgoing();
+            Outgoing o = new Outgoing();
         }
 
     }

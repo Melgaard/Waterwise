@@ -469,7 +469,8 @@ public class FileWrapper
 				name = resultSet.getString("name");
 				creationDate = resultSet.getDate("creationDate");
 			}
-			Customer customer = new Customer(phoneNumber, email, deliveryAddress, name, creationDate);
+			Customer customer = new Customer(phoneNumber, email, 
+                                name, deliveryAddress, null, null, null);
 			return customer;
 		}
 		catch (Exception e)
