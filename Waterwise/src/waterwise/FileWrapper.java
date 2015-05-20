@@ -567,7 +567,7 @@ public class FileWrapper
 				String size = resultSet.getString("size");
 				double unitPrice = resultSet.getDouble("unitPrice");
 				int reOrderAmount = resultSet.getInt("reOrderAmount");
-				Product product = new Product(ID, name, amount, weight, size, unitPrice, reOrderAmount);
+				Product product = new Product(ID, name, amount, weight, size, unitPrice, reOrderAmount, false);
 				list.add(product);
 			}
 			return list;
@@ -608,7 +608,7 @@ public class FileWrapper
 				unitPrice = resultSet.getDouble("unitPrice");
 				reOrderAmount = resultSet.getInt("reOrderAmount");
 			}
-			Product product = new Product(ID, name, amount, weight, size, unitPrice, reOrderAmount);
+			Product product = new Product(ID, name, amount, weight, size, unitPrice, reOrderAmount, false);
 			return product;
 		}
 		catch (Exception e)

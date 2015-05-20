@@ -7,8 +7,11 @@ public class Customer extends DataBaseElement {
     //Fields
     private int phoneNumber;
     private String customerEmail;
-    private String deliveryAddress;
     private String customerName;
+    private String deliveryAddress;
+    private String deliveryCityAddress;
+    private String deliveryZipAddress;
+    private String deliveryCountryAddress;
     private String creationDate;
 
     
@@ -19,18 +22,36 @@ public class Customer extends DataBaseElement {
     }
     
     //Constructor
+    //To create an entirely new customer
     public Customer(int phone, String email, String name, String deliveryaddress,  
                      String city, String zip, String country) {
         
-        phoneNumber = phone;
-        customerEmail = email;
-        deliveryAddress = deliveryaddress;
-        customerName = name;    
+        
+        this.phoneNumber = phone;
+        this.customerEmail = email;
+        this.customerName = name;
+        this.deliveryAddress = deliveryaddress;
+        this.deliveryCityAddress = city;
+        this.deliveryZipAddress = zip;
+        this.deliveryCountryAddress = country;
         
         this.Update();
     }
+    //To create customer objects from database
+    public Customer(int phone, String email, String name, String deliveryaddress,  
+                     String city, String zip, String country, String creation) {
+        
+        this.phoneNumber = phone;
+        this.customerEmail = email;
+        this.customerName = name;
+        this.deliveryAddress = deliveryaddress;
+        this.deliveryCityAddress = city;
+        this.deliveryZipAddress = zip;
+        this.deliveryCountryAddress = country;
+        creationDate = creation;
+        
+    }
     
-
     //Getters
     public String getCustomerEmail() {
         return this.customerEmail;

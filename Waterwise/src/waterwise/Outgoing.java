@@ -1,5 +1,7 @@
 package waterwise;
 
+import java.util.Map;
+
 public class Outgoing extends Order {
 
     //Outgoing specific fields
@@ -11,11 +13,7 @@ public class Outgoing extends Order {
     private String ownCountry;
     private String ownPhonenumber;
 
-    //Override of databaseelement method to call the correct update method
-    @Override
-    public void Update() {
-//        FileWrapper.updateOutgoing(this);
-    }
+    
 
     //Creates an order objects and a new database entry
     public Outgoing() {
@@ -24,19 +22,47 @@ public class Outgoing extends Order {
         this.setStartDate(this.getDateTime());
     }
 
-    //Creates an order object from the given parameters, this should be called automatically only
-    //Parameters still not correct
-    public Outgoing(String orderID, String paymentType) {
+    //Creates an order object from the given parameters
+    //The boolean determines whether to save it in the database
+    //Therefore it should be false when called from the database
+    public Outgoing(String orderID, String startDate, String closedDate,
+            Map<Product, Integer> productMap, String paymentType,
+            String deliveryType, String orderStatus, String suppName,
+            String suppEmail, String ownAddress, String ownCity, 
+            String ownZip, String ownCountry, String ownPhone, 
+            boolean updateDB) {
 
-        throw new UnsupportedOperationException();
-
+        this.setOrderID(orderID);
+        this.setStartDate(startDate);
+        this.setClosedDate(closedDate);
+        this.setListOfProducts(productMap);
+        this.setPaymentType(paymentType);
+        this.setDeliveryType(deliveryType);
+        this.setOrderStatus(orderStatus);
+        
+        this.setSupplierName(suppName);
+        this.setSupplierEmail(suppEmail);
+        this.setOwnAddress(ownAddress);
+        this.setOwnCity(ownCity);
+        this.setOwnZip(ownZip);
+        this.setOwnCountry(ownCountry);
+        this.setOwnPhonenumber(ownPhone);
+                
+        
+         if(updateDB){
+            this.Update();
+        }
+        
+        
+        
+    }
+    
+    //Override of databaseelement method to call the correct update method
+    @Override
+    public void Update() {
+//        FileWrapper.updateOutgoing(this);
     }
 
-    //Creates an order object but no new database entry (for loading from the database)
-    public Outgoing(int orderIDToLoad) {
-
-//        FileWrapper.loadEntry(orderIDToLoad);
-    }
 
     //Setter
     public void setSupplierName(String supplierName) {

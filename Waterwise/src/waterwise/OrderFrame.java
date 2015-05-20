@@ -41,7 +41,7 @@ public class OrderFrame extends JFrame {
     String addressCountry;
     String customerName;
     int customerPhonenumber;
-    
+
     String supplierName;
     String supplierEmail;
     String ownAddress;
@@ -49,7 +49,7 @@ public class OrderFrame extends JFrame {
     String ownZip;
     String ownCountry;
     int ownPhonenumber;
-    
+
     String orderStatus;
     Map<Product, Integer> listOfProducts;
 
@@ -74,22 +74,22 @@ public class OrderFrame extends JFrame {
     //Supplier
     JLabel supplierNameLabel = new JLabel("Supplier:");
     JTextField supplierNameField = new JTextField();
-    
+
     JLabel supplierEmailLabel = new JLabel("Email:");
     JTextField supplierEmailField = new JTextField();
-    
+
     JLabel ownAddressLabel = new JLabel("Addresse:");
     JTextField ownAddressField = new JTextField();
-    
+
     JLabel ownCityLabel = new JLabel("By:");
     JTextField ownCityField = new JTextField();
-    
+
     JLabel ownZipLabel = new JLabel("Postnr:");
     JTextField ownZipField = new JTextField();
-    
+
     JLabel ownCountryLabel = new JLabel("Land:");
     JTextField ownCountryField = new JTextField();
-    
+
     JLabel ownPhonenumberLabel = new JLabel("Telefon:");
     JTextField ownPhonenumberField = new JTextField();
 
@@ -122,13 +122,13 @@ public class OrderFrame extends JFrame {
     JPanel deliveryAddressPanel = new JPanel();
     JLabel deliveryAddressLabel = new JLabel("Adresse:");
     JTextField deliveryAddressField = new JTextField();
-    
+
     JLabel deliveryAddressCityLabel = new JLabel("By:");
     JTextField deliveryAddressCityField = new JTextField();
-    
+
     JLabel deliveryAddressZipLabel = new JLabel("Postnr:");
     JTextField deliveryAddressZipField = new JTextField();
-    
+
     JLabel deliveryAddressCountryLabel = new JLabel("Land:");
     JTextField deliveryAddressCountryField = new JTextField("Danmark");
 
@@ -178,7 +178,7 @@ public class OrderFrame extends JFrame {
 
         //Panels
         ofPanel.setLayout(new BorderLayout());
-        
+
         ofPanel.add(topPanel, BorderLayout.NORTH);
         ofPanel.add(middlePanel, BorderLayout.CENTER);
         ofPanel.add(productTablePanel, BorderLayout.SOUTH);
@@ -195,12 +195,12 @@ public class OrderFrame extends JFrame {
 
         //MiddlePanel
         middlePanel.setLayout(new BorderLayout());
-        
+
         middlePanel.add(productPanel, BorderLayout.SOUTH);
 
         //CustomerPanel
         if (orderShown instanceof Incoming) {
-            
+
             middlePanel.add(customerPanel);
             customerPanel.setBorder(new TitledBorder("KundeOplysninger"));
             customerPanel.setLayout(null);
@@ -243,7 +243,7 @@ public class OrderFrame extends JFrame {
             deliveryTypeLabel.setBounds(260, 150, 75, 15);
             deliveryTypeField.setBounds(318, 148, 150, 18);
         } else if (orderShown instanceof Outgoing) {
-            
+
             middlePanel.add(supplierPanel);
             supplierPanel.setBorder(new TitledBorder("SupplierOplysninger"));
             supplierPanel.setLayout(null);
@@ -277,22 +277,22 @@ public class OrderFrame extends JFrame {
             ownZipField.setBounds(318, 88, 150, 18);
             ownCountryLabel.setBounds(260, 120, 75, 15);
             ownCountryField.setBounds(318, 118, 150, 18);
-            
+
         }
 
         //ProductPanel
         productPanel.setPreferredSize(productPaneDimension);
         productPanel.setBorder(new TitledBorder("Produkter"));
         productPanel.setLayout(new FlowLayout());
-        
+
         for (Product temp : ElementListCollection.getPList()) {
             productComboList.add(temp.getProductName());
         }
         productbox.setModel(new DefaultComboBoxModel(productComboList.toArray()));
-        
+
         productPanel.add(productLabel);
         productPanel.add(productbox);
-        
+
         productPanel.add(amountLabel);
         productPanel.add(amountField);
         productPanel.add(addButton);
@@ -303,24 +303,24 @@ public class OrderFrame extends JFrame {
         bottomPanel.setLayout(new BorderLayout());
         bottomPanel.add(productTableScrollPane, BorderLayout.CENTER);
         productTableScrollPane.setPreferredSize(productTableDimension);
-        
+
         bottomPanel.add(buttonPanel, BorderLayout.EAST);
         buttonPanel.setLayout(new FlowLayout());
         buttonPanel.add(confirmJButton);
         buttonPanel.add(cancelJButton);
         buttonPanel.setPreferredSize(buttonPanelDimension);
         confirmJButton.setPreferredSize(buttonDimension);
-        
+
         cancelJButton.setPreferredSize(buttonDimension);
-        
+
         confirmJButton.addActionListener(new Listener().new SaveEditButton(this));
         cancelJButton.addActionListener(new Listener().new DisposeFrameButton(this));
-        
+
         ofPanel.setVisible(true);
         this.add(ofPanel);
         this.setVisible(true);
     }
-    
+
     private void updateProductList() {
         DefaultTableModel chosenProductsTableModel = new DefaultTableModel() {
             @Override
@@ -328,12 +328,12 @@ public class OrderFrame extends JFrame {
                 return false;
             }
         };
-        
+
         productTable.setAutoCreateRowSorter(true);
-        
+
         chosenProductsTableModel.setColumnIdentifiers(new String[]{"ProduktID", "ProduktNavn", "Antal", "Pris"});
         chosenProductsTableModel.setRowCount(200);
-        
+
         int row = 0;
         for (String products : chosenProducts) {
             chosenProductsTableModel.setValueAt(productComboList.get(row), row, 0);
@@ -343,39 +343,61 @@ public class OrderFrame extends JFrame {
 
             row++;
         }
-        
+
         productTable.setModel(chosenProductsTableModel);
     }
-    
+
     public OrderFrame(Order orderToShow) {
-        
+
         orderShown = orderToShow;
-        if (orderToShow instanceof Outgoing){
+        if (orderToShow instanceof Outgoing) {
             setTextOutgoing((Outgoing) orderToShow);
-        }
-        else if (orderToShow instanceof Incoming){
+        } else if (orderToShow instanceof Incoming) {
             setTextIncoming((Incoming) orderToShow);
         }
         frameBuild();
-        
+
     }
-    
+
+    private void setTextCommon(Order ots) {
+        orderIDField.setText(ots.getOrderID());
+        deliveryTypeField.setText(ots.getDeliveryType());
+        paymentTypeField.setText(ots.getPaymentType());
+        if (ots.getOrderStatus() != null) {
+
+            switch (ots.getOrderStatus()) {
+                case "Afsluttet":
+                    statusmenu.setSelectedIndex(0);
+                    break;
+                case "Uafsluttet":
+                    statusmenu.setSelectedIndex(1);
+                    break;
+            }
+        }
+    }
+
     private void setTextOutgoing(Outgoing ots) {
 
         //Supplier
         supplierEmailField.setText(ots.getSupplierEmail());
         supplierNameField.setText(ots.getSupplierName());
-        ownAddressField.setText(ots.getOwnAddress());        
+        ownAddressField.setText(ots.getOwnAddress());
         ownCityField.setText(ots.getOwnCity());
         ownZipField.setText(ots.getOwnZip());
         ownCountryField.setText(ots.getOwnCountry());
         ownPhonenumberField.setText(ots.getOwnPhonenumber());
+
+        setTextCommon(ots);
     }
-    
-     private void setTextIncoming(Incoming ots) {
+
+    private void setTextIncoming(Incoming ots) {
 
         //Customer
-         customerPhonenumberField.setText(ots.getCustomerPhonenumber());
+        customerPhonenumberField.setText(ots.getCustomerPhonenumber());
+
+        System.out.println("Figure out how to customer addressfields"
+                + "Since they arent in the order object");
         
-     }
+        setTextCommon(ots);
+    }
 }

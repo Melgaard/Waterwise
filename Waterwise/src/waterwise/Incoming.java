@@ -1,9 +1,12 @@
 package waterwise;
 
+import java.util.Map;
+
 public class Incoming extends Order {
 
     //Incoming specific fields
     private String customerPhonenumber;
+    
 
     //Override of databaseelement method to call the correct update method
     @Override
@@ -12,6 +15,7 @@ public class Incoming extends Order {
     }
     
     //Creates an order objects and a new database entry
+    //          when confirm is pressed in the orderFrame 
     public Incoming() {
 
         OrderFrame tempOF = new OrderFrame(this);
@@ -19,24 +23,32 @@ public class Incoming extends Order {
         
     }
     
-    //Creates an order object from the given parameters, this should be called automatically only
-    //Parameters still not correct
-    public Incoming(String orderID, String paymentType) {
+    //Creates an order object from the given parameters
+    //The boolean determines whether to save it in the database
+    //Therefore it should be false when called from the database
+    public Incoming(String orderID, String startDate, String closedDate,
+            Map<Product, Integer> productMap, String paymentType,
+            String deliveryType, String orderStatus, String phonenumber, 
+            boolean updateDB) {
 
         this.setOrderID(orderID);
+        this.setStartDate(startDate);
+        this.setClosedDate(closedDate);
+        this.setListOfProducts(productMap);
         this.setPaymentType(paymentType);
+        this.setDeliveryType(deliveryType);
+        this.setOrderStatus(orderStatus);
+        this.setCustomerPhonenumber(phonenumber);
+        
+         if(updateDB){
+            this.Update();
+        }
+        
         
         
     }
 
-    //Creates an order object but no new database entry (for loading from the database)
-    public Incoming(int orderIDToLoad) {
-
-//        FileWrapper.loadEntry(orderIDToLoad);
-
-    }
-
-    
+        
      //Setter
     public void setCustomerPhonenumber(String customerPhonenumber) {
         this.customerPhonenumber = customerPhonenumber;

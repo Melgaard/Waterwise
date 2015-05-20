@@ -13,12 +13,16 @@ public class Product extends DataBaseElement
     private int reorderAmount;
 
     //Constructor
+    //Creates dummy product with only name, meant for testing
     public Product(String nameToBe)
     {
         productName = nameToBe;
     }
 
-    Product(int ID, String name, int amount, double weight, String size, double unitPrice, int reOrderAmount)
+    //Creates an entire product, 
+    //The boolean should be false if called from the database so as to not save it again
+    //The boolean should be true if the object should be put in the database
+    Product(int ID, String name, int amount, double weight, String size, double unitPrice, int reOrderAmount, boolean updateDB)
     {
         this.productID = ID;
         this.productName = name;
@@ -27,9 +31,19 @@ public class Product extends DataBaseElement
         this.size = size;
         this.unitPrice = unitPrice;
         this.reorderAmount = reOrderAmount;
+        if(updateDB){
+            this.Update();
+        }
+        
+    }
+    
+    @Override
+    public void Update(){
+        FileWrapper fw = new FileWrapper();
+//        fw.createProduct(this);
     }
 
-    //Getters
+    //Getters    
     public int getProductID()
     {
         return this.productID;
@@ -64,9 +78,34 @@ public class Product extends DataBaseElement
     {
         return this.reorderAmount;
     }
-
-    public void setReorderAmount(int reorderAmount)
+    
+    public void setProductID(int productID)
     {
+        this.productID = productID;
+    }
+
+    public void setProductName(String productName) {
+        this.productName = productName;
+    }
+
+    public void setAmountInStorage(int amountInStorage) {
+        this.amountInStorage = amountInStorage;
+    }
+
+    public void setWeight(double weight) {
+        this.weight = weight;
+    }
+
+    public void setSize(String size) {
+        this.size = size;
+    }
+
+    //Setters
+    public void setUnitPrice(double unitPrice) {
+        this.unitPrice = unitPrice;
+    }
+
+    public void setReorderAmount(int reorderAmount) {
         this.reorderAmount = reorderAmount;
     }
 
