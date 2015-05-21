@@ -359,12 +359,13 @@ public class OrderFrame extends JFrame {
     public OrderFrame(Order orderToShow) {
 
         orderShown = orderToShow;
+        frameBuild();
         if (orderToShow instanceof Outgoing) {
             setTextOutgoing((Outgoing) orderToShow);
         } else if (orderToShow instanceof Incoming) {
             setTextIncoming((Incoming) orderToShow);
         }
-        frameBuild();
+        
 
     }
 
