@@ -17,18 +17,17 @@ public class FileWrapper
 {
 
     private Connection connect = null;
-	private Statement statement = null;
-	private PreparedStatement preparedStatement = null;
-	private ResultSet resultSet = null;
-        
-        DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
-
-	private void createConnection() throws SQLException, ClassNotFoundException
-	{
-		Class.forName("com.mysql.jdbc.Driver");
-		connect = DriverManager.getConnection("jdbc:mysql://localhost/todo?" + "user=sqluser&password=sqluserpw");
-		statement = connect.createStatement();
-	}
+    private Statement statement = null;
+    private PreparedStatement preparedStatement = null;
+    private ResultSet resultSet = null;   
+    DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+    
+    private void createConnection() throws SQLException, ClassNotFoundException
+    {
+	Class.forName("com.mysql.jdbc.Driver");
+	connect = DriverManager.getConnection("jdbc:mysql://localhost/todo?" + "user=sqluser&password=sqluserpw");
+	statement = connect.createStatement();
+    }
 
 	// private methods
 	private void closeConnection()
@@ -163,10 +162,9 @@ public class FileWrapper
 	}
 
 	// Incoming Order
-	public void createIncomingOrder(Customer customer, Incoming order)
+	public void createIncomingOrder(Incoming order)
 			throws Exception
 	{
-		createCustomer(customer);
                 String ID = order.getOrderID();
 		if (checkIfDuplicateString("incomingOrder", "ID", order.getOrderID()) == false)
 		{
@@ -181,7 +179,7 @@ public class FileWrapper
                             preparedStatement.setString(5, order.getPaymentType());
                             preparedStatement.setString(6, order.getDeliveryType());
                             preparedStatement.setString(7, order.getOrderStatus());
-                            preparedStatement.setInt(8, customer.getPhoneNumber());
+                            preparedStatement.setInt(8, order.getCustomerPhonenumber());
                             preparedStatement.executeUpdate();
 			}
 			catch (ClassNotFoundException e)
@@ -209,17 +207,44 @@ public class FileWrapper
 			throws SQLException
 	{
             String ID = order.getOrderID();
+            String status = order.getOrderStatus();
             deleteOrderLines("incomingOrderLine", ID);
 		try
 		{
+                    boolean done = checkIfDone("incomingOrder", ID);
                     createConnection();
-                    preparedStatement = connect.prepareStatement("UPDATE  waterWise.incomingOrder SET priceTotal = ?, paymentType = ?, deliveryType = ?, status = ? WHERE ID = ?");
-                    preparedStatement.setDouble(1, order.getPriceTotal());
-                    preparedStatement.setString(2, order.getPaymentType());
-                    preparedStatement.setString(3, order.getDeliveryType());
-                    preparedStatement.setString(4, order.getOrderStatus());
-                    preparedStatement.setString(5, ID);
-                    preparedStatement.executeUpdate();
+                    if((done == true && status.equals("Afsluttet"))||(done == false && status.equals("Uafsluttet")))
+                    {
+                        preparedStatement = connect.prepareStatement("UPDATE  waterWise.incomingOrder SET priceTotal = ?, paymentType = ?, deliveryType = ?, status = ? WHERE ID = ?");
+                        preparedStatement.setDouble(1, order.getPriceTotal());
+                        preparedStatement.setString(2, order.getPaymentType());
+                        preparedStatement.setString(3, order.getDeliveryType());
+                        preparedStatement.setString(4, order.getOrderStatus());
+                        preparedStatement.setString(5, ID);
+                        preparedStatement.executeUpdate();
+                    }
+                    else if(status.equals("Afsluttet"))
+                    {
+                        preparedStatement = connect.prepareStatement("UPDATE  waterWise.incomingOrder SET closedDate = ?, priceTotal = ?, paymentType = ?, deliveryType = ?, status = ? WHERE ID = ?");
+                        preparedStatement.setDate(1, new java.sql.Date(new java.util.Date().getTime()));
+                        preparedStatement.setDouble(2, order.getPriceTotal());
+                        preparedStatement.setString(3, order.getPaymentType());
+                        preparedStatement.setString(4, order.getDeliveryType());
+                        preparedStatement.setString(5, order.getOrderStatus());
+                        preparedStatement.setString(6, ID);
+                        preparedStatement.executeUpdate();
+                    }
+                    else if(status.equals("Uafsluttet"))
+                    {
+                        preparedStatement = connect.prepareStatement("UPDATE  waterWise.incomingOrder SET closedDate = ?, priceTotal = ?, paymentType = ?, deliveryType = ?, status = ? WHERE ID = ?");
+                        preparedStatement.setDate(1, null);
+                        preparedStatement.setDouble(2, order.getPriceTotal());
+                        preparedStatement.setString(3, order.getPaymentType());
+                        preparedStatement.setString(4, order.getDeliveryType());
+                        preparedStatement.setString(5, order.getOrderStatus());
+                        preparedStatement.setString(6, ID);
+                        preparedStatement.executeUpdate();
+                    }
 		}
 		catch (ClassNotFoundException e)
 		{
@@ -286,6 +311,52 @@ public class FileWrapper
                     closeConnection();
 		}
         }
+        
+        public ArrayList<Incoming> loadIncomingOrderList() throws Exception
+	{
+		try
+		{
+			createConnection();
+			ArrayList<Incoming> list = new ArrayList<Incoming>();
+			preparedStatement = connect.prepareStatement("SELECT * from waterWise.incomingOrder");
+			resultSet = preparedStatement.executeQuery();
+			while (resultSet.next())
+			{
+                            String orderID = resultSet.getString("ID");
+                            String startDate = df.format(resultSet.getDate("startDate"));
+                            String closedDate = null;
+                            if(resultSet.getDate("closedDate") == null)
+                            {
+                                closedDate = "";
+                            }
+                            else
+                            {
+                                closedDate = df.format(resultSet.getDate("closedDate"));
+                            }
+                            String paymentType = resultSet.getString("paymentType");
+                            String deliveryType = resultSet.getString("deliveryType");
+                            String orderStatus = resultSet.getString("status");
+                            int customerPhone = resultSet.getInt("customerPhone");
+			
+                            Incoming order = new Incoming(orderID, startDate, closedDate, null, paymentType, deliveryType, orderStatus, customerPhone, false);
+                            list.add(order);
+			}
+                        for(Incoming order : list)
+                        {
+                            Map<Product, Integer> map = loadOrderLine("incomingOrderLine", order.getOrderID());
+                            order.setListOfProducts(map);
+                        }
+			return list;
+		}
+		catch (Exception e)
+		{
+			throw e;
+		}
+		finally
+		{
+			closeConnection();
+		}
+	}
 
 	// Incoming Order Line
 	public void createIncomingOrderLine(String orderID, int productID, int amount) throws SQLException
@@ -357,12 +428,15 @@ public class FileWrapper
 			throws SQLException
 	{
             String ID = order.getOrderID();
+            String status = order.getOrderStatus();
             deleteOrderLines("outgoingOrderLine", ID);
 		try
 		{
-			createConnection();
-			preparedStatement = connect
-					.prepareStatement("UPDATE  waterWise.outgoingOrder SET priceTotal = ?, paymentType = ?, deliveryType = ?, status = ?, supplier = ? WHERE ID = ?");
+                    boolean done = checkIfDone("outgoingOrder", ID);
+                    createConnection();
+                    if((done == true && status.equals("Afsluttet"))||(done == false && status.equals("Uafsluttet")))
+                    {
+                        preparedStatement = connect.prepareStatement("UPDATE  waterWise.outgoingOrder SET priceTotal = ?, paymentType = ?, deliveryType = ?, status = ?, supplier = ? WHERE ID = ?");
 			preparedStatement.setDouble(1, order.getPriceTotal());
 			preparedStatement.setString(2, order.getPaymentType());
 			preparedStatement.setString(3, order.getDeliveryType());
@@ -370,6 +444,31 @@ public class FileWrapper
 			preparedStatement.setString(5, order.getSupplierName());
 			preparedStatement.setString(6, ID);
 			preparedStatement.executeUpdate();
+                    }
+                    else if(status.equals("Afsluttet"))
+                    {
+                        preparedStatement = connect.prepareStatement("UPDATE  waterWise.outgoingOrder SET closedDate = ?, priceTotal = ?, paymentType = ?, deliveryType = ?, status = ?, supplier = ? WHERE ID = ?");
+                        preparedStatement.setDate(1, new java.sql.Date(new java.util.Date().getTime()));
+                        preparedStatement.setDouble(2, order.getPriceTotal());
+			preparedStatement.setString(3, order.getPaymentType());
+			preparedStatement.setString(4, order.getDeliveryType());
+			preparedStatement.setString(5, order.getOrderStatus());
+			preparedStatement.setString(6, order.getSupplierName());
+			preparedStatement.setString(7, ID);
+                        preparedStatement.executeUpdate();
+                    }
+                    else if(status.equals("Uafsluttet"))
+                    {
+                        preparedStatement = connect.prepareStatement("UPDATE  waterWise.outgoingOrder SET closedDate = ?, priceTotal = ?, paymentType = ?, deliveryType = ?, status = ?, supplier = ? WHERE ID = ?");
+                        preparedStatement.setDate(1, null);
+                        preparedStatement.setDouble(2, order.getPriceTotal());
+			preparedStatement.setString(3, order.getPaymentType());
+			preparedStatement.setString(4, order.getDeliveryType());
+			preparedStatement.setString(5, order.getOrderStatus());
+			preparedStatement.setString(6, order.getSupplierName());
+			preparedStatement.setString(7, ID);
+                        preparedStatement.executeUpdate();
+                    }
 		}
 		catch (ClassNotFoundException e)
 		{
@@ -388,6 +487,98 @@ public class FileWrapper
 		{
                     int value = map.get(key);
                     createOutgoingOrderLine(ID, key.getProductID(), value);
+		}
+	}
+        
+        public Outgoing loadOutgoingOrder(String ID) throws Exception
+        {
+            Map map = loadOrderLine("outgoingOrderLine", ID);
+            try
+		{
+			createConnection();
+			preparedStatement = connect.prepareStatement("SELECT * from waterWise.outgoingOrder WHERE ID like ?");
+			preparedStatement.setString(1, ID);
+			resultSet = preparedStatement.executeQuery();
+                        String startDate = null;
+                        String closedDate = null;
+                        String paymentType = null;
+                        String deliveryType = null;
+                        String orderStatus = null;
+                        String supplier = null;
+                        
+                        if(resultSet.next())
+                        {
+                            startDate = df.format(resultSet.getDate("startDate"));
+                            if(resultSet.getDate("closedDate") == null)
+                            {
+                                closedDate = "";
+                            }
+                            else
+                            {
+                                closedDate = df.format(resultSet.getDate("closedDate"));
+                            }
+                            paymentType = resultSet.getString("paymentType");
+                            deliveryType = resultSet.getString("deliveryType");
+                            orderStatus = resultSet.getString("status");
+                            supplier = resultSet.getString("supplier");
+                        }
+                        
+                        Outgoing order = new Outgoing(ID, startDate, closedDate, map, paymentType, deliveryType, orderStatus, supplier, null, null, null, null, null, null, false);
+                        return order;
+		}
+		catch (Exception e)
+		{
+			throw e;
+		}
+		finally
+		{
+                    closeConnection();
+		}
+        }
+        
+        public ArrayList<Outgoing> loadOutgoingOrderList() throws Exception
+	{
+		try
+		{
+			createConnection();
+			ArrayList<Outgoing> list = new ArrayList<Outgoing>();
+			preparedStatement = connect.prepareStatement("SELECT * from waterWise.outgoingOrder");
+			resultSet = preparedStatement.executeQuery();
+			while (resultSet.next())
+			{
+                            String orderID = resultSet.getString("ID");
+                            String startDate = df.format(resultSet.getDate("startDate"));
+                            String closedDate = null;
+                            if(resultSet.getDate("closedDate") == null)
+                            {
+                                closedDate = "";
+                            }
+                            else
+                            {
+                                closedDate = df.format(resultSet.getDate("closedDate"));
+                            }
+                            String paymentType = resultSet.getString("paymentType");
+                            String deliveryType = resultSet.getString("deliveryType");
+                            String orderStatus = resultSet.getString("status");
+                            String supplier = resultSet.getString("supplier");
+			
+                            Outgoing order = new Outgoing(orderID, startDate, closedDate, null, paymentType, deliveryType, orderStatus, supplier, null, null, null, null, null, null, false);
+                            list.add(order);
+			}
+                        for(Outgoing order : list)
+                        {
+                            Map<Product, Integer> map = loadOrderLine("outgoingOrderLine", order.getOrderID());
+                            order.setListOfProducts(map);
+                        }
+			return list;
+		}
+		catch (Exception e)
+		{
+			throw e;
+		}
+		finally
+		{
+			closeConnection();
 		}
 	}
 
@@ -580,6 +771,37 @@ public class FileWrapper
 		catch (Exception e)
 		{
 			e.printStackTrace();
+		}
+		finally
+		{
+			closeConnection();
+		}
+	}
+        
+        public ArrayList<Customer> loadCustomerList() throws Exception
+	{
+		try
+		{
+			createConnection();
+			ArrayList<Customer> list = new ArrayList<Customer>();
+			preparedStatement = connect.prepareStatement("SELECT * from waterWise.customer");
+			resultSet = preparedStatement.executeQuery();
+			while (resultSet.next())
+			{
+                            int phoneNumber = resultSet.getInt("phoneNumber");
+                            String email = resultSet.getString("email");
+                            String deliveryAddress = resultSet.getString("deliveryAddress");
+                            String name = resultSet.getString("name");
+                            String creationDate = df.format(resultSet.getDate("creationDate"));
+			
+                            Customer customer = new Customer(phoneNumber, email, name, deliveryAddress, null, null, null, creationDate);
+                            list.add(customer);
+			}
+			return list;
+		}
+		catch (Exception e)
+		{
+			throw e;
 		}
 		finally
 		{
