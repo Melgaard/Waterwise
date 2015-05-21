@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import javax.swing.AbstractAction;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 
 /**
  *
@@ -39,16 +40,24 @@ public class Listener {
 
     public class ChangeStatusButton extends AbstractAction {
 
-        Order otc;
+        JTable table;
+        String cTTF;
         
-        public ChangeStatusButton(Order orderToChange){
-            otc = orderToChange;
+        public ChangeStatusButton(JTable table, String classToTestFor){
+            
+            this.table = table;
+            cTTF = classToTestFor;
+            
         }
         
         @Override
         public void actionPerformed(ActionEvent ae) {
 
-            controller.changeStatusMethod(otc);
+            Order c = (Order) controller.getElementFromTable(table, cTTF);
+            controller.changeStatusMethod(c);
+            //Repaint dur ikke QQ, men ellers virker det
+//            table.repaint();
+            
             
         }
 
