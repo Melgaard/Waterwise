@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
@@ -51,7 +52,7 @@ public class OrderFrame extends JFrame {
     int ownPhonenumber;
 
     String orderStatus;
-    Map<Product, Integer> listOfProducts;
+    Map<Product, Integer> listOfProducts = new HashMap<Product, Integer>();
 
     //Dimensions
     Dimension buttonDimension = new Dimension(100, 30);
@@ -96,7 +97,7 @@ public class OrderFrame extends JFrame {
     //ScrollPane
     JTable productTable = new JTable();
     JScrollPane productTableScrollPane = new JScrollPane(productTable);
-    ArrayList<String> chosenProducts = new ArrayList<>(); // Hvad gør vi her?
+    ArrayList<Product> chosenProducts = new ArrayList<>(); // Hvad gør vi her?
 
     //OrdreID
     JPanel orderIDPanel = new JPanel();
@@ -164,6 +165,7 @@ public class OrderFrame extends JFrame {
     JButton confirmJButton = new JButton("Committest");
     JButton cancelJButton = new JButton("Cancel");
     JButton addButton = new JButton("Add");
+    JButton removeProductButton = new JButton("Fjern vare");
 
     //method that builds the frame and buttons
     private void frameBuild() {
@@ -308,20 +310,27 @@ public class OrderFrame extends JFrame {
         buttonPanel.setLayout(new FlowLayout());
         buttonPanel.add(confirmJButton);
         buttonPanel.add(cancelJButton);
+        buttonPanel.add(removeProductButton);
         buttonPanel.setPreferredSize(buttonPanelDimension);
         confirmJButton.setPreferredSize(buttonDimension);
-
+        removeProductButton.setPreferredSize(buttonDimension);
         cancelJButton.setPreferredSize(buttonDimension);
 
+        addButton.addActionListener(new Listener().new addProductButton(this));
         confirmJButton.addActionListener(new Listener().new SaveEditButton(this));
         cancelJButton.addActionListener(new Listener().new DisposeFrameButton(this));
+        removeProductButton.addActionListener(new Listener().new RemoveFromTableButton(this));
 
         ofPanel.setVisible(true);
         this.add(ofPanel);
         this.setVisible(true);
     }
 
-    private void updateProductList() {
+    public void updateProductComboBox() {
+        productbox.setModel(new DefaultComboBoxModel(productComboList.toArray()));
+    }
+    
+    public void updateProductList() {
         DefaultTableModel chosenProductsTableModel = new DefaultTableModel() {
             @Override
             public boolean isCellEditable(int row, int col) {
@@ -335,10 +344,10 @@ public class OrderFrame extends JFrame {
         chosenProductsTableModel.setRowCount(200);
 
         int row = 0;
-        for (String products : chosenProducts) {
-            chosenProductsTableModel.setValueAt(productComboList.get(row), row, 0);
-//            chosenProductsTableModel.setValueAt(products.getStartDate(), row, 1);
-//            chosenProductsTableModel.setValueAt(products.getClosedDate(), row, 2);
+        for (Product products : chosenProducts) {
+            chosenProductsTableModel.setValueAt(products.getProductID(), row, 0);
+            chosenProductsTableModel.setValueAt(products.getProductName(), row, 1);
+            chosenProductsTableModel.setValueAt(listOfProducts.get(products), row, 2);
 //            chosenProductsTableModel.setValueAt(products.getPaymentType(), row, 3);
 
             row++;
