@@ -13,8 +13,6 @@ public class Outgoing extends Order {
     private String ownCountry;
     private String ownPhonenumber;
 
-    
-
     //Creates an order objects and a new database entry
     public Outgoing() {
 
@@ -28,8 +26,8 @@ public class Outgoing extends Order {
     public Outgoing(String orderID, String startDate, String closedDate,
             Map<Product, Integer> productMap, String paymentType,
             String deliveryType, String orderStatus, String suppName,
-            String suppEmail, String ownAddress, String ownCity, 
-            String ownZip, String ownCountry, String ownPhone, 
+            String suppEmail, String ownAddress, String ownCity,
+            String ownZip, String ownCountry, String ownPhone,
             boolean updateDB) {
 
         this.setOrderID(orderID);
@@ -39,7 +37,7 @@ public class Outgoing extends Order {
         this.setPaymentType(paymentType);
         this.setDeliveryType(deliveryType);
         this.setOrderStatus(orderStatus);
-        
+
         this.setSupplierName(suppName);
         this.setSupplierEmail(suppEmail);
         this.setOwnAddress(ownAddress);
@@ -47,22 +45,23 @@ public class Outgoing extends Order {
         this.setOwnZip(ownZip);
         this.setOwnCountry(ownCountry);
         this.setOwnPhonenumber(ownPhone);
-                
-        
-         if(updateDB){
+
+        if (updateDB) {
             this.Update();
         }
-        
-        
-        
+
     }
-    
+
     //Override of databaseelement method to call the correct update method
     @Override
     public void Update() {
-//        FileWrapper.createOutgoingOrder(this);
+        FileWrapper fw = new FileWrapper();
+        try {
+            fw.createOutgoingOrder(this);
+        } catch (Exception ex) {
+            System.out.println(ex + " thrown from - " + this.getClass().toString());
+        }
     }
-
 
     //Setter
     public void setSupplierName(String supplierName) {

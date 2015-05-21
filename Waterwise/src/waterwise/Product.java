@@ -39,8 +39,12 @@ public class Product extends DataBaseElement
     
     @Override
     public void Update(){
-        FileWrapper fw = new FileWrapper();
-//        fw.createProduct(this);
+       FileWrapper fw = new FileWrapper();
+        try {
+            fw.createProduct(this);
+        } catch (Exception ex) {
+            System.out.println( ex + " thrown from - " + this.getClass().toString());
+        }
     }
 
     //Getters    

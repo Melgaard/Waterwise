@@ -11,7 +11,12 @@ public class Incoming extends Order {
     //Override of databaseelement method to call the correct update method
     @Override
     public void Update() {
-//        FileWrapper.updateIncoming(this);
+        FileWrapper fw = new FileWrapper();
+        try {
+//            fw.createIncomingOrder(this);
+        } catch (Exception ex) {
+            System.out.println( ex + " thrown from - " + this.getClass().toString());
+        }
     }
     
     //Creates an order objects and a new database entry
