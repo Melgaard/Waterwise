@@ -7,8 +7,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 public class FileWrapper
 {
@@ -17,6 +20,8 @@ public class FileWrapper
 	private Statement statement = null;
 	private PreparedStatement preparedStatement = null;
 	private ResultSet resultSet = null;
+        
+        DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
 
 	private void createConnection() throws SQLException, ClassNotFoundException
 	{
@@ -120,27 +125,64 @@ public class FileWrapper
 		}
 
 	}
+        
+        public boolean checkIfDone(String table, String ID) throws Exception
+	{
+		try
+		{
+			createConnection();
+			int numOfMatch = 0;
+			boolean done = false;
+			preparedStatement = connect.prepareStatement("SELECT COUNT(status) as keyCount FROM waterWise." + table + " WHERE ID like ? and status like ?;");
+			preparedStatement.setString(1, ID);
+                        preparedStatement.setString(2, "Afsluttet");
+			resultSet = preparedStatement.executeQuery();
+			if (resultSet.next())
+			{
+				numOfMatch = resultSet.getInt(1);
+			}
+			if (numOfMatch == 1)
+			{
+				done = true;
+			}
+			else if (numOfMatch == 0)
+			{
+				done = false;
+			}
+			return done;
+		}
+		catch (Exception e)
+		{
+			throw e;
+		}
+		finally
+		{
+			closeConnection();
+		}
+
+	}
 
 	// Incoming Order
-	public void createIncomingOrder(int customerPhone, String customerEmail, String customerAddress, String customerName, String orderID, HashMap<Integer, Integer> orderMap, double priceTotal, String paymentType, String deliveryType, String orderStatus)
+	public void createIncomingOrder(Customer customer, Incoming order)
 			throws Exception
 	{
-		createCustomer(customerPhone, customerEmail, customerAddress, customerName);
-		if (checkIfDuplicateString("incomingOrder", "ID", orderID) == false)
+		createCustomer(customer);
+                String ID = order.getOrderID();
+		if (checkIfDuplicateString("incomingOrder", "ID", order.getOrderID()) == false)
 		{
-			try
+                    try
 			{
-				createConnection();
-				preparedStatement = connect.prepareStatement("insert into  waterWise.incomingOrder values (? , ?, ?, ?, ?, ?, ?, ?)");
-				preparedStatement.setString(1, orderID);
-				preparedStatement.setDate(2, new java.sql.Date(new java.util.Date().getTime()));
-				preparedStatement.setDate(3, null);
-				preparedStatement.setDouble(4, priceTotal);
-				preparedStatement.setString(5, paymentType);
-				preparedStatement.setString(6, deliveryType);
-				preparedStatement.setString(7, orderStatus);
-				preparedStatement.setInt(8, customerPhone);
-				preparedStatement.executeUpdate();
+                            createConnection();
+                            preparedStatement = connect.prepareStatement("insert into  waterWise.incomingOrder values (? , ?, ?, ?, ?, ?, ?, ?)");
+                            preparedStatement.setString(1, ID);
+                            preparedStatement.setDate(2, new java.sql.Date(new java.util.Date().getTime()));
+                            preparedStatement.setDate(3, null);
+                            preparedStatement.setDouble(4, order.getPriceTotal());
+                            preparedStatement.setString(5, order.getPaymentType());
+                            preparedStatement.setString(6, order.getDeliveryType());
+                            preparedStatement.setString(7, order.getOrderStatus());
+                            preparedStatement.setInt(8, customer.getPhoneNumber());
+                            preparedStatement.executeUpdate();
 			}
 			catch (ClassNotFoundException e)
 			{
@@ -150,34 +192,34 @@ public class FileWrapper
 			{
 				closeConnection();
 			}
-			for (int key : orderMap.keySet())
+			Map<Product, Integer> map = new HashMap<>(order.getListOfProducts());
+                        for (Product key : map.keySet())
 			{
-				int value = orderMap.get(key);
-				createIncomingOrderLine(orderID, key, value);
+				int value = map.get(key);
+				createIncomingOrderLine(ID, key.getProductID(), value);
 			}
 		}
 		else
 		{
-			updateIncomingOrder(orderID, orderMap, priceTotal, paymentType, deliveryType, orderStatus, customerPhone);
+                    updateIncomingOrder(order);
 		}
 	}
 
-	public void updateIncomingOrder(String orderID, HashMap<Integer, Integer> orderMap, double priceTotal, String paymentType, String deliveryType, String orderStatus, int customerPhone)
+	public void updateIncomingOrder(Incoming order)
 			throws SQLException
 	{
-		deleteOrderLines("incomingOrderLine", orderID);
+            String ID = order.getOrderID();
+            deleteOrderLines("incomingOrderLine", ID);
 		try
 		{
-			createConnection();
-			preparedStatement = connect
-					.prepareStatement("UPDATE  waterWise.incomingOrder SET priceTotal = ?, paymentType = ?, deliveryType = ?, status = ?, customerPhone = ? WHERE ID = ?");
-			preparedStatement.setDouble(1, priceTotal);
-			preparedStatement.setString(2, paymentType);
-			preparedStatement.setString(3, deliveryType);
-			preparedStatement.setString(4, orderStatus);
-			preparedStatement.setInt(5, customerPhone);
-			preparedStatement.setString(6, orderID);
-			preparedStatement.executeUpdate();
+                    createConnection();
+                    preparedStatement = connect.prepareStatement("UPDATE  waterWise.incomingOrder SET priceTotal = ?, paymentType = ?, deliveryType = ?, status = ? WHERE ID = ?");
+                    preparedStatement.setDouble(1, order.getPriceTotal());
+                    preparedStatement.setString(2, order.getPaymentType());
+                    preparedStatement.setString(3, order.getDeliveryType());
+                    preparedStatement.setString(4, order.getOrderStatus());
+                    preparedStatement.setString(5, ID);
+                    preparedStatement.executeUpdate();
 		}
 		catch (ClassNotFoundException e)
 		{
@@ -191,12 +233,59 @@ public class FileWrapper
 		{
 			closeConnection();
 		}
-		for (int key : orderMap.keySet())
+                Map<Product, Integer> map = new HashMap<>(order.getListOfProducts());
+                for (Product key : map.keySet())
 		{
-			int value = orderMap.get(key);
-			createIncomingOrderLine(orderID, key, value);
+                    int value = map.get(key);
+                    createIncomingOrderLine(ID, key.getProductID(), value);
 		}
 	}
+        
+        public Incoming loadIncomingOrder(String ID) throws Exception
+        {
+            Map map = loadOrderLine("incomingOrderLine", ID);
+            try
+		{
+			createConnection();
+			preparedStatement = connect.prepareStatement("SELECT * from waterWise.incomingOrder WHERE ID like ?");
+			preparedStatement.setString(1, ID);
+			resultSet = preparedStatement.executeQuery();
+                        String startDate = null;
+                        String closedDate = null;
+                        String paymentType = null;
+                        String deliveryType = null;
+                        String orderStatus = null;
+                        int customerPhone = 0;
+                        
+                        if(resultSet.next())
+                        {
+                            startDate = df.format(resultSet.getDate("startDate"));
+                            if(resultSet.getDate("closedDate") == null)
+                            {
+                                closedDate = "";
+                            }
+                            else
+                            {
+                                closedDate = df.format(resultSet.getDate("closedDate"));
+                            }
+                            paymentType = resultSet.getString("paymentType");
+                            deliveryType = resultSet.getString("deliveryType");
+                            orderStatus = resultSet.getString("status");
+                            customerPhone = resultSet.getInt("customerPhone");
+                        }
+                        
+                        Incoming order = new Incoming(ID, startDate, closedDate, map, paymentType, deliveryType, orderStatus, customerPhone, false);
+                        return order;
+		}
+		catch (Exception e)
+		{
+			throw e;
+		}
+		finally
+		{
+                    closeConnection();
+		}
+        }
 
 	// Incoming Order Line
 	public void createIncomingOrderLine(String orderID, int productID, int amount) throws SQLException
@@ -221,62 +310,65 @@ public class FileWrapper
 	}
 
 	// Outgoing Order
-	public void createOutgoingOrder(String orderID, HashMap<Integer, Integer> orderMap, double priceTotal, String paymentType, String deliveryType, String orderStatus, String supplier)
+	public void createOutgoingOrder(Outgoing order)
 			throws Exception
 	{
-		if (checkIfDuplicateString("outgoingOrder", "ID", orderID) == false)
+            String ID = order.getOrderID();
+            if (checkIfDuplicateString("outgoingOrder", "ID", ID) == false)
+            {
+        	try
 		{
-			try
-			{
-				createConnection();
-				preparedStatement = connect.prepareStatement("insert into  waterWise.outgoingOrder values (? , ?, ?, ?, ?, ?, ?, ?)");
-
-				preparedStatement.setString(1, orderID);
-				preparedStatement.setDate(2, new java.sql.Date(new java.util.Date().getTime()));
-				preparedStatement.setDate(3, null);
-				preparedStatement.setDouble(4, priceTotal);
-				preparedStatement.setString(5, paymentType);
-				preparedStatement.setString(6, deliveryType);
-				preparedStatement.setString(7, orderStatus);
-				preparedStatement.setString(8, supplier);
-				preparedStatement.executeUpdate();
-			}
-			catch (ClassNotFoundException e)
-			{
-				e.printStackTrace();
-			}
-			finally
-			{
-				closeConnection();
-			}
-			for (int key : orderMap.keySet())
-			{
-				int value = orderMap.get(key);
-				createOutgoingOrderLine(orderID, key, value);
-			}
-		}
-		else
+                    createConnection();
+                    preparedStatement = connect.prepareStatement("insert into  waterWise.outgoingOrder values (? , ?, ?, ?, ?, ?, ?, ?)");
+                    preparedStatement.setString(1, ID);
+                    preparedStatement.setDate(2, new java.sql.Date(new java.util.Date().getTime()));
+                    preparedStatement.setDate(3, null);
+                    preparedStatement.setDouble(4, order.getPriceTotal());
+                    preparedStatement.setString(5, order.getPaymentType());
+                    preparedStatement.setString(6, order.getDeliveryType());
+                    preparedStatement.setString(7, order.getOrderStatus());
+                    preparedStatement.setString(8, order.getSupplierName());
+                    preparedStatement.executeUpdate();
+                }
+                catch (ClassNotFoundException e)
 		{
-			updateOutgoingOrder(orderID, orderMap, priceTotal, paymentType, deliveryType, orderStatus, supplier);
+                    e.printStackTrace();
 		}
+		finally
+		{
+                    closeConnection();
+		}
+                
+		Map<Product, Integer> map = new HashMap<>(order.getListOfProducts());
+                for (Product key : map.keySet())
+		{
+                    int value = map.get(key);
+                    createOutgoingOrderLine(ID, key.getProductID(), value);
+		}
+		}
+            else
+            {
+		updateOutgoingOrder(order);
+            }
 
 	}
 
-	public void updateOutgoingOrder(String orderID, HashMap<Integer, Integer> orderMap, double priceTotal, String paymentType, String deliveryType, String orderStatus, String supplier)
+	public void updateOutgoingOrder(Outgoing order)
 			throws SQLException
 	{
-		deleteOrderLines("outgoingOrderLine", orderID);
+            String ID = order.getOrderID();
+            deleteOrderLines("outgoingOrderLine", ID);
 		try
 		{
 			createConnection();
 			preparedStatement = connect
 					.prepareStatement("UPDATE  waterWise.outgoingOrder SET priceTotal = ?, paymentType = ?, deliveryType = ?, status = ?, supplier = ? WHERE ID = ?");
-			preparedStatement.setDouble(1, priceTotal);
-			preparedStatement.setString(2, paymentType);
-			preparedStatement.setString(3, deliveryType);
-			preparedStatement.setString(4, orderStatus);
-			preparedStatement.setString(5, supplier);
-			preparedStatement.setString(6, orderID);
+			preparedStatement.setDouble(1, order.getPriceTotal());
+			preparedStatement.setString(2, order.getPaymentType());
+			preparedStatement.setString(3, order.getDeliveryType());
+			preparedStatement.setString(4, order.getOrderStatus());
+			preparedStatement.setString(5, order.getSupplierName());
+			preparedStatement.setString(6, ID);
 			preparedStatement.executeUpdate();
 		}
 		catch (ClassNotFoundException e)
@@ -291,10 +383,11 @@ public class FileWrapper
 		{
 			closeConnection();
 		}
-		for (int key : orderMap.keySet())
+		Map<Product, Integer> map = new HashMap<>(order.getListOfProducts());
+                for (Product key : map.keySet())
 		{
-			int value = orderMap.get(key);
-			createOutgoingOrderLine(orderID, key, value);
+                    int value = map.get(key);
+                    createOutgoingOrderLine(ID, key.getProductID(), value);
 		}
 	}
 
@@ -321,7 +414,7 @@ public class FileWrapper
 	}
 
 	// General Order
-	public ResultSet loadOrder(String table, String ID) throws Exception
+	public ResultSet loadOrderResult(String table, String ID) throws Exception
 	{
 		try
 		{
@@ -339,6 +432,54 @@ public class FileWrapper
 		// {
 		// closeConnection();
 		// }
+	}
+        
+        public Map<Product,Integer> loadOrderLine(String table, String orderID) throws Exception
+	{
+            try
+		{
+                    Map<Product,Integer> productMap = new HashMap<>();
+                    Map<Integer, Integer> intMap = new HashMap<>();
+                    createConnection();
+                    preparedStatement = connect.prepareStatement("SELECT * from waterWise." + table + " where orderID like ?");
+                    preparedStatement.setString(1, orderID);
+                    resultSet = preparedStatement.executeQuery();
+                    while (resultSet.next())
+                    {
+                        int productID = resultSet.getInt("productID");
+                        int amount = resultSet.getInt("amount");
+                        intMap.put(productID, amount);
+                    }
+                    
+                    for(int key : intMap.keySet())
+                    {
+                        createConnection();
+                        preparedStatement = connect.prepareStatement("SELECT * from waterWise.product where ID = ?");
+                        preparedStatement.setInt(1, key);
+                        resultSet = preparedStatement.executeQuery();
+                        if(resultSet.next())
+                        {
+                            int ID = resultSet.getInt("ID");
+                            String name = resultSet.getString("name");
+                            int amount = resultSet.getInt("amount");
+                            double weight = resultSet.getDouble("weight");
+                            String size = resultSet.getString("size");
+                            double unitPrice = resultSet.getDouble("unitPrice");
+                            int reOrderAmount = resultSet.getInt("reOrderAmount");
+                            Product product = new Product(ID, name, amount, weight, size, unitPrice, reOrderAmount, false);
+                            productMap.put(product, intMap.get(product.getProductID()));
+                        }
+                    }
+                    return productMap;
+		}
+		catch (Exception e)
+		{
+			throw e;
+		}
+		finally
+		{
+			closeConnection();
+		}
 	}
 
 	public void printOrder(ResultSet rs)
@@ -383,24 +524,24 @@ public class FileWrapper
 	}
 
 	// Customer
-	public void createCustomer(int phone, String email, String address, String name) throws SQLException
+	public void createCustomer(Customer customer) throws SQLException
 	{
 		try
 		{
-			if (checkIfDuplicateInt("customer", "phoneNumber", phone) == false)
+			if (checkIfDuplicateInt("customer", "phoneNumber", customer.getPhoneNumber()) == false)
 			{
 				createConnection();
 				preparedStatement = connect.prepareStatement("insert into  waterWise.customer values (? , ?, ?, ?, ?)");
-				preparedStatement.setInt(1, phone);
-				preparedStatement.setString(2, email);
-				preparedStatement.setString(3, address);
-				preparedStatement.setString(4, name);
+				preparedStatement.setInt(1, customer.getPhoneNumber());
+				preparedStatement.setString(2, customer.getCustomerEmail());
+				preparedStatement.setString(3, customer.getDeliveryAddress());
+				preparedStatement.setString(4, customer.getCustomerName());
 				preparedStatement.setDate(5, new java.sql.Date(new java.util.Date().getTime()));
 				preparedStatement.executeUpdate();
 			}
 			else
 			{
-				updateCustomer(phone, email, address, name);
+				updateCustomer(customer);
 			}
 
 		}
@@ -419,18 +560,17 @@ public class FileWrapper
 
 	}
 
-	public void updateCustomer(int phone, String email, String address, String name) throws SQLException
+	public void updateCustomer(Customer customer) throws SQLException
 	{
 		try
 		{
 			createConnection();
 			preparedStatement = connect
 					.prepareStatement("UPDATE  waterWise.customer SET email = ?, deliveryAddress = ?, name = ? WHERE phoneNumber = ?");
-			preparedStatement.setString(1, email);
-			preparedStatement.setString(2, address);
-			preparedStatement.setString(3, name);
-			preparedStatement.setInt(4, phone);
-
+			preparedStatement.setString(1, customer.getCustomerEmail());
+			preparedStatement.setString(2, customer.getDeliveryAddress());
+			preparedStatement.setString(3, customer.getCustomerName());
+			preparedStatement.setInt(4, customer.getPhoneNumber());
 			preparedStatement.executeUpdate();
 		}
 		catch (ClassNotFoundException e)
@@ -447,7 +587,7 @@ public class FileWrapper
 		}
 	}
 
-	public Customer getCustomer(int phone) throws Exception
+	public Customer loadCustomer(int phone) throws Exception
 	{
 		try
 		{
@@ -459,7 +599,7 @@ public class FileWrapper
 			String email = null;
 			String deliveryAddress = null;
 			String name = null;
-			Date creationDate = null;
+			String creationDate = null;
 
 			if (resultSet.next())
 			{
@@ -467,10 +607,10 @@ public class FileWrapper
 				email = resultSet.getString("email");
 				deliveryAddress = resultSet.getString("deliveryAddress");
 				name = resultSet.getString("name");
-				creationDate = resultSet.getDate("creationDate");
+				creationDate = df.format(resultSet.getDate("creationDate"));
 			}
 			Customer customer = new Customer(phoneNumber, email, 
-                                name, deliveryAddress, null, null, null);
+                                name, deliveryAddress, null, null, null, creationDate);
 			return customer;
 		}
 		catch (Exception e)
@@ -484,26 +624,26 @@ public class FileWrapper
 	}
 
 	// Product
-	public void createProduct(int ID, String name, int amount, double weight, String size, double unitPrice, int reOrderAmount) throws SQLException
+	public void createProduct(Product product) throws SQLException
 	{
 		try
 		{
-			if (checkIfDuplicateInt("product", "ID", ID) == false)
+			if (checkIfDuplicateInt("product", "ID", product.getProductID()) == false)
 			{
 				createConnection();
 				preparedStatement = connect.prepareStatement("insert into  waterWise.product values (?, ?, ?, ?, ?, ?, ?)");
-				preparedStatement.setInt(1, ID);
-				preparedStatement.setString(2, name);
-				preparedStatement.setInt(3, amount);
-				preparedStatement.setDouble(4, weight);
-				preparedStatement.setString(5, size);
-				preparedStatement.setDouble(6, unitPrice);
-				preparedStatement.setInt(7, reOrderAmount);
+				preparedStatement.setInt(1, product.getProductID());
+				preparedStatement.setString(2, product.getProductName());
+				preparedStatement.setInt(3, product.getAmountInStorage());
+				preparedStatement.setDouble(4, product.getWeight());
+				preparedStatement.setString(5, product.getSize());
+				preparedStatement.setDouble(6, product.getUnitPrice());
+				preparedStatement.setInt(7, product.getReorderAmount());
 				preparedStatement.executeUpdate();
 			}
 			else
 			{
-				updateProduct(ID, name, amount, weight, size, unitPrice, reOrderAmount);
+				updateProduct(product);
 			}
 
 		}
@@ -522,7 +662,7 @@ public class FileWrapper
 
 	}
 
-	public void updateProduct(int ID, String name, int amount, double weight, String size, double unitPrice, int reOrderAmount) throws SQLException
+	public void updateProduct(Product product) throws SQLException
 	{
 		try
 		{
@@ -530,14 +670,14 @@ public class FileWrapper
 			preparedStatement = connect
 					.prepareStatement("UPDATE  waterWise.product SET ID = ?, name = ?, amount = ?, weight = ?, size = ?, unitPrice = ?, reOrderAmount = ? WHERE ID = ?");
 
-			preparedStatement.setInt(1, ID);
-			preparedStatement.setString(2, name);
-			preparedStatement.setInt(3, amount);
-			preparedStatement.setDouble(4, weight);
-			preparedStatement.setString(5, size);
-			preparedStatement.setDouble(6, unitPrice);
-			preparedStatement.setInt(7, reOrderAmount);
-			preparedStatement.setInt(8, ID);
+			preparedStatement.setInt(1, product.getProductID());
+			preparedStatement.setString(2, product.getProductName());
+			preparedStatement.setInt(3, product.getAmountInStorage());
+			preparedStatement.setDouble(4, product.getWeight());
+			preparedStatement.setString(5, product.getSize());
+			preparedStatement.setDouble(6, product.getUnitPrice());
+			preparedStatement.setInt(7, product.getReorderAmount());
+			preparedStatement.setInt(8, product.getProductID());
 			preparedStatement.executeUpdate();
 		}
 		catch (ClassNotFoundException e)
@@ -550,7 +690,7 @@ public class FileWrapper
 		}
 	}
 
-	public ArrayList<Product> getProductList() throws Exception
+	public ArrayList<Product> loadProductList() throws Exception
 	{
 		try
 		{
@@ -582,7 +722,7 @@ public class FileWrapper
 		}
 	}
 
-	public Product getProduct(int productID) throws Exception
+	public Product loadProduct(int productID) throws Exception
 	{
 		try
 		{
@@ -622,15 +762,15 @@ public class FileWrapper
 	}
 
 	// Delete
-	public void deleteByString(String table, String column, String idValue) throws SQLException
+	public void deleteOrder(String table, String column, String idValue) throws SQLException
 	{
 		if (table.equals("incomingOrder"))
 		{
-			deleteByString("incomingOrderLine", "orderID", idValue);
+			deleteOrder("incomingOrderLine", "orderID", idValue);
 		}
 		else if (table.equals("outgoingOrder"))
 		{
-			deleteByString("outgoingOrderLine", "orderID", idValue);
+			deleteOrder("outgoingOrderLine", "orderID", idValue);
 		}
 		try
 		{
@@ -670,7 +810,7 @@ public class FileWrapper
 		}
 		for (String order : orderList)
 		{
-			deleteByString("incomingOrder", "ID", order);
+			deleteOrder("incomingOrder", "ID", order);
 		}
 		try
 		{

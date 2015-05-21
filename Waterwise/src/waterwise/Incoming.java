@@ -5,7 +5,7 @@ import java.util.Map;
 public class Incoming extends Order {
 
     //Incoming specific fields
-    private String customerPhonenumber;
+    private int customerPhonenumber;
     
 
     //Override of databaseelement method to call the correct update method
@@ -28,7 +28,7 @@ public class Incoming extends Order {
     //Therefore it should be false when called from the database
     public Incoming(String orderID, String startDate, String closedDate,
             Map<Product, Integer> productMap, String paymentType,
-            String deliveryType, String orderStatus, String phonenumber, 
+            String deliveryType, String orderStatus, int phonenumber, 
             boolean updateDB) {
 
         this.setOrderID(orderID);
@@ -46,16 +46,16 @@ public class Incoming extends Order {
         
         
         
-    }
-
-        
+    }   
+    
+    
      //Setter
-    public void setCustomerPhonenumber(String customerPhonenumber) {
+    public void setCustomerPhonenumber(int customerPhonenumber) {
         this.customerPhonenumber = customerPhonenumber;
     }
 
     //Getter
-    public String getCustomerPhonenumber() {
+    public int getCustomerPhonenumber() {
         return customerPhonenumber;
     }
 }

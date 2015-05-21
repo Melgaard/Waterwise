@@ -49,9 +49,10 @@ public class Controller {
         orderSaveTo.setOwnPhonenumber(ofSaveFrom.ownPhonenumberField.getText());
     }
     
-    private void saveEditIncoming(OrderFrame ofSaveFrom, Incoming orderSaveTo){
+    private void saveEditIncoming(OrderFrame ofSaveFrom, Incoming orderSaveTo)
+    {
         
-        orderSaveTo.setCustomerPhonenumber(ofSaveFrom.customerPhonenumberField.getText());
+        orderSaveTo.setCustomerPhonenumber(Integer.parseInt(ofSaveFrom.customerPhonenumberField.getText()));
     }
 
 }

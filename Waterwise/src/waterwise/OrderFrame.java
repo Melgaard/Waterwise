@@ -393,7 +393,7 @@ public class OrderFrame extends JFrame {
     private void setTextIncoming(Incoming ots) {
 
         //Customer
-        customerPhonenumberField.setText(ots.getCustomerPhonenumber());
+        customerPhonenumberField.setText("" + ots.getCustomerPhonenumber());
 
         System.out.println("Figure out how to customer addressfields"
                 + "Since they arent in the order object");
