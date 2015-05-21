@@ -73,7 +73,7 @@ public class Listener {
         public addProductButton(OrderFrame addProduct) {
             addProductAmount = addProduct;
         }
-
+     
         @Override
 
         public void actionPerformed(ActionEvent ae) {
@@ -98,6 +98,54 @@ public class Listener {
                 addProductAmount.productComboList.remove(temp.getProductName());
                 addProductAmount.updateProductList();
                 addProductAmount.updateProductComboBox();
+
+            } catch (NullPointerException npe) {
+                System.out.println("nullPointer");
+                JOptionPane.showMessageDialog(null, "Ingen produkter valgt eller tilgængelige.");
+            } catch (NumberFormatException nfe) {
+                System.out.println("numberformat");
+                JOptionPane.showMessageDialog(null, "Du skal vælge et antal vare.");
+            }
+
+        }
+    }
+       
+       public class addProductFrameButton extends AbstractAction {
+
+        AddProductFrame addProductFrameAmount;
+        String selectedItem;
+        String selectedAmountString;
+        Integer selectedAmount;
+
+        public addProductFrameButton(AddProductFrame addProduct) {
+            addProductFrameAmount = addProduct;
+        }
+     
+
+        @Override
+
+        public void actionPerformed(ActionEvent ae) {
+
+            try {
+
+                selectedItem = addProductFrameAmount.productbox.getSelectedItem().toString();
+                selectedAmountString = addProductFrameAmount.amountField.getText();
+                selectedAmount = Integer.parseInt(selectedAmountString);
+
+                Product temp = new Product("emil");
+
+                for (Product p : ElementListCollection.getPList()) {
+                    if (p.getProductName().equals(selectedItem)) {
+                        temp = p;
+                    }
+
+                }
+                addProductFrameAmount.chosenProducts.add(temp);
+                System.out.println("fra listener" + addProductFrameAmount.chosenProducts.size());
+                addProductFrameAmount.listOfProducts.put(temp, selectedAmount);
+                addProductFrameAmount.productComboList.remove(temp.getProductName());
+                addProductFrameAmount.updateProductList();
+                addProductFrameAmount.updateProductComboBox();
 
             } catch (NullPointerException npe) {
                 System.out.println("nullPointer");
@@ -192,6 +240,15 @@ public class Listener {
             NewProductFrame pF = new NewProductFrame();
         }
     }
+    
+    public class addProduct extends AbstractAction {
+        
+        @Override
+        public void actionPerformed(ActionEvent ae) {
+            AddProductFrame aPF = new AddProductFrame();
+        }
+    }
+    
     public class createNewIncoming extends AbstractAction {
 
         @Override

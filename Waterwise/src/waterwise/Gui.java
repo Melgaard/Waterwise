@@ -217,7 +217,7 @@ public class Gui extends JFrame {
         deleteProduct.setPreferredSize(buttonSize);
         
         createProduct.addActionListener(listen.new createNewProduct());
-        
+        addProducts.addActionListener(listen.new addProduct());
         orderProducts.addActionListener(new Listener(). new createNewOutgoing());
 
         //Settings
