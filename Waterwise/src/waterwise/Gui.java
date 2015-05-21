@@ -215,6 +215,8 @@ public class Gui extends JFrame {
         editProduct.setPreferredSize(buttonSize);
         orderProducts.setPreferredSize(buttonSize);
         deleteProduct.setPreferredSize(buttonSize);
+        
+        orderProducts.addActionListener(new Listener(). new createNewOutgoing());
 
         //Settings
         cardSettings.add(settingsPanel);
