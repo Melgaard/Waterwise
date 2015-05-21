@@ -13,11 +13,21 @@ public abstract class Order extends DataBaseElement {
     private String paymentType;
     private String deliveryType;
     private String orderStatus;
-    
 
     //Methods
-    private void CalculatePriceTotal() {
-        throw new UnsupportedOperationException();
+    private double CalculatePriceTotal() {
+
+        double sumPrice = 0.0;
+        
+        for (Map.Entry<Product, Integer> entrySet : listOfProducts.entrySet()) {
+            Product key = entrySet.getKey();
+            Integer value = entrySet.getValue();
+            
+            sumPrice = sumPrice + (key.getUnitPrice() * value);
+
+        }
+
+        return sumPrice;
     }
 
     //Setters
@@ -89,9 +99,5 @@ public abstract class Order extends DataBaseElement {
     public Map<Product, Integer> getListOfProducts() {
         return listOfProducts;
     }
-
-   
-
-    
 
 }

@@ -60,7 +60,7 @@ public class Outgoing extends Order {
     //Override of databaseelement method to call the correct update method
     @Override
     public void Update() {
-//        FileWrapper.updateOutgoing(this);
+//        FileWrapper.createOutgoingOrder(this);
     }
 
 

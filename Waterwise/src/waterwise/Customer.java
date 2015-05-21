@@ -1,7 +1,5 @@
 package waterwise;
 
-import java.util.Date;
-
 public class Customer extends DataBaseElement {
 
     //Fields
@@ -18,7 +16,12 @@ public class Customer extends DataBaseElement {
 
     @Override
     public void Update() {
-//        FileWrapper.createCustomer(this);
+        FileWrapper fw = new FileWrapper();
+        try {
+            fw.createCustomer(this);
+        } catch (Exception ex) {
+            System.out.println( ex + " thrown from - " + this.getClass().toString());
+        }
     }
     
     //Constructor

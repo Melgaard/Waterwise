@@ -17,9 +17,12 @@ public class Waterwise {
         Product h = new Product("emil");
         Map<Product, Integer> m = new HashMap<Product, Integer>();
         Order test1 = new Incoming("D8W8", "Startdate", "closeddate", 
-                m, "paymenttype", "deliverytype", "Uafsluttet", "26549878", false);
+                m, "paymenttype", "deliverytype", "Uafsluttet", 26549878, false);
+        
+        Customer c = new Customer(2020200, null, null, null, null, null, null);
        
-
+        c.Update();
+        
         e.addOrder(test1);
         e.addOrder(test1);
         e.addOrder(test1);
