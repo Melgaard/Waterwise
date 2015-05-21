@@ -185,7 +185,13 @@ public class Listener {
         }
 
     }
-
+    public class createNewProduct extends AbstractAction {
+        
+        @Override
+        public void actionPerformed(ActionEvent ae) {
+            NewProductFrame pF = new NewProductFrame();
+        }
+    }
     public class createNewIncoming extends AbstractAction {
 
         @Override

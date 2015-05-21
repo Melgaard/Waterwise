@@ -80,7 +80,7 @@ public class Gui extends JFrame {
 
     //ProductButtons
     JButton createProduct = new JButton("Opret vare");
-    JButton addProducts = new JButton("TilfÃ¸j vare");
+    JButton addProducts = new JButton("Tilføj vare");
     JButton editProduct = new JButton("Rediger vare");
     JButton orderProducts = new JButton("Bestil vare");
     JButton deleteProduct = new JButton("Slet vare");
@@ -215,6 +215,8 @@ public class Gui extends JFrame {
         editProduct.setPreferredSize(buttonSize);
         orderProducts.setPreferredSize(buttonSize);
         deleteProduct.setPreferredSize(buttonSize);
+        
+        createProduct.addActionListener(listen.new createNewProduct());
         
         orderProducts.addActionListener(new Listener(). new createNewOutgoing());
 
