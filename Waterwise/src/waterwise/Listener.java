@@ -39,9 +39,17 @@ public class Listener {
 
     public class ChangeStatusButton extends AbstractAction {
 
+        Order otc;
+        
+        public ChangeStatusButton(Order orderToChange){
+            otc = orderToChange;
+        }
+        
         @Override
         public void actionPerformed(ActionEvent ae) {
 
+            controller.changeStatusMethod(otc);
+            
         }
 
     }

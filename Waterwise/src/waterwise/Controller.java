@@ -16,10 +16,10 @@ public class Controller {
         orderSaveTo.setPaymentType(ofSaveFrom.paymentTypeField.getText());
 
         if (orderSaveTo instanceof Outgoing) {
-            saveEditOutgoing(ofSaveFrom,(Outgoing) orderSaveTo);
+            saveEditOutgoing(ofSaveFrom, (Outgoing) orderSaveTo);
         } else if (orderSaveTo instanceof Incoming) {
-            saveEditIncoming(ofSaveFrom,(Incoming) orderSaveTo);
-            
+            saveEditIncoming(ofSaveFrom, (Incoming) orderSaveTo);
+
             int phone = Integer.parseInt(ofSaveFrom.customerPhonenumberField.getText());
             String email = ofSaveFrom.customerEmailField.getText();
             String name = ofSaveFrom.customerNameField.getText();
@@ -27,19 +27,19 @@ public class Controller {
             String city = ofSaveFrom.deliveryAddressCityField.getText();
             String zip = ofSaveFrom.deliveryAddressZipField.getText();
             String country = ofSaveFrom.deliveryAddressCountryField.getText();
-            
-            Customer customerOfOrder = new Customer(phone, email, name, address, city, zip, country );
-            
+
+            Customer customerOfOrder = new Customer(phone, email, name, address, city, zip, country);
+
             customerOfOrder.Update();
-            
+
         }
 
         orderSaveTo.Update();
         ofSaveFrom.dispose();
     }
-    
-    private void saveEditOutgoing(OrderFrame ofSaveFrom, Outgoing orderSaveTo){
-        
+
+    private void saveEditOutgoing(OrderFrame ofSaveFrom, Outgoing orderSaveTo) {
+
         orderSaveTo.setSupplierName(ofSaveFrom.supplierNameField.getText());
         orderSaveTo.setSupplierEmail(ofSaveFrom.supplierEmailField.getText());
         orderSaveTo.setOwnAddress(ofSaveFrom.ownAddressField.getText());
@@ -48,11 +48,27 @@ public class Controller {
         orderSaveTo.setOwnCountry(ofSaveFrom.ownCountryField.getText());
         orderSaveTo.setOwnPhonenumber(ofSaveFrom.ownPhonenumberField.getText());
     }
-    
-    private void saveEditIncoming(OrderFrame ofSaveFrom, Incoming orderSaveTo)
-    {
-        
+
+    private void saveEditIncoming(OrderFrame ofSaveFrom, Incoming orderSaveTo) {
+
         orderSaveTo.setCustomerPhonenumber(Integer.parseInt(ofSaveFrom.customerPhonenumberField.getText()));
+    }
+
+    public void changeStatusMethod(Order orderToChange) {
+
+        switch (orderToChange.getOrderStatus()) {
+            case "Afsluttet":
+                orderToChange.setOrderStatus("Uafsluttet");
+                break;
+            case "Uafsluttet":
+                orderToChange.setOrderStatus("Afsluttet");
+                break;
+            default:
+                System.out.println("status error - unknown status in changestatusmethod");
+                break;
+        }
+        
+        orderToChange.Update();
     }
 
 }
