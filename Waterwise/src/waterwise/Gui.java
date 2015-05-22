@@ -219,6 +219,7 @@ public class Gui extends JFrame {
         createProduct.addActionListener(listen.new createNewProduct());
         addProducts.addActionListener(listen.new addProduct());
         orderProducts.addActionListener(new Listener(). new createNewOutgoing());
+        createCustomer.addActionListener(listen.new newCustomerFrame());
 
         //Settings
         cardSettings.add(settingsPanel);

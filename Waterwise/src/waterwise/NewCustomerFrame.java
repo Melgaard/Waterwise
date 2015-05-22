@@ -158,8 +158,7 @@ public class NewCustomerFrame extends JFrame {
         customerIDPanel.add(customerIDLabel);
         customerIDPanel.add(customerIDField);
         customerIDField.setEditable(false);
-
-
+        
         //MiddlePanel
         middlePanel.setLayout(new BorderLayout());
 

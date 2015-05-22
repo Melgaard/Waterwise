@@ -246,6 +246,15 @@ public class Listener {
         }
 
     }
+    
+    public class newCustomerFrame extends AbstractAction {
+
+        @Override
+        public void actionPerformed(ActionEvent ae) {
+            NewCustomerFrame cF = new NewCustomerFrame();
+        }
+
+    }
 
     public class createNewProduct extends AbstractAction {
 
