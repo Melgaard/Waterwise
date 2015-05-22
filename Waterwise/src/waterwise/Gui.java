@@ -195,7 +195,7 @@ public class Gui extends JFrame {
 
         //Product
         cardProducts.add(productPanel);
-        productPanel.setLayout(new BorderLayout());
+        productPanel.setLayout(new BorderLayout()); 
 
         productPanel.add(productScrollPane, BorderLayout.CENTER);
         productScrollPane.setPreferredSize(tablesize);
