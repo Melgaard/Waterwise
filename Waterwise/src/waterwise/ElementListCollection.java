@@ -22,24 +22,30 @@ public class ElementListCollection {
     public void addOrder(Order newOrder) {
         oList.add(newOrder);
     }
+    
+    public static void addCList(Customer cToAdd) {
+        cList.add(cToAdd);
+    }
+
+    public void addCustomer(Customer newCustomer) {
+        cList.add(newCustomer);
+    }
 
     //Getter
     public static ArrayList<Product> getPList() {
         return pList;
     }
-
+    
     public static ArrayList<Order> getOList() {
         return oList;
     }
-
+    
     public static ArrayList<Customer> getCList() {
         return cList;
     }
-
+    
     public static ArrayList<Order> getStockList() {
         return stockList;
     }
-
     
-
 }

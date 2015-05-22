@@ -144,6 +144,7 @@ public class Gui extends JFrame {
 
         this.addComponentToPane();
         updateOrderList();
+        updateCustomerList();
 
         setVisible(true);
 
@@ -184,19 +185,19 @@ public class Gui extends JFrame {
         createOrder.addActionListener(listen.new createNewIncoming());
         changeStatus.addActionListener(listen.new ChangeStatusButton(this, "Incoming"));
         editOrder.addActionListener(listen.new EditOrderButton(orderTable, "Incoming"));
-        
+
         orderButtonPanel.add(createOrder);
         orderButtonPanel.add(editOrder);
         orderButtonPanel.add(changeStatus);
         orderButtonPanel.add(printLabel);
         orderButtonPanel.add(deleteOrder);
         orderButtonPanel.add(orderSorter);
-        
+
         orderSorter.setSelectedIndex(0);
 
         //Product
         cardProducts.add(productPanel);
-        productPanel.setLayout(new BorderLayout()); 
+        productPanel.setLayout(new BorderLayout());
 
         productPanel.add(productScrollPane, BorderLayout.CENTER);
         productScrollPane.setPreferredSize(tablesize);
@@ -216,10 +217,10 @@ public class Gui extends JFrame {
         editProduct.setPreferredSize(buttonSize);
         orderProducts.setPreferredSize(buttonSize);
         deleteProduct.setPreferredSize(buttonSize);
-        
+
         createProduct.addActionListener(listen.new createNewProduct());
         addProducts.addActionListener(listen.new addProduct());
-        orderProducts.addActionListener(new Listener(). new createNewOutgoing());
+        orderProducts.addActionListener(new Listener().new createNewOutgoing());
         createCustomer.addActionListener(listen.new newCustomerFrame());
 
         //Settings
@@ -260,7 +261,7 @@ public class Gui extends JFrame {
         createCustomer.setPreferredSize(buttonSize);
         editCustomer.setPreferredSize(buttonSize);
         deleteCustomer.setPreferredSize(buttonSize);
-        
+
         //StockOrder
         cardStockOrders.add(stockOrderPanel);
         stockOrderPanel.setLayout(new BorderLayout());
@@ -321,75 +322,50 @@ public class Gui extends JFrame {
 
         orderTable.setModel(orderTableModel);
 
-//        
-//        //Products
-//        DefaultTableModel productTableModel = new DefaultTableModel() {
-//            @Override
-//            public boolean isCellEditable(int row, int col){
-//                return false;
-//            }
-//        };
-//        
-//        productTable.setAutoCreateRowSorter(true);
-//
-//        productTableModel.setColumnIdentifiers(new String[]{"OrderID", "StartDato", "SlutDato", "TotalPris", "Betalingstype", "Leveringstype", "OrdreStatus"});
-//        productTableModel.setRowCount(oList.size());
-//
-//        int productRow = 0;
-//        for (Product p : pList) {
-//            orderTableModel.setValueAt(p.getOrderID(), productRow, 0);
-//            orderTableModel.setValueAt(p.getStartDate(), productRow, 1);
-//            orderTableModel.setValueAt(p.getClosedDate(), productRow, 2);
-//            orderTableModel.setValueAt(p.getPaymentType(), productRow, 3);
-//            orderTableModel.setValueAt(p.getPriceTotal(), productRow, 4);
-//            orderTableModel.setValueAt(p.getDeliveryType(), productRow, 5);
-//            orderTableModel.setValueAt(p.getOrderStatus(), productRow, 6);
-//
-//            productRow++;
-//        }
-//
-//        productTable.setModel(productTableModel);
-//        
-//        
-//        //Customers
-//        DefaultTableModel customerTableModel = new DefaultTableModel() {
-//            @Override
-//            public boolean isCellEditable(int customerRow, int customerCol){
-//                return false;
-//            }
-//        };
-//        
-//        customerTable.setAutoCreateRowSorter(true);
-//
-//        customerTableModel.setColumnIdentifiers(new String[]{"OrderID", "StartDato", "SlutDato", "TotalPris", "Betalingstype", "Leveringstype", "OrdreStatus"});
-//        customerTableModel.setRowCount(cList.size());
-//
-//        int customerRow = 0;
-//        for (Customer c : cList) {
-//            customerTableModel.setValueAt(c.getOrderID(), customerRow, 0);
-//            customerTableModel.setValueAt(c.getStartDate(), customerRow, 1);
-//            customerTableModel.setValueAt(c.getClosedDate(), customerRow, 2);
-//            customerTableModel.setValueAt(c.getPaymentType(), customerRow, 3);
-//            customerTableModel.setValueAt(c.getPriceTotal(), customerRow, 4);
-//            customerTableModel.setValueAt(c.getDeliveryType(), customerRow, 5);
-//            customerTableModel.setValueAt(c.getOrderStatus(), customerRow, 6);
-//
-//            customerRow++;
-//        }
-//
-//        customerTable.setModel(customerTableModel);
-//        
-//        
-//        
-//        
+    }
+//Customers
+
+    public void updateCustomerList() {
+
+        DefaultTableModel customerTableModel = new DefaultTableModel() {
+            @Override
+            public boolean isCellEditable(int customerRow, int customerCol) {
+                return false;
+            }
+        };
+
+        customerTable.setAutoCreateRowSorter(true);
+
+        customerTableModel.setColumnIdentifiers(new String[]{"Telefon", "Email", "Navn", "Vejnavn", "By", "Postnr", "Land"});
+        customerTableModel.setRowCount(cList.size());
+
+        int customerRow = 0;
+        for (Customer c : cList) {
+            customerTableModel.setValueAt(c.getPhoneNumber(), customerRow, 0);
+            customerTableModel.setValueAt(c.getCustomerEmail(), customerRow, 1);
+            customerTableModel.setValueAt(c.getCustomerName(), customerRow, 2);
+            customerTableModel.setValueAt(c.getDeliveryAddress(), customerRow, 3);
+            customerTableModel.setValueAt(c.getDeliveryCityAddress(), customerRow, 4);
+            customerTableModel.setValueAt(c.getDeliveryZipAddress(), customerRow, 5);
+            customerTableModel.setValueAt(c.getDeliveryCountryAddress(), customerRow, 6);
+
+            customerRow++;
+        }
+
+        
+        
+        customerTable.setModel(customerTableModel);
+        
+    }
+
 //        //StockOrders
 //        DefaultTableModel stockOrderTableModel = new DefaultTableModel() {
 //            @Override
-//            public boolean isCellEditable(int row, int col){
+//            public boolean isCellEditable(int row, int col) {
 //                return false;
 //            }
 //        };
-//        
+//
 //        customerTable.setAutoCreateRowSorter(true);
 //
 //        customerTableModel.setColumnIdentifiers(new String[]{"OrderID", "StartDato", "SlutDato", "TotalPris", "Betalingstype", "Leveringstype", "OrdreStatus"});
@@ -409,7 +385,39 @@ public class Gui extends JFrame {
 //        }
 //
 //        stockOrderTable.setModel(stockOrderTableModel);
-
-    }
-
+//
+//    }
+    
+           //        
+        //        //Products
+        //        DefaultTableModel productTableModel = new DefaultTableModel() {
+        //            @Override
+        //            public boolean isCellEditable(int row, int col){
+        //                return false;
+        //            }
+        //        };
+        //        
+        //        productTable.setAutoCreateRowSorter(true);
+        //
+        //        productTableModel.setColumnIdentifiers(new String[]{"OrderID", "StartDato", "SlutDato", "TotalPris", "Betalingstype", "Leveringstype", "OrdreStatus"});
+        //        productTableModel.setRowCount(oList.size());
+        //
+        //        int productRow = 0;
+        //        for (Product p : pList) {
+        //            orderTableModel.setValueAt(p.getOrderID(), productRow, 0);
+        //            orderTableModel.setValueAt(p.getStartDate(), productRow, 1);
+        //            orderTableModel.setValueAt(p.getClosedDate(), productRow, 2);
+        //            orderTableModel.setValueAt(p.getPaymentType(), productRow, 3);
+        //            orderTableModel.setValueAt(p.getPriceTotal(), productRow, 4);
+        //            orderTableModel.setValueAt(p.getDeliveryType(), productRow, 5);
+        //            orderTableModel.setValueAt(p.getOrderStatus(), productRow, 6);
+        //
+        //            productRow++;
+        //        }
+        //
+        //        productTable.setModel(productTableModel);
+        //        
+        //   
+    
+    
 }

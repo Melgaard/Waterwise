@@ -26,6 +26,7 @@ public class Waterwise {
         e.addOrder(test1);
         e.addOrder(test2);
         
+        e.addCustomer(c);
         
         e.addPList(h);
         e.addPList(p);
