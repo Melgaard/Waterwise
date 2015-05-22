@@ -183,7 +183,6 @@ public class Gui extends JFrame {
         orderSorter.setPreferredSize(buttonSize);
 
         createOrder.addActionListener(listen.new createNewIncoming());
-        editOrder.addActionListener(listen.new editOrder(this));
         
         orderButtonPanel.add(createOrder);
         orderButtonPanel.add(editOrder);
