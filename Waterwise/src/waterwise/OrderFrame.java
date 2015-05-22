@@ -334,7 +334,12 @@ public class OrderFrame extends JFrame {
         DefaultTableModel chosenProductsTableModel = new DefaultTableModel() {
             @Override
             public boolean isCellEditable(int row, int col) {
+                if(col == 2){
                     return true;
+                } else{
+                    return false;
+                }
+                
             }
         };
 
