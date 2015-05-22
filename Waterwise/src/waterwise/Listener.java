@@ -14,7 +14,7 @@ import javax.swing.JTable;
 public class Listener {
 
     Controller controller = new Controller();
-    
+
     public Listener() {
 
     }
@@ -31,9 +31,20 @@ public class Listener {
 
     public class EditOrderButton extends AbstractAction {
 
+        JTable orderList;
+        String cTTF;
+
+        public EditOrderButton(JTable orders, String classToTestFor) {
+
+            this.orderList = orders;
+            this.cTTF = classToTestFor;
+            
+        }
+
         @Override
         public void actionPerformed(ActionEvent ae) {
-
+            Order c = (Order) controller.getElementFromTable(orderList, cTTF);
+            OrderFrame editOrder = new OrderFrame(c);
         }
 
     }
@@ -43,23 +54,30 @@ public class Listener {
         JTable table;
         String cTTF;
         Gui gui;
-        
-        public ChangeStatusButton(Gui gui, String classToTestFor){
-            
+
+        public ChangeStatusButton(Gui gui, String classToTestFor) {
+
             this.gui = gui;
             table = gui.orderTable;
             cTTF = classToTestFor;
-            
+
         }
-        
+
         @Override
         public void actionPerformed(ActionEvent ae) {
+            try {
+                if (table.getSelectedRowCount() > 1) {
+                    JOptionPane.showMessageDialog(null, "Du kan kun vælge et element af gangen.");
+                } else {
+                    Order c = (Order) controller.getElementFromTable(table, cTTF);
+                    controller.changeStatusMethod(c);
+                    gui.updateOrderList();
+                }
 
-            Order c = (Order) controller.getElementFromTable(table, cTTF);
-            controller.changeStatusMethod(c);
-            gui.updateOrderList();
-            
-            
+            } catch (IndexOutOfBoundsException iob) {
+                JOptionPane.showMessageDialog(null, "Du skal vælge et element i listen.");
+            }
+
         }
 
     }
@@ -72,8 +90,8 @@ public class Listener {
         }
 
     }
-    
-       public class addProductButton extends AbstractAction {
+
+    public class addProductButton extends AbstractAction {
 
         OrderFrame addProductAmount;
         String selectedItem;
@@ -83,7 +101,7 @@ public class Listener {
         public addProductButton(OrderFrame addProduct) {
             addProductAmount = addProduct;
         }
-     
+
         @Override
 
         public void actionPerformed(ActionEvent ae) {
@@ -119,8 +137,8 @@ public class Listener {
 
         }
     }
-       
-       public class addProductFrameButton extends AbstractAction {
+
+    public class addProductFrameButton extends AbstractAction {
 
         AddProductFrame addProductFrameAmount;
         String selectedItem;
@@ -130,7 +148,6 @@ public class Listener {
         public addProductFrameButton(AddProductFrame addProduct) {
             addProductFrameAmount = addProduct;
         }
-     
 
         @Override
 
@@ -173,7 +190,7 @@ public class Listener {
         OrderFrame removeProduct;
         int selectedRow;
         String selectedProduct;
-        
+
         public RemoveFromTableButton(OrderFrame removeProductFromTable) {
             removeProduct = removeProductFromTable;
 
@@ -189,22 +206,19 @@ public class Listener {
                 }
 
                 ArrayList<Product> tableProducts = new ArrayList<>(removeProduct.chosenProducts);
-                for(Product p : tableProducts){
-                    if(p.getProductName().equals(removeProduct.productTable.getValueAt(selectedRow, 1))){
+                for (Product p : tableProducts) {
+                    if (p.getProductName().equals(removeProduct.productTable.getValueAt(selectedRow, 1))) {
                         removeProduct.chosenProducts.remove(p);
                         selectedProduct = p.getProductName();
                     }
-                    
+
                 }
                 removeProduct.productComboList.add(selectedProduct);
                 removeProduct.updateProductComboBox();
                 removeProduct.updateProductList();
-                
-                
+
                 System.out.println(removeProduct.productTable.getValueAt(selectedRow, 1));
-                
-                
-                
+
             } catch (IndexOutOfBoundsException iob) {
                 JOptionPane.showMessageDialog(null, "Du skal markere et produkt.");
             }
@@ -215,11 +229,11 @@ public class Listener {
     public class SaveEditButton extends AbstractAction {
 
         OrderFrame ofSaveFrom;
-        
+
         public SaveEditButton(OrderFrame ofSaveFrom) {
             this.ofSaveFrom = ofSaveFrom;
-        }        
-        
+        }
+
         @Override
         public void actionPerformed(ActionEvent ae) {
             controller.saveEditMethod(ofSaveFrom);
@@ -243,22 +257,32 @@ public class Listener {
         }
 
     }
+    
+    public class newCustomerFrame extends AbstractAction {
+
+        @Override
+        public void actionPerformed(ActionEvent ae) {
+            NewCustomerFrame cF = new NewCustomerFrame();
+        }
+
+    }
+
     public class createNewProduct extends AbstractAction {
-        
+
         @Override
         public void actionPerformed(ActionEvent ae) {
             NewProductFrame pF = new NewProductFrame();
         }
     }
-    
+
     public class addProduct extends AbstractAction {
-        
+
         @Override
         public void actionPerformed(ActionEvent ae) {
             AddProductFrame aPF = new AddProductFrame();
         }
     }
-    
+
     public class createNewIncoming extends AbstractAction {
 
         @Override

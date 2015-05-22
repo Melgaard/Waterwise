@@ -10,7 +10,6 @@ import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
-import static javax.swing.JFrame.EXIT_ON_CLOSE;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
@@ -184,6 +183,7 @@ public class Gui extends JFrame {
 
         createOrder.addActionListener(listen.new createNewIncoming());
         changeStatus.addActionListener(listen.new ChangeStatusButton(this, "Incoming"));
+        editOrder.addActionListener(listen.new EditOrderButton(orderTable, "Incoming"));
         
         orderButtonPanel.add(createOrder);
         orderButtonPanel.add(editOrder);
@@ -220,6 +220,7 @@ public class Gui extends JFrame {
         createProduct.addActionListener(listen.new createNewProduct());
         addProducts.addActionListener(listen.new addProduct());
         orderProducts.addActionListener(new Listener(). new createNewOutgoing());
+        createCustomer.addActionListener(listen.new newCustomerFrame());
 
         //Settings
         cardSettings.add(settingsPanel);

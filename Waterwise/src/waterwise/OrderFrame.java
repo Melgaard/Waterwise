@@ -345,7 +345,7 @@ public class OrderFrame extends JFrame {
         productTable.setAutoCreateRowSorter(true);
 
         chosenProductsTableModel.setColumnIdentifiers(new String[]{"ProduktID", "ProduktNavn", "Antal", "Pris"});
-        chosenProductsTableModel.setRowCount(200);
+        chosenProductsTableModel.setRowCount(chosenProducts.size()+1);
 
         int row = 0;
         for (Product products : chosenProducts) {
