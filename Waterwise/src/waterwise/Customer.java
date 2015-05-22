@@ -75,6 +75,21 @@ public class Customer extends DataBaseElement {
     public String getCreationDate() {
         return this.creationDate;
     }
+
+    public String getDeliveryCityAddress()
+    {
+        return deliveryCityAddress;
+    }
+
+    public String getDeliveryZipAddress()
+    {
+        return deliveryZipAddress;
+    }
+
+    public String getDeliveryCountryAddress()
+    {
+        return deliveryCountryAddress;
+    }
     
     //Setters
     public void setPhoneNumber(int phoneNumber)

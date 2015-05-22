@@ -20,11 +20,12 @@ public class FileWrapper
     private PreparedStatement preparedStatement = null;
     private ResultSet resultSet = null;   
     DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+    Controller c = new Controller();
     
     private void createConnection() throws SQLException, ClassNotFoundException
     {
 	Class.forName("com.mysql.jdbc.Driver");
-	connect = DriverManager.getConnection("jdbc:mysql://localhost/todo?" + "user=sqluser&password=sqluserpw");
+	connect = DriverManager.getConnection("jdbc:mysql://localhost/waterwise", "root", "120994");
 	statement = connect.createStatement();
     }
 
@@ -718,22 +719,21 @@ public class FileWrapper
 	{
 		try
 		{
-			if (checkIfDuplicateInt("customer", "phoneNumber", customer.getPhoneNumber()) == false)
-			{
-				createConnection();
-				preparedStatement = connect.prepareStatement("insert into  waterWise.customer values (? , ?, ?, ?, ?)");
-				preparedStatement.setInt(1, customer.getPhoneNumber());
-				preparedStatement.setString(2, customer.getCustomerEmail());
-				preparedStatement.setString(3, customer.getDeliveryAddress());
-				preparedStatement.setString(4, customer.getCustomerName());
-				preparedStatement.setDate(5, new java.sql.Date(new java.util.Date().getTime()));
-				preparedStatement.executeUpdate();
-			}
-			else
-			{
-				updateCustomer(customer);
-			}
-
+                    if (checkIfDuplicateInt("customer", "phoneNumber", customer.getPhoneNumber()) == false)
+                    {
+                    	createConnection();
+			preparedStatement = connect.prepareStatement("insert into  waterWise.customer values (? , ?, ?, ?, ?)");
+			preparedStatement.setInt(1, customer.getPhoneNumber());
+			preparedStatement.setString(2, customer.getCustomerEmail());
+			preparedStatement.setString(3, c.packageCustomerAddress(customer.getDeliveryAddress(), customer.getDeliveryCityAddress(), customer.getDeliveryZipAddress(), customer.getDeliveryCountryAddress()));
+			preparedStatement.setString(4, customer.getCustomerName());
+			preparedStatement.setDate(5, new java.sql.Date(new java.util.Date().getTime()));
+			preparedStatement.executeUpdate();
+                    }
+                    else
+                    {
+			updateCustomer(customer);
+                    }
 		}
 		catch (ClassNotFoundException e)
 		{
@@ -758,7 +758,7 @@ public class FileWrapper
 			preparedStatement = connect
 					.prepareStatement("UPDATE  waterWise.customer SET email = ?, deliveryAddress = ?, name = ? WHERE phoneNumber = ?");
 			preparedStatement.setString(1, customer.getCustomerEmail());
-			preparedStatement.setString(2, customer.getDeliveryAddress());
+			preparedStatement.setString(2, c.packageCustomerAddress(customer.getDeliveryAddress(), customer.getDeliveryCityAddress(), customer.getDeliveryZipAddress(), customer.getDeliveryCountryAddress()));
 			preparedStatement.setString(3, customer.getCustomerName());
 			preparedStatement.setInt(4, customer.getPhoneNumber());
 			preparedStatement.executeUpdate();
@@ -789,11 +789,15 @@ public class FileWrapper
 			{
                             int phoneNumber = resultSet.getInt("phoneNumber");
                             String email = resultSet.getString("email");
-                            String deliveryAddress = resultSet.getString("deliveryAddress");
+                            String completeAddress = resultSet.getString("deliveryAddress");
                             String name = resultSet.getString("name");
                             String creationDate = df.format(resultSet.getDate("creationDate"));
-			
-                            Customer customer = new Customer(phoneNumber, email, name, deliveryAddress, null, null, null, creationDate);
+                            String[] address = c.unpackageCustomerAddress(completeAddress);
+                            String deliveryAddress = address[0];
+                            String deliveryCityAddress = address[1];
+                            String deliveryZipAddress = address[2];
+                            String deliveryCountryAddress = address[3];
+                            Customer customer = new Customer(phoneNumber, email, name, deliveryAddress, deliveryCityAddress, deliveryZipAddress, deliveryCountryAddress, creationDate);
                             list.add(customer);
 			}
 			return list;
@@ -818,20 +822,25 @@ public class FileWrapper
 			resultSet = preparedStatement.executeQuery();
 			int phoneNumber = 0;
 			String email = null;
-			String deliveryAddress = null;
+			String completeAddress = null;
 			String name = null;
 			String creationDate = null;
-
+                         
 			if (resultSet.next())
 			{
 				phoneNumber = resultSet.getInt("phoneNumber");
 				email = resultSet.getString("email");
-				deliveryAddress = resultSet.getString("deliveryAddress");
+				completeAddress = resultSet.getString("deliveryAddress");
 				name = resultSet.getString("name");
 				creationDate = df.format(resultSet.getDate("creationDate"));
 			}
-			Customer customer = new Customer(phoneNumber, email, 
-                                name, deliveryAddress, null, null, null, creationDate);
+                        String[] address = c.unpackageCustomerAddress(completeAddress);
+                        String deliveryAddress = address[0];
+                        String deliveryCityAddress = address[1];
+                        String deliveryZipAddress = address[2];
+                        String deliveryCountryAddress = address[3];
+                        
+			Customer customer = new Customer(phoneNumber, email, name, deliveryAddress, deliveryCityAddress, deliveryZipAddress, deliveryCountryAddress, creationDate);
 			return customer;
 		}
 		catch (Exception e)

@@ -113,4 +113,32 @@ public class Controller {
         return elementToReturn;
     }
     
+    public String packageCustomerAddress(String address, String city, String zip, String country)
+    {
+        String divide = "§";
+        String completeAddress = address + divide + city + divide + zip + divide + country;
+        return completeAddress;
+    }
+    
+    public String[] unpackageCustomerAddress(String completeAddress)
+    {
+        String string = completeAddress;
+        String[] address = string.split("§");
+        return address;
+    }
+    
+    public String packageSupplier(String supplierName, String supplierEmail, String ownAddress, String ownCity, String ownZip, String ownCountry, String ownPhonenumber)
+    {
+        String divide = "§";
+        String completeAddress = supplierName + divide + supplierEmail + divide + ownAddress + divide + ownCity + divide + ownZip + divide + ownCountry + divide + ownPhonenumber;
+        return completeAddress;
+    }
+    
+    public String[] unpackageSupplier(String completeAddress)
+    {
+        String string = completeAddress;
+        String[] address = string.split("§");
+        return address;
+    }
+    
 }
