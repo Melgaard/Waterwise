@@ -25,11 +25,9 @@ public class FileWrapper
     private void createConnection() throws SQLException, ClassNotFoundException
     {
 	Class.forName("com.mysql.jdbc.Driver");
-<<<<<<< HEAD
+
 	connect = DriverManager.getConnection("jdbc:mysql://localhost/waterwise", "root", "120994");
-=======
-	connect = DriverManager.getConnection("jdbc:mysql://localhost/waterwise?" + "user=root&password=zombiesandbacon");
->>>>>>> origin/master
+
 	statement = connect.createStatement();
     }
 
