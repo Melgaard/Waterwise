@@ -54,11 +54,14 @@ public class Listener {
         
         @Override
         public void actionPerformed(ActionEvent ae) {
-
+             try{
             Order c = (Order) controller.getElementFromTable(table, cTTF);
             controller.changeStatusMethod(c);
             gui.updateOrderList();
-            
+             }
+             catch(IndexOutOfBoundsException iob){
+                 JOptionPane.showMessageDialog(null, "Du skal vælge et element i listen.");
+             }
             
         }
 
