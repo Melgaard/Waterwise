@@ -1,6 +1,6 @@
 package waterwise;
 
-import java.util.Map;
+import java.util.HashMap;
 
 public abstract class Order extends DataBaseElement {
 
@@ -8,7 +8,7 @@ public abstract class Order extends DataBaseElement {
     private String orderID;
     private String startDate;
     private String closedDate;
-    private Map<Product, Integer> listOfProducts;
+    private HashMap<Product, Integer> listOfProducts;
     private double priceTotal;
     private String paymentType;
     private String deliveryType;
@@ -19,7 +19,7 @@ public abstract class Order extends DataBaseElement {
 
         double sumPrice = 0.0;
         
-        for (Map.Entry<Product, Integer> entrySet : listOfProducts.entrySet()) {
+        for (HashMap.Entry<Product, Integer> entrySet : listOfProducts.entrySet()) {
             Product key = entrySet.getKey();
             Integer value = entrySet.getValue();
             
@@ -43,7 +43,7 @@ public abstract class Order extends DataBaseElement {
         this.closedDate = closedDate;
     }
 
-    public void setListOfProducts(Map<Product, Integer> listOfProducts) {
+    public void setListOfProducts(HashMap<Product, Integer> listOfProducts) {
         this.listOfProducts = listOfProducts;
     }
 
@@ -76,7 +76,7 @@ public abstract class Order extends DataBaseElement {
         return this.closedDate;
     }
 
-    public Map<Product, Integer> getListofProducts() {
+    public HashMap<Product, Integer> getListofProducts() {
         return this.listOfProducts;
     }
 
@@ -96,7 +96,7 @@ public abstract class Order extends DataBaseElement {
         return this.orderStatus;
     }
 
-    public Map<Product, Integer> getListOfProducts() {
+    public HashMap<Product, Integer> getListOfProducts() {
         return listOfProducts;
     }
 

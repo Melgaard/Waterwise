@@ -1,6 +1,6 @@
 package waterwise;
 
-import java.util.Map;
+import java.util.HashMap;
 
 public class Incoming extends Order {
 
@@ -32,7 +32,7 @@ public class Incoming extends Order {
     //The boolean determines whether to save it in the database
     //Therefore it should be false when called from the database
     public Incoming(String orderID, String startDate, String closedDate,
-            Map<Product, Integer> productMap, String paymentType,
+            HashMap<Product, Integer> productMap, String paymentType,
             String deliveryType, String orderStatus, int phonenumber, 
             boolean updateDB) {
 

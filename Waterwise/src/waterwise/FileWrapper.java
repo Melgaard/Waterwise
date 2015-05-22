@@ -11,7 +11,6 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
 public class FileWrapper
 {
@@ -190,7 +189,7 @@ public class FileWrapper
 			{
 				closeConnection();
 			}
-			Map<Product, Integer> map = new HashMap<>(order.getListOfProducts());
+			HashMap<Product, Integer> map = new HashMap<>(order.getListOfProducts());
                         for (Product key : map.keySet())
 			{
 				int value = map.get(key);
@@ -258,7 +257,7 @@ public class FileWrapper
 		{
 			closeConnection();
 		}
-                Map<Product, Integer> map = new HashMap<>(order.getListOfProducts());
+                HashMap<Product, Integer> map = new HashMap<>(order.getListOfProducts());
                 for (Product key : map.keySet())
 		{
                     int value = map.get(key);
@@ -268,7 +267,7 @@ public class FileWrapper
         
         public Incoming loadIncomingOrder(String ID) throws Exception
         {
-            Map map = loadOrderLine("incomingOrderLine", ID);
+            HashMap map = loadOrderLine("incomingOrderLine", ID);
             try
 		{
 			createConnection();
@@ -343,7 +342,7 @@ public class FileWrapper
 			}
                         for(Incoming order : list)
                         {
-                            Map<Product, Integer> map = loadOrderLine("incomingOrderLine", order.getOrderID());
+                            HashMap<Product, Integer> map = loadOrderLine("incomingOrderLine", order.getOrderID());
                             order.setListOfProducts(map);
                         }
 			return list;
@@ -410,7 +409,7 @@ public class FileWrapper
                     closeConnection();
 		}
                 
-		Map<Product, Integer> map = new HashMap<>(order.getListOfProducts());
+		HashMap<Product, Integer> map = new HashMap<>(order.getListOfProducts());
                 for (Product key : map.keySet())
 		{
                     int value = map.get(key);
@@ -482,7 +481,7 @@ public class FileWrapper
 		{
 			closeConnection();
 		}
-		Map<Product, Integer> map = new HashMap<>(order.getListOfProducts());
+		HashMap<Product, Integer> map = new HashMap<>(order.getListOfProducts());
                 for (Product key : map.keySet())
 		{
                     int value = map.get(key);
@@ -492,7 +491,7 @@ public class FileWrapper
         
         public Outgoing loadOutgoingOrder(String ID) throws Exception
         {
-            Map map = loadOrderLine("outgoingOrderLine", ID);
+            HashMap map = loadOrderLine("outgoingOrderLine", ID);
             try
 		{
 			createConnection();
@@ -567,7 +566,7 @@ public class FileWrapper
 			}
                         for(Outgoing order : list)
                         {
-                            Map<Product, Integer> map = loadOrderLine("outgoingOrderLine", order.getOrderID());
+                            HashMap<Product, Integer> map = loadOrderLine("outgoingOrderLine", order.getOrderID());
                             order.setListOfProducts(map);
                         }
 			return list;
@@ -625,12 +624,12 @@ public class FileWrapper
 		// }
 	}
         
-        public Map<Product,Integer> loadOrderLine(String table, String orderID) throws Exception
+        public HashMap<Product,Integer> loadOrderLine(String table, String orderID) throws Exception
 	{
             try
 		{
-                    Map<Product,Integer> productMap = new HashMap<>();
-                    Map<Integer, Integer> intMap = new HashMap<>();
+                    HashMap<Product,Integer> productMap = new HashMap<>();
+                    HashMap<Integer, Integer> intMap = new HashMap<>();
                     createConnection();
                     preparedStatement = connect.prepareStatement("SELECT * from waterWise." + table + " where orderID like ?");
                     preparedStatement.setString(1, orderID);
@@ -948,28 +947,28 @@ public class FileWrapper
 	{
 		try
 		{
-			createConnection();
-			preparedStatement = connect.prepareStatement("SELECT * from waterWise.product where ID = ?");
-			preparedStatement.setInt(1, productID);
-			resultSet = preparedStatement.executeQuery();
-			int ID = 0;
-			String name = null;
-			int amount = 0;
-			double weight = 0;
-			String size = null;
-			double unitPrice = 0;
-			int reOrderAmount = 0;
+                    createConnection();
+                    preparedStatement = connect.prepareStatement("SELECT * from waterWise.product where ID = ?");
+                    preparedStatement.setInt(1, productID);
+                    resultSet = preparedStatement.executeQuery();
+                    int ID = 0;
+                    String name = null;
+                    int amount = 0;
+                    double weight = 0;
+                    String size = null;
+                    double unitPrice = 0;
+                    int reOrderAmount = 0;
 
-			if (resultSet.next())
-			{
-				ID = resultSet.getInt("ID");
-				name = resultSet.getString("name");
-				amount = resultSet.getInt("amount");
-				weight = resultSet.getDouble("weight");
-				size = resultSet.getString("size");
-				unitPrice = resultSet.getDouble("unitPrice");
-				reOrderAmount = resultSet.getInt("reOrderAmount");
-			}
+                    if (resultSet.next())
+                    {
+			ID = resultSet.getInt("ID");
+			name = resultSet.getString("name");
+                        amount = resultSet.getInt("amount");
+			weight = resultSet.getDouble("weight");
+			size = resultSet.getString("size");
+			unitPrice = resultSet.getDouble("unitPrice");
+			reOrderAmount = resultSet.getInt("reOrderAmount");
+                    }
 			Product product = new Product(ID, name, amount, weight, size, unitPrice, reOrderAmount, false);
 			return product;
 		}

@@ -4,7 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.util.ArrayList;
-import java.util.Map;
+import java.util.HashMap;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -51,7 +51,7 @@ public class NewProductFrame extends JFrame {
     int ownPhonenumber;
 
     String orderStatus;
-    Map<Product, Integer> listOfProducts;
+    HashMap<Product, Integer> listOfProducts;
 
     //Dimensions
     Dimension buttonDimension = new Dimension(100, 30);
