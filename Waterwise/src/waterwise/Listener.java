@@ -31,9 +31,20 @@ public class Listener {
 
     public class EditOrderButton extends AbstractAction {
 
+        JTable orderList;
+        String cTTF;
+
+        public EditOrderButton(JTable orders, String classToTestFor) {
+
+            this.orderList = orders;
+            this.cTTF = classToTestFor;
+            
+        }
+
         @Override
         public void actionPerformed(ActionEvent ae) {
-
+            Order c = (Order) controller.getElementFromTable(orderList, cTTF);
+            OrderFrame editOrder = new OrderFrame(c);
         }
 
     }

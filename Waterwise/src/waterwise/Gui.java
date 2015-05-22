@@ -183,6 +183,7 @@ public class Gui extends JFrame {
 
         createOrder.addActionListener(listen.new createNewIncoming());
         changeStatus.addActionListener(listen.new ChangeStatusButton(this, "Incoming"));
+        editOrder.addActionListener(listen.new EditOrderButton(orderTable, "Incoming"));
         
         orderButtonPanel.add(createOrder);
         orderButtonPanel.add(editOrder);

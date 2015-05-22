@@ -19,7 +19,7 @@ public class Waterwise {
         Order test1 = new Incoming("D8W8", "Startdate", "closeddate", m, "paymenttype", "deliverytype", "Uafsluttet", 26549878, false);
         Order test2 = new Incoming("KLI2", "Startdate", "closeddate", m, "paymenttype", "deliverytype", "Afsluttet", 96544585, false);
         
-        Customer c = new Customer(2020200, null, null, null, null, null, null);
+        Customer c = new Customer(25552552, "emn@lol.dk", "emillol","testadresselol", "string by test", "testzip","test country" );
        
         c.Update();
         
