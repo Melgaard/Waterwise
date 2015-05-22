@@ -13,7 +13,7 @@ public class Incoming extends Order {
     public void Update() {
         FileWrapper fw = new FileWrapper();
         try {
-//            fw.createIncomingOrder(this);
+            fw.createIncomingOrder(this);
         } catch (Exception ex) {
             System.out.println( ex + " thrown from - " + this.getClass().toString());
         }
