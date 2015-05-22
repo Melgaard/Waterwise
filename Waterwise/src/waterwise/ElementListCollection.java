@@ -36,8 +36,8 @@ public class ElementListCollection {
         return cList;
     }
 
-    public ArrayList<Order> getStockList() {
-        return this.stockList;
+    public static ArrayList<Order> getStockList() {
+        return stockList;
     }
 
     

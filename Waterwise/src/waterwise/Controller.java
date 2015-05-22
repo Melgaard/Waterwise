@@ -1,5 +1,7 @@
 package waterwise;
 
+import javax.swing.JTable;
+
 public class Controller {
 
     public void saveEditMethod(OrderFrame ofSaveFrom) {
@@ -71,4 +73,44 @@ public class Controller {
         orderToChange.Update();
     }
 
+    public DataBaseElement getElementFromTable(JTable table, String classToTestFor) {
+
+        int row = table.getSelectedRow();
+        DataBaseElement elementToReturn = null;
+
+        String elementID = table.getValueAt(row, 0).toString();
+        System.out.println(elementID);
+
+        switch (classToTestFor) {
+            case "Incoming":
+                for (Order i : ElementListCollection.getOList()) {
+                    if (i.getOrderID().equals(elementID)) {
+                        elementToReturn = i;
+                    }
+                }
+                break;
+            case "Outgoing":
+                for (Order i : ElementListCollection.getStockList()) {
+                    if (i.getOrderID().equals(elementID)) {
+                        elementToReturn = i;
+                    }
+                }
+                break;
+            case "Product":
+                for (Product i : ElementListCollection.getPList()) {
+                    if (i.getProductID() == (Integer.parseInt(elementID))) {
+                        elementToReturn = i;
+                    }
+                }
+                break;
+            case "Customer":
+                System.out.println("Customer not supported in getelementfromtable");
+                break;
+            default:
+                System.out.println("error in getelementfromtable - wrong class");
+                break;
+        }
+        return elementToReturn;
+    }
+    
 }
