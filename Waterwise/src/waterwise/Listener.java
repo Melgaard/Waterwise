@@ -13,7 +13,7 @@ import javax.swing.JOptionPane;
 public class Listener {
 
     Controller controller = new Controller();
-    
+
     public Listener() {
 
     }
@@ -40,16 +40,16 @@ public class Listener {
     public class ChangeStatusButton extends AbstractAction {
 
         Order otc;
-        
-        public ChangeStatusButton(Order orderToChange){
+
+        public ChangeStatusButton(Order orderToChange) {
             otc = orderToChange;
         }
-        
+
         @Override
         public void actionPerformed(ActionEvent ae) {
 
             controller.changeStatusMethod(otc);
-            
+
         }
 
     }
@@ -62,8 +62,8 @@ public class Listener {
         }
 
     }
-    
-       public class addProductButton extends AbstractAction {
+
+    public class addProductButton extends AbstractAction {
 
         OrderFrame addProductAmount;
         String selectedItem;
@@ -73,7 +73,7 @@ public class Listener {
         public addProductButton(OrderFrame addProduct) {
             addProductAmount = addProduct;
         }
-     
+
         @Override
 
         public void actionPerformed(ActionEvent ae) {
@@ -109,8 +109,37 @@ public class Listener {
 
         }
     }
-       
-       public class addProductFrameButton extends AbstractAction {
+
+    public class editOrder extends AbstractAction {
+
+        Gui editOrderObject;
+        int selectedRow;
+        String orderID;
+
+        public editOrder(Gui guiEditOrder) {
+            editOrderObject = guiEditOrder;
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent ae) {
+            selectedRow = editOrderObject.orderTable.getSelectedRow();
+            orderID = editOrderObject.orderTable.getValueAt(selectedRow, 0).toString();
+            
+            Order temp;
+            
+            for(Order o : ElementListCollection.getOList()){
+                if(o.getOrderID().equals(orderID)){
+                    temp = o;
+                }
+            }
+            
+            
+            System.out.println("edit clicked");
+            System.out.println(orderID);
+        }
+    }
+
+    public class addProductFrameButton extends AbstractAction {
 
         AddProductFrame addProductFrameAmount;
         String selectedItem;
@@ -120,7 +149,6 @@ public class Listener {
         public addProductFrameButton(AddProductFrame addProduct) {
             addProductFrameAmount = addProduct;
         }
-     
 
         @Override
 
@@ -163,7 +191,7 @@ public class Listener {
         OrderFrame removeProduct;
         int selectedRow;
         String selectedProduct;
-        
+
         public RemoveFromTableButton(OrderFrame removeProductFromTable) {
             removeProduct = removeProductFromTable;
 
@@ -179,22 +207,19 @@ public class Listener {
                 }
 
                 ArrayList<Product> tableProducts = new ArrayList<>(removeProduct.chosenProducts);
-                for(Product p : tableProducts){
-                    if(p.getProductName().equals(removeProduct.productTable.getValueAt(selectedRow, 1))){
+                for (Product p : tableProducts) {
+                    if (p.getProductName().equals(removeProduct.productTable.getValueAt(selectedRow, 1))) {
                         removeProduct.chosenProducts.remove(p);
                         selectedProduct = p.getProductName();
                     }
-                    
+
                 }
                 removeProduct.productComboList.add(selectedProduct);
                 removeProduct.updateProductComboBox();
                 removeProduct.updateProductList();
-                
-                
+
                 System.out.println(removeProduct.productTable.getValueAt(selectedRow, 1));
-                
-                
-                
+
             } catch (IndexOutOfBoundsException iob) {
                 JOptionPane.showMessageDialog(null, "Du skal markere et produkt.");
             }
@@ -205,11 +230,11 @@ public class Listener {
     public class SaveEditButton extends AbstractAction {
 
         OrderFrame ofSaveFrom;
-        
+
         public SaveEditButton(OrderFrame ofSaveFrom) {
             this.ofSaveFrom = ofSaveFrom;
-        }        
-        
+        }
+
         @Override
         public void actionPerformed(ActionEvent ae) {
             controller.saveEditMethod(ofSaveFrom);
@@ -233,22 +258,23 @@ public class Listener {
         }
 
     }
+
     public class createNewProduct extends AbstractAction {
-        
+
         @Override
         public void actionPerformed(ActionEvent ae) {
             NewProductFrame pF = new NewProductFrame();
         }
     }
-    
+
     public class addProduct extends AbstractAction {
-        
+
         @Override
         public void actionPerformed(ActionEvent ae) {
             AddProductFrame aPF = new AddProductFrame();
         }
     }
-    
+
     public class createNewIncoming extends AbstractAction {
 
         @Override
