@@ -205,39 +205,15 @@ public class NewProductFrame extends JFrame {
                                             System.out.println("Alt godkendt - der kan konverteres");
                                             Product appProduct = new Product(appID, tempName, appAmount, appWeight, tempSize, appPrice, appReorder, true);
                                             System.out.println("Produkt konverteret - der kan nu skrives til DB");
-                                        } else {
-                                        System.out.println("Genbestil ikke godkendt " + tempReorder + " " );
-                                        er = new Error(tempReorder, "Genbestil");
-                                       // ef = new ErrorFrame(tempProductReorder, "Genbestil");
-                                        
-                                    }
-                                    } else {
-                                        System.out.println("Størrelse ikke godkendt " + tempSize + " " );
-                                      er = new Error(tempSize, "Størrelse");
-                                       
-                                    }
-                                } else {
-                                    System.out.println("ID ikke godkendt " + tempID + " " );
-                                    er = new Error(tempID, "Produkt ID");
-                                }
-                            } else {
-                                System.out.println("vægt ikke godkendt " + tempWeight + " " );
-                                er = new Error(tempWeight, "Vægt");
-                            }
-                        } else {
-                            System.out.println("antal ikke godkendt " + tempAmount );
-                            er = new Error(tempAmount, "Antal");
-                        }
-                    } else {
-                        System.out.println("pris ikke godkendt " + tempPrice );
-                        er = new Error(tempPrice, "Produkt pris");
-                    }
-                } else {
-                    System.out.println("navn ikke godkendt " + tempName);
-                    er = new Error(tempName, "Navn");
-                }
+                                        } else {er = new Error(tempReorder, "Genbestil");}
+                                    } else { er = new Error(tempSize, "Størrelse"); }
+                                } else { er = new Error(tempID, "Produkt ID"); }
+                            } else { er = new Error(tempWeight, "Vægt"); }
+                        } else { er = new Error(tempAmount, "Antal"); }
+                    } else { er = new Error(tempPrice, "Produkt pris"); }
+                } else { er = new Error(tempName, "Navn"); }
             }
-	});
+            });
 
             //productPanelBounds
             productNameLabel.setBounds(8, 30, 75, 15);
