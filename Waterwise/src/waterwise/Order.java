@@ -76,9 +76,6 @@ public abstract class Order extends DataBaseElement {
         return this.closedDate;
     }
 
-    public HashMap<Product, Integer> getListofProducts() {
-        return this.listOfProducts;
-    }
 
     public double getPriceTotal() {
         return this.priceTotal;
@@ -97,7 +94,7 @@ public abstract class Order extends DataBaseElement {
     }
 
     public HashMap<Product, Integer> getListOfProducts() {
-        return listOfProducts;
+        return this.listOfProducts;
     }
 
 }
