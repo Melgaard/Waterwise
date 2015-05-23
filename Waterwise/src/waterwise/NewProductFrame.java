@@ -75,7 +75,7 @@ public class NewProductFrame extends JFrame {
     JPanel bottomPanel = new JPanel();
     JPanel supplierPanel = new JPanel();
 
-    
+    private String tempProductPrice;
     //Vare
     JPanel productIDPanel = new JPanel();
     JLabel productIDLabel = new JLabel("Vare ID:");
@@ -171,7 +171,7 @@ public class NewProductFrame extends JFrame {
             confirmJButton.addActionListener(new ActionListener() {  
             @Override
             public void actionPerformed(ActionEvent e) {
-                ErrorFrame ef;
+                
                 Error er;
                 eh = new ErrorChecker();
                 int appID = 0;
@@ -185,22 +185,21 @@ public class NewProductFrame extends JFrame {
                 String tempProductWeight = productWeightField.getText();
                 String tempProductSize = productSize.getSelectedItem().toString();
                 String tempProductPrice = productPriceField.getText();
-                String tempProductReorder = reorderField.getText();
-                String tempUpdateDB = "UpdateDB";
-                Product tempProduct = new Product(tempProductID, tempProductName, tempProductAmount, tempProductWeight,tempProductSize, tempProductPrice,tempProductReorder, tempUpdateDB );
+                String tempProductReorder = reorderField.getText();               
+               
                
                 if (eh.isNameValid(tempProductName)) {                    
                     if(eh.isPriceValid(tempProductPrice)) {
-                        appPrice = eh.StringToDouble(tempProduct.getTempPrice());
+                        appPrice = eh.StringToDouble(tempProductPrice);
                         if(eh.isAmountValid(tempProductAmount)) {
-                            appAmount = eh.StringToInt(tempProduct.getTempAmount());
+                            appAmount = eh.StringToInt(tempProductAmount);
                             if(eh.isWeightValid(tempProductWeight)) {
-                                appWeight = eh.StringToDouble(tempProduct.getTempWeight()); 
+                                appWeight = eh.StringToDouble(tempProductWeight); 
                                 if(eh.isIDValid(tempProductID)) {
-                                    appID = eh.StringToInt(tempProduct.getTempID());
+                                    appID = eh.StringToInt(tempProductID);
                                     if(eh.isSizeValid(tempProductSize)) {                                        
                                         if(eh.isProductReorderValid(tempProductReorder)) {
-                                            appReorder = eh.StringToInt(tempProduct.getTempReorder());
+                                            appReorder = eh.StringToInt(tempProductReorder);
                                             System.out.println("Alt godkendt - der kan konverteres");
                                             Product appProduct = new Product(appID, tempProductName, appAmount, appWeight, tempProductSize, appPrice, appReorder, true);
                                             System.out.println("Produkt konverteret - der kan nu skrives til DB");
@@ -212,11 +211,12 @@ public class NewProductFrame extends JFrame {
                                     }
                                     } else {
                                         System.out.println("Størrelse ikke godkendt " + tempProductSize + " " );
-                          //              ef = new ErrorFrame(tempProductSize, "Størrelse");
+                                      er = new Error(tempProductSize, "Størrelse");
+                                       
                                     }
                                 } else {
                                     System.out.println("ID ikke godkendt " + tempProductID + " " );
-                                    er = new Error(tempProductID, "ID");
+                                    er = new Error(tempProductID, "Produkt ID");
                                 }
                             } else {
                                 System.out.println("vægt ikke godkendt " + tempProductWeight + " " );
@@ -228,7 +228,7 @@ public class NewProductFrame extends JFrame {
                         }
                     } else {
                         System.out.println("pris ikke godkendt " + tempProductPrice );
-                        er = new Error(tempProductPrice, "Pris");
+                        er = new Error(tempProductPrice, "Produkt pris");
                     }
                 } else {
                     System.out.println("navn ikke godkendt " + tempProductPrice);
@@ -258,6 +258,14 @@ public class NewProductFrame extends JFrame {
         this.add(ofPanel);
         this.setVisible(true);
     }  
+
+    public String getTempProductPrice() {
+        return tempProductPrice;
+    }
+
+    public void setTempProductPrice(String tempProductPrice) {
+        this.tempProductPrice = tempProductPrice;
+    }
 
     
     public NewProductFrame() {

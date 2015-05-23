@@ -166,9 +166,9 @@ public class ErrorFrame extends JFrame {
         frameBuild();
     }
     public ErrorFrame(String error, String category, String inputFix, String correctExample) {
-    
+        System.out.println(error + category + inputFix + correctExample);
         switch (category) {
-            case "Vægt": case "ID": case "Antal":case "Genbestil": case "Pris":  
+            case "Vægt": case "Produkt ID": case "Antal":case "Genbestil": case "Produkt pris":  
                                   errorOne.setText("fejl: " + error + " i kategorien: " + category); 
                                   fixOne.setText("korrekt format er " + inputFix + " f.eks. " + correctExample);
                                 break;           

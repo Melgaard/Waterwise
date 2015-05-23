@@ -19,6 +19,7 @@ public class Error {
     private String stringFix;
     
     public Error(String error, String category)  {
+        System.out.println("modtaget: " + error + " " + category);
         ErrorFrame e;
         this.errorInput = error;
         this.errorCategory = category;
@@ -27,10 +28,10 @@ public class Error {
                                 this.correctExample = "2 eller 2.5";
                                 
                 break;
-            case "Pris"        :this.inputFix       = "heltal eller kommatal";
+            case "Produkt pris":this.inputFix       = "heltal eller kommatal";
                                 this.correctExample = "2 eller 2.5";
                 break;                    
-            case "ID"          :this.inputFix       = "heltal";
+            case "Produkt ID"  :this.inputFix       = "heltal";
                                 this.correctExample = "2";
                 break;
             case "Antal"       :this.inputFix       = "heltal";
