@@ -1,5 +1,9 @@
 package waterwise;
 
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 public class Product extends DataBaseElement
 {
 
@@ -42,6 +46,16 @@ public class Product extends DataBaseElement
        FileWrapper fw = new FileWrapper();
         try {
             fw.createProduct(this);
+        } catch (Exception ex) {
+            System.out.println( ex + " thrown from - " + this.getClass().toString());
+        }
+    }
+    
+    @Override
+    public void Delete() {
+        FileWrapper fw = new FileWrapper();
+        try {
+            fw.deleteProduct(productID);
         } catch (Exception ex) {
             System.out.println( ex + " thrown from - " + this.getClass().toString());
         }

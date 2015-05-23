@@ -19,6 +19,16 @@ public class Incoming extends Order {
         }
     }
     
+     @Override
+    public void Delete() {
+        FileWrapper fw = new FileWrapper();
+        try {
+            fw.deleteOrder("incomingOrder", "ID", this.getOrderID());
+        } catch (Exception ex) {
+            System.out.println( ex + " thrown from - " + this.getClass().toString());
+        }
+    }
+    
     //Creates an order objects and a new database entry
     //          when confirm is pressed in the orderFrame 
     public Incoming() {

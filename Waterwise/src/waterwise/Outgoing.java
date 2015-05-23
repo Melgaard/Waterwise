@@ -62,6 +62,16 @@ public class Outgoing extends Order {
             System.out.println(ex + " thrown from - " + this.getClass().toString());
         }
     }
+    
+    @Override
+    public void Delete() {
+        FileWrapper fw = new FileWrapper();
+        try {
+            fw.deleteOrder("outgoingOrder", "ID", this.getOrderID());
+        } catch (Exception ex) {
+            System.out.println( ex + " thrown from - " + this.getClass().toString());
+        }
+    }
 
     //Setter
     public void setSupplierName(String supplierName) {

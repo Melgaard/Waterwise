@@ -24,6 +24,16 @@ public class Customer extends DataBaseElement {
         }
     }
     
+     @Override
+    public void Delete() {
+        FileWrapper fw = new FileWrapper();
+        try {
+            fw.deleteCustomer(phoneNumber);
+        } catch (Exception ex) {
+            System.out.println( ex + " thrown from - " + this.getClass().toString());
+        }
+    }
+    
     //Constructor
     //To create an entirely new customer
     public Customer(int phone, String email, String name, String deliveryaddress,  
