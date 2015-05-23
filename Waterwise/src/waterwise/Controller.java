@@ -120,25 +120,16 @@ public class Controller {
         return completeAddress;
     }
     
-    public String[] unpackageCustomerAddress(String completeAddress)
-    {
-        String string = completeAddress;
-        String[] address = string.split("§");
-        return address;
-    }
-    
     public String packageSupplier(String supplierName, String supplierEmail, String ownAddress, String ownCity, String ownZip, String ownCountry, String ownPhonenumber)
     {
         String divide = "§";
-        String completeAddress = supplierName + divide + supplierEmail + divide + ownAddress + divide + ownCity + divide + ownZip + divide + ownCountry + divide + ownPhonenumber;
-        return completeAddress;
-    }
+        String completeSupplier = supplierName + divide + supplierEmail + divide + ownAddress + divide + ownCity + divide + ownZip + divide + ownCountry + divide + ownPhonenumber;
+        return completeSupplier;
+    } 
     
-    public String[] unpackageSupplier(String completeAddress)
+    public String[] unpackage(String completeString)
     {
-        String string = completeAddress;
-        String[] address = string.split("§");
+        String[] address = completeString.split("§");
         return address;
     }
-    
 }

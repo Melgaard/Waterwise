@@ -127,7 +127,7 @@ public class FileWrapper
 
 	}
         
-        public boolean checkIfDone(String table, String ID) throws Exception
+        private boolean checkIfDone(String table, String ID) throws Exception
 	{
 		try
 		{
@@ -400,7 +400,7 @@ public class FileWrapper
                     preparedStatement.setString(5, order.getPaymentType());
                     preparedStatement.setString(6, order.getDeliveryType());
                     preparedStatement.setString(7, order.getOrderStatus());
-                    preparedStatement.setString(8, order.getSupplierName());
+                    preparedStatement.setString(8, c.packageSupplier(order.getSupplierName(), order.getSupplierEmail(), order.getOwnAddress(), order.getOwnCity(), order.getOwnZip(), order.getOwnCountry(), order.getOwnPhonenumber()));
                     preparedStatement.executeUpdate();
                 }
                 catch (ClassNotFoundException e)
@@ -443,7 +443,7 @@ public class FileWrapper
 			preparedStatement.setString(2, order.getPaymentType());
 			preparedStatement.setString(3, order.getDeliveryType());
 			preparedStatement.setString(4, order.getOrderStatus());
-			preparedStatement.setString(5, order.getSupplierName());
+			preparedStatement.setString(5, c.packageSupplier(order.getSupplierName(), order.getSupplierEmail(), order.getOwnAddress(), order.getOwnCity(), order.getOwnZip(), order.getOwnCountry(), order.getOwnPhonenumber()));
 			preparedStatement.setString(6, ID);
 			preparedStatement.executeUpdate();
                     }
@@ -455,7 +455,7 @@ public class FileWrapper
 			preparedStatement.setString(3, order.getPaymentType());
 			preparedStatement.setString(4, order.getDeliveryType());
 			preparedStatement.setString(5, order.getOrderStatus());
-			preparedStatement.setString(6, order.getSupplierName());
+			preparedStatement.setString(6, c.packageSupplier(order.getSupplierName(), order.getSupplierEmail(), order.getOwnAddress(), order.getOwnCity(), order.getOwnZip(), order.getOwnCountry(), order.getOwnPhonenumber()));
 			preparedStatement.setString(7, ID);
                         preparedStatement.executeUpdate();
                     }
@@ -467,7 +467,7 @@ public class FileWrapper
 			preparedStatement.setString(3, order.getPaymentType());
 			preparedStatement.setString(4, order.getDeliveryType());
 			preparedStatement.setString(5, order.getOrderStatus());
-			preparedStatement.setString(6, order.getSupplierName());
+			preparedStatement.setString(6, c.packageSupplier(order.getSupplierName(), order.getSupplierEmail(), order.getOwnAddress(), order.getOwnCity(), order.getOwnZip(), order.getOwnCountry(), order.getOwnPhonenumber()));
 			preparedStatement.setString(7, ID);
                         preparedStatement.executeUpdate();
                     }
@@ -506,7 +506,13 @@ public class FileWrapper
                         String paymentType = null;
                         String deliveryType = null;
                         String orderStatus = null;
-                        String supplier = null;
+                        String suppName = null;
+                        String suppEmail = null;
+                        String ownAddress = null;
+                        String ownCity = null;
+                        String ownZip = null;
+                        String ownCountry = null;
+                        String ownPhone = null;
                         
                         if(resultSet.next())
                         {
@@ -522,10 +528,18 @@ public class FileWrapper
                             paymentType = resultSet.getString("paymentType");
                             deliveryType = resultSet.getString("deliveryType");
                             orderStatus = resultSet.getString("status");
-                            supplier = resultSet.getString("supplier");
+                            String completeSupplier = resultSet.getString("supplier");
+                            String[] supplier = c.unpackage(completeSupplier);
+                            suppName = supplier[0];
+                            suppEmail = supplier[1];
+                            ownAddress = supplier[2];
+                            ownCity = supplier[3];
+                            ownZip = supplier[4];
+                            ownCountry = supplier[5];
+                            ownPhone = supplier[6];
                         }
                         
-                        Outgoing order = new Outgoing(ID, startDate, closedDate, map, paymentType, deliveryType, orderStatus, supplier, null, null, null, null, null, null, false);
+                        Outgoing order = new Outgoing(ID, startDate, closedDate, map, paymentType, deliveryType, orderStatus, suppName, suppEmail, ownAddress, ownCity, ownZip, ownCountry, ownPhone, false);
                         return order;
 		}
 		catch (Exception e)
@@ -562,9 +576,17 @@ public class FileWrapper
                             String paymentType = resultSet.getString("paymentType");
                             String deliveryType = resultSet.getString("deliveryType");
                             String orderStatus = resultSet.getString("status");
-                            String supplier = resultSet.getString("supplier");
+                            String completeSupplier = resultSet.getString("supplier");
+                            String[] supplier = c.unpackage(completeSupplier);
+                            String suppName = supplier[0];
+                            String suppEmail = supplier[1];
+                            String ownAddress = supplier[2];
+                            String ownCity = supplier[3];
+                            String ownZip = supplier[4];
+                            String ownCountry = supplier[5];
+                            String ownPhone = supplier[6];
 			
-                            Outgoing order = new Outgoing(orderID, startDate, closedDate, null, paymentType, deliveryType, orderStatus, supplier, null, null, null, null, null, null, false);
+                            Outgoing order = new Outgoing(orderID, startDate, closedDate, null, paymentType, deliveryType, orderStatus, suppName, suppEmail, ownAddress, ownCity, ownZip, ownCountry, ownPhone, false);
                             list.add(order);
 			}
                         for(Outgoing order : list)
@@ -794,7 +816,7 @@ public class FileWrapper
                             String completeAddress = resultSet.getString("deliveryAddress");
                             String name = resultSet.getString("name");
                             String creationDate = df.format(resultSet.getDate("creationDate"));
-                            String[] address = c.unpackageCustomerAddress(completeAddress);
+                            String[] address = c.unpackage(completeAddress);
                             String deliveryAddress = address[0];
                             String deliveryCityAddress = address[1];
                             String deliveryZipAddress = address[2];
@@ -836,7 +858,7 @@ public class FileWrapper
 				name = resultSet.getString("name");
 				creationDate = df.format(resultSet.getDate("creationDate"));
 			}
-                        String[] address = c.unpackageCustomerAddress(completeAddress);
+                        String[] address = c.unpackage(completeAddress);
                         String deliveryAddress = address[0];
                         String deliveryCityAddress = address[1];
                         String deliveryZipAddress = address[2];
