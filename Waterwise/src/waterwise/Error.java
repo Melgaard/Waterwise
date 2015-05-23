@@ -25,8 +25,7 @@ public class Error {
         this.errorCategory = category;
         switch (category) {
             case "Vægt"        :this.inputFix       = "heltal eller kommatal";
-                                this.correctExample = "2 eller 2.5";
-                                
+                                this.correctExample = "2 eller 2.5";                                
                 break;
             case "Produkt pris":this.inputFix       = "heltal eller kommatal";
                                 this.correctExample = "2 eller 2.5";
@@ -46,6 +45,15 @@ public class Error {
             case "Størrelse"   :this.inputFix       = "Der er ikke valgt nogen størrelse";
                                 this.correctExample = "Der skal være valgt størrelse";
                 break;
+            case "Telefon"     :this.inputFix       = "8 cifret heltal";
+                                this.correctExample = "20304050";
+                break;
+            case "Adresse"     :this.inputFix       = "4 cifret heltal";
+                                this.correctExample = "2300";
+                break;
+             case "Email"     :this.inputFix       = "med @ og domæne";
+                                this.correctExample = "farlig@llan.dk";
+                break; 
         }
         e = new ErrorFrame(error, category, inputFix, correctExample);
     }

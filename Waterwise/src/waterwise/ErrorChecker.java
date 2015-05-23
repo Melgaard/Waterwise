@@ -5,6 +5,9 @@
  */
 package waterwise;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class ErrorChecker {
 	
 	
@@ -73,19 +76,31 @@ public class ErrorChecker {
 			return false;
 		}
                 
+                public boolean isAddressValid(String address) {
+                    int i;
+                    String loop = "";
+                    
+                    if (address != "" && !address.isEmpty()) {                            
+                                String zipPattern = "\\d\\d\\d\\d";                                
+                                Pattern zip = Pattern.compile(zipPattern);                                
+                                Matcher m = zip.matcher(address);
+                                if(m.find()) {
+                                    return true;
+                                }
+                                else {
+                                    return false;
+                                }                               
+			}
+			return false;
+		}
+                
                 public boolean isSizeValid(String size) {
 			if (size.equals("Stor") || size.equals("Lille") || size.equals("Standard")) {			
 				return true;
 			}
 			return false;
-		}
-		
-		public boolean isAddressValid(String address) {
-			if (address != "" && !address.isEmpty()) {			
-				return true;
-			}
-			return false;
-		}               
+		}		
+		          
 
 		 // Email format checker
 		public boolean isEmailValid(String email) {

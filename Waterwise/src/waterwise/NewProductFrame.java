@@ -173,66 +173,68 @@ public class NewProductFrame extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 
                 Error er;
+                
                 eh = new ErrorChecker();
+                
                 int appID = 0;
                 int appAmount = 0;
                 double appPrice = 0.0;
                 double appWeight = 0.0;
                 int appReorder = 0;
-                String tempProductID = productIDField.getText();
-                String tempProductName = productNameField.getText();
-                String tempProductAmount = productAmountField.getText();
-                String tempProductWeight = productWeightField.getText();
-                String tempProductSize = productSize.getSelectedItem().toString();
-                String tempProductPrice = productPriceField.getText();
-                String tempProductReorder = reorderField.getText();               
+                String tempID = productIDField.getText();
+                String tempName = productNameField.getText();
+                String tempAmount = productAmountField.getText();
+                String tempWeight = productWeightField.getText();
+                String tempSize = productSize.getSelectedItem().toString();
+                String tempPrice = productPriceField.getText();
+                String tempReorder = reorderField.getText();               
                
                
-                if (eh.isNameValid(tempProductName)) {                    
-                    if(eh.isPriceValid(tempProductPrice)) {
-                        appPrice = eh.StringToDouble(tempProductPrice);
-                        if(eh.isAmountValid(tempProductAmount)) {
-                            appAmount = eh.StringToInt(tempProductAmount);
-                            if(eh.isWeightValid(tempProductWeight)) {
-                                appWeight = eh.StringToDouble(tempProductWeight); 
-                                if(eh.isIDValid(tempProductID)) {
-                                    appID = eh.StringToInt(tempProductID);
-                                    if(eh.isSizeValid(tempProductSize)) {                                        
-                                        if(eh.isProductReorderValid(tempProductReorder)) {
-                                            appReorder = eh.StringToInt(tempProductReorder);
+                if (eh.isNameValid(tempName)) {                    
+                    if(eh.isPriceValid(tempPrice)) {
+                        appPrice = eh.StringToDouble(tempPrice);
+                        if(eh.isAmountValid(tempAmount)) {
+                            appAmount = eh.StringToInt(tempAmount);
+                            if(eh.isWeightValid(tempWeight)) {
+                                appWeight = eh.StringToDouble(tempWeight); 
+                                if(eh.isIDValid(tempID)) {
+                                    appID = eh.StringToInt(tempID);
+                                    if(eh.isSizeValid(tempSize)) {                                        
+                                        if(eh.isProductReorderValid(tempReorder)) {
+                                            appReorder = eh.StringToInt(tempReorder);
                                             System.out.println("Alt godkendt - der kan konverteres");
-                                            Product appProduct = new Product(appID, tempProductName, appAmount, appWeight, tempProductSize, appPrice, appReorder, true);
+                                            Product appProduct = new Product(appID, tempName, appAmount, appWeight, tempSize, appPrice, appReorder, true);
                                             System.out.println("Produkt konverteret - der kan nu skrives til DB");
                                         } else {
-                                        System.out.println("Genbestil ikke godkendt " + tempProductReorder + " " );
-                                        er = new Error(tempProductReorder, "Genbestil");
+                                        System.out.println("Genbestil ikke godkendt " + tempReorder + " " );
+                                        er = new Error(tempReorder, "Genbestil");
                                        // ef = new ErrorFrame(tempProductReorder, "Genbestil");
                                         
                                     }
                                     } else {
-                                        System.out.println("Størrelse ikke godkendt " + tempProductSize + " " );
-                                      er = new Error(tempProductSize, "Størrelse");
+                                        System.out.println("Størrelse ikke godkendt " + tempSize + " " );
+                                      er = new Error(tempSize, "Størrelse");
                                        
                                     }
                                 } else {
-                                    System.out.println("ID ikke godkendt " + tempProductID + " " );
-                                    er = new Error(tempProductID, "Produkt ID");
+                                    System.out.println("ID ikke godkendt " + tempID + " " );
+                                    er = new Error(tempID, "Produkt ID");
                                 }
                             } else {
-                                System.out.println("vægt ikke godkendt " + tempProductWeight + " " );
-                                er = new Error(tempProductWeight, "Vægt");
+                                System.out.println("vægt ikke godkendt " + tempWeight + " " );
+                                er = new Error(tempWeight, "Vægt");
                             }
                         } else {
-                            System.out.println("antal ikke godkendt " + tempProductAmount );
-                            er = new Error(tempProductAmount, "Antal");
+                            System.out.println("antal ikke godkendt " + tempAmount );
+                            er = new Error(tempAmount, "Antal");
                         }
                     } else {
-                        System.out.println("pris ikke godkendt " + tempProductPrice );
-                        er = new Error(tempProductPrice, "Produkt pris");
+                        System.out.println("pris ikke godkendt " + tempPrice );
+                        er = new Error(tempPrice, "Produkt pris");
                     }
                 } else {
-                    System.out.println("navn ikke godkendt " + tempProductPrice);
-                    er = new Error(tempProductName, "Navn");
+                    System.out.println("navn ikke godkendt " + tempName);
+                    er = new Error(tempName, "Navn");
                 }
             }
 	});

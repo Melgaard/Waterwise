@@ -7,6 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.Scanner;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -76,19 +77,27 @@ public class NewCustomerFrame extends JFrame {
     JLabel customerNameLabel = new JLabel("Navn:");
     JTextField customerNameField = new JTextField();
 
-    JLabel customerPhoneLabel = new JLabel("Telefon:");
-    JTextField customerPhoneField = new JTextField("");
+    JLabel customerPhonenumberLabel = new JLabel("Telefon:");
+    JTextField customerPhonenumberField = new JTextField("");
 
     //VareName
-    JPanel customerMailPanel = new JPanel();
-    JLabel customerMailLabel = new JLabel("Email");
-    JTextField customerMailField = new JTextField();
+    JPanel customerEmailPanel = new JPanel();
+    JLabel customerEmailLabel = new JLabel("Email");
+    JTextField customerEmailField = new JTextField();
     
-        //VarePris
+        //Address
     JPanel customerAddressPanel = new JPanel();
-    JLabel customerAddressLabel = new JLabel("Adresse:");
+    JLabel customerAddressLabel = new JLabel("Vejnavn:");
     JTextField customerAddressField = new JTextField();
+    
+     JLabel cityLabel = new JLabel("By:");
+    JTextField cityField = new JTextField();
 
+    JLabel zipLabel = new JLabel("Postnr:");
+    JTextField zipField = new JTextField();
+
+    JLabel countryLabel = new JLabel("Land:");
+    JTextField countryField = new JTextField();
     //Buttons
     JPanel buttonPanel = new JPanel();
     JButton confirmJButton = new JButton("Opret kunde");
@@ -99,7 +108,7 @@ public class NewCustomerFrame extends JFrame {
     private void frameBuild() {
         this.setTitle("WaterWise - Tilføj Kunde");
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        this.setSize(300, 300);
+        this.setSize(500, 280);
         this.setLocationRelativeTo(null);
 
         //ProductArrayList
@@ -127,102 +136,96 @@ public class NewCustomerFrame extends JFrame {
 
         //CustomerPanel           
 
+                
+            
+    
             middlePanel.add(customerPanel, BorderLayout.CENTER);
             customerPanel.setBorder(new TitledBorder("Opret Kunde - Oplysninger"));
             customerPanel.setLayout(null);
             customerPanel.add(customerNameLabel);
             customerPanel.add(customerNameField);
-            customerPanel.add(customerPhoneLabel);
-            customerPanel.add(customerPhoneField);
-            customerPanel.add(customerMailLabel);
-            customerPanel.add(customerMailField);
+            customerPanel.add(customerPhonenumberLabel);
+            customerPanel.add(customerPhonenumberField);
+            customerPanel.add(customerEmailLabel);
+            customerPanel.add(customerEmailField);
             customerPanel.add(customerAddressLabel);
             customerPanel.add(customerAddressField);
+            customerPanel.add(zipLabel);
+            customerPanel.add(zipField);
+            customerPanel.add(countryLabel);
+            customerPanel.add(countryField);
+            customerPanel.add(cityLabel);
+            customerPanel.add(cityField);
             customerPanel.add(confirmJButton);
             customerPanel.add(cancelJButton);
             confirmJButton.setPreferredSize(buttonDimension);
             cancelJButton.setPreferredSize(buttonDimension);
             
             // ActionListener for errorchecking and adding a customer to DB
-//            confirmJButton.addActionListener(new ActionListener() {  
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                
-//                Error er;
-//                ErrorChecker eh = new ErrorChecker();
-//                int appID = 0;
-//                int appAmount = 0;
-//                double appPrice = 0.0;
-//                double appWeight = 0.0;
-//                int appReorder = 0;
-//                String tempID       = customerPhoneField.getText();
-//                String tempName     = customerNameField.getText();
-//                String tempPhone    = customerPhoneField.getText();
-//                String tempEmails   = customerMailField.getText();
-//                String tempAddress  = customerAddressField.getText();
-//                
-//                Product tempProduct = new Product(tempProductID, tempProductName, tempProductAmount, tempProductWeight,tempProductSize, tempProductPrice,tempProductReorder, "UpdateDB" );
-//               
-//                if (eh.isNameValid(tempProductName)) {                    
-//                    if(eh.isPriceValid(tempProductPrice)) {
-//                        appPrice = eh.StringToDouble(tempProduct.getTempPrice());
-//                        if(eh.isAmountValid(tempProductAmount)) {
-//                            appAmount = eh.StringToInt(tempProduct.getTempAmount());
-//                            if(eh.isWeightValid(tempProductWeight)) {
-//                                appWeight = eh.StringToDouble(tempProduct.getTempWeight()); 
-//                                if(eh.isIDValid(tempProductID)) {
-//                                    appID = eh.StringToInt(tempProduct.getTempID());
-//                                    if(eh.isSizeValid(tempProductSize)) {                                        
-//                                        if(eh.isProductReorderValid(tempProductReorder)) {
-//                                            appReorder = eh.StringToInt(tempProduct.getTempReorder());
-//                                            System.out.println("Alt godkendt - der kan konverteres");
-//                                            Product appProduct = new Product(appID, tempProductName, appAmount, appWeight, tempProductSize, appPrice, appReorder, true);
-//                                            System.out.println("Produkt konverteret - der kan nu skrives til DB");
-//                                        } else {
-//                                        System.out.println("Genbestil ikke godkendt " + tempProductReorder + " " );
-//                                        er = new Error(tempProductReorder, "Genbestil");
-//                                       // ef = new ErrorFrame(tempProductReorder, "Genbestil");
-//                                        
-//                                    }
-//                                    } else {
-//                                        System.out.println("Størrelse ikke godkendt " + tempProductSize + " " );
-//                          //              ef = new ErrorFrame(tempProductSize, "Størrelse");
-//                                    }
-//                                } else {
-//                                    System.out.println("ID ikke godkendt " + tempProductID + " " );
-//                                    er = new Error(tempProductID, "ID");
-//                                }
-//                            } else {
-//                                System.out.println("vægt ikke godkendt " + tempProductWeight + " " );
-//                                er = new Error(tempProductWeight, "Vægt");
-//                            }
-//                        } else {
-//                            System.out.println("antal ikke godkendt " + tempProductAmount );
-//                            er = new Error(tempProductAmount, "Antal");
-//                        }
-//                    } else {
-//                        System.out.println("pris ikke godkendt " + tempProductPrice );
-//                        er = new Error(tempProductPrice, "Pris");
-//                    }
-//                } else {
-//                    System.out.println("navn ikke godkendt " + tempProductPrice);
-//                    er = new Error(tempProductName, "Navn");
-//                }
-//            }
-//	});
-//            
+            confirmJButton.addActionListener(new ActionListener() {  
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                
+                Error er;
+                ErrorChecker eh = new ErrorChecker();
+                int appPhone = 0; 
+                
+                String tempID       = customerPhonenumberField.getText();
+                String tempName     = customerNameField.getText();
+                String tempPhone    = customerPhonenumberField.getText();
+                String tempEmail    = customerEmailField.getText();
+                String tempStreet   = customerAddressField.getText();
+                String tempZip      = zipField.getText();
+                String tempCity     = cityField.getText();
+                String tempCountry  = countryField.getText();
+                String tempAddress  = tempStreet + tempZip + tempCity + tempCountry;
+                
+                if (eh.isNameValid(tempName)) {                    
+                    if(eh.isPhonenumberValid(tempPhone)) {
+                        appPhone = eh.StringToInt(tempPhone);
+                        if(eh.isEmailValid(tempEmail)) {                            
+                            if(eh.isAddressValid(tempAddress)) {   
+                                System.out.println("Alt godkendt - Opretter kunde objekt");
+                                Customer c = new Customer(appPhone, tempEmail, tempName, tempStreet, tempCity, tempZip, tempCountry);
+                                System.out.println("Kunde gemt i DB");
+                            } else {
+                                er = new Error(tempAddress, "Adresse");
+                                System.out.println("error adresse");
+                            }
+                        } else {                            
+                            er = new Error(tempEmail, "Email");
+                            System.out.println("error mail");
+                        }
+                    } else {                        
+                        er = new Error(tempPhone, "Telefon");
+                        System.out.println("error telefon");
+                    }
+                } else {                    
+                    er = new Error(tempName, "Navn");
+                    System.out.println("error navn");
+                }
+            }
+	});
+            
 
             //productPanelBounds
             customerNameLabel.setBounds(8, 30, 75, 15);
             customerNameField.setBounds(78, 28, 150, 18);
-            customerPhoneLabel.setBounds(8, 60, 75, 15);
-            customerPhoneField.setBounds(78, 58, 150, 18);
-            customerMailLabel.setBounds(8, 90, 75, 15);
-            customerMailField.setBounds(78, 88, 150, 18);
-            customerAddressLabel.setBounds(8, 120, 75, 15);
-            customerAddressField.setBounds(78, 118, 150, 18);
-            confirmJButton.setBounds(25, 180, 120, 25);
-            cancelJButton.setBounds(150, 180, 120, 25);
+            customerEmailLabel.setBounds(8, 60, 75, 15);
+            customerEmailField.setBounds(78, 58, 150, 18);
+            customerPhonenumberLabel.setBounds(260, 30, 75, 10);
+            customerPhonenumberField.setBounds(318, 28, 150, 18);
+            customerAddressLabel.setBounds(8, 90, 75, 15);
+            customerAddressField.setBounds(78, 88, 150, 18);
+            cityLabel.setBounds(8, 120, 75, 15);
+            cityField.setBounds(78, 118, 150, 18);
+            zipLabel.setBounds(260, 90, 75, 15);
+            zipField.setBounds(318, 88, 150, 18);
+            countryLabel.setBounds(260, 120, 75, 15);
+            countryField.setBounds(318, 118, 150, 18);
+            confirmJButton.setBounds(100, 158, 120, 25);
+            cancelJButton.setBounds(250, 158, 120, 25);
+
 
      
         ofPanel.setVisible(true);
