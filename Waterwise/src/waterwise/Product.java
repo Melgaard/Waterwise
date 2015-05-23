@@ -15,6 +15,12 @@ public class Product extends DataBaseElement
     private String size;
     private double unitPrice;
     private int reorderAmount;
+    private String tempPrice;
+    private String tempAmount;
+    private String tempWeight;
+    private String tempReorder;
+    private String updateDB;
+    private String tempID;
 
     //Constructor
     //Creates dummy product with only name, meant for testing
@@ -39,6 +45,17 @@ public class Product extends DataBaseElement
             this.Update();
         }
         
+    }
+    
+    Product (String tempID, String name, String amount,String weight, String size, String price,String reOrder ,String updateDB) {
+        this.tempID = tempID;
+        this.productName = name;        
+        this.tempAmount = amount;
+        this.tempWeight = weight;
+        this.size = size;
+        this.tempPrice = price;
+        this.tempReorder = reOrder;
+        this.updateDB = updateDB;  
     }
     
     @Override
