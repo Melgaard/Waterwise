@@ -188,24 +188,12 @@ public class NewCustomerFrame extends JFrame {
                                 System.out.println("Alt godkendt - Opretter kunde objekt");
                                 Customer c = new Customer(appPhone, tempEmail, tempName, tempStreet, tempCity, tempZip, tempCountry);
                                 System.out.println("Kunde gemt i DB");
-                            } else {
-                                er = new Error(tempAddress, "Adresse");
-                                System.out.println("error adresse");
-                            }
-                        } else {                            
-                            er = new Error(tempEmail, "Email");
-                            System.out.println("error mail");
-                        }
-                    } else {                        
-                        er = new Error(tempPhone, "Telefon");
-                        System.out.println("error telefon");
-                    }
-                } else {                    
-                    er = new Error(tempName, "Navn");
-                    System.out.println("error navn");
-                }
+                            } else {er = new Error(tempAddress, "Adresse");}
+                        } else {er = new Error(tempEmail, "Email");}
+                    } else {er = new Error(tempPhone, "Telefon");}
+                } else {er = new Error(tempName, "Navn");}
             }
-	});
+            });
             
 
             //productPanelBounds
