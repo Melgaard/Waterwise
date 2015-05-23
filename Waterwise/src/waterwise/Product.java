@@ -133,8 +133,31 @@ public class Product extends DataBaseElement
 
     public void setSize(String size) {
         this.size = size;
+    }    
+    
+    public String getTempPrice() {
+        return tempPrice;
     }
 
+    public String getTempAmount() {
+        return tempAmount;
+    }
+
+    public String getTempWeight() {
+        return tempWeight;
+    }
+
+    public String getTempReorder() {
+        return tempReorder;
+    }
+
+    public String getUpdateDB() {
+        return updateDB;
+    }
+
+    public String getTempID() {
+        return tempID;
+    }
     //Setters
     public void setUnitPrice(double unitPrice) {
         this.unitPrice = unitPrice;

@@ -284,6 +284,20 @@ private boolean isProductHighlighted;
 			}
 			return false;
 		}
+                
+                public boolean isIDValid(String amount) {
+			if (isInt(amount) == true) {
+				return true;
+			}
+			return false;
+		}
+                
+                public boolean isProductReorderValid(String amount) {
+			if (isInt(amount) == true) {
+				return true;
+			}
+			return false;
+		}
 		
 		public boolean isPriceValid(String price) {
 			if (isDouble(price) == true) {
@@ -301,6 +315,13 @@ private boolean isProductHighlighted;
 		
 		public boolean isNameValid(String name) {
 			if (name != "" && !name.isEmpty()) {			
+				return true;
+			}
+			return false;
+		}
+                
+                public boolean isSizeValid(String size) {
+			if (size.equals("Stor") || size.equals("Lille") || size.equals("Standard")) {			
 				return true;
 			}
 			return false;

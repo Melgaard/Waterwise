@@ -184,41 +184,55 @@ public class NewProductFrame extends JFrame {
                 String tempProductWeight = productWeightField.getText();
                 String tempProductSize = productSize.getSelectedItem().toString();
                 String tempProductPrice = productPriceField.getText();
-                String tempReorderAmount = reorderField.getText();
+                String tempProductReorder = reorderField.getText();
                 String tempUpdateDB = "UpdateDB";
-                Product tempProduct = new Product(tempProductID, tempProductName, tempProductAmount, tempProductWeight,tempProductSize, tempProductPrice,tempReorderAmount, tempUpdateDB );
+                Product tempProduct = new Product(tempProductID, tempProductName, tempProductAmount, tempProductWeight,tempProductSize, tempProductPrice,tempProductReorder, tempUpdateDB );
                
                 if (eh.isNameValid(tempProductName)) {                    
                     if(eh.isPriceValid(tempProductPrice)) {
-                        appPrice = tempProduct.getUnitPrice();
+                        appPrice = eh.StringToDouble(tempProduct.getTempPrice());
                         if(eh.isAmountValid(tempProductAmount)) {
-                            appAmount = tempProduct.getAmountInStorage();
+                            appAmount = eh.StringToInt(tempProduct.getTempAmount());
                             if(eh.isWeightValid(tempProductWeight)) {
-                                appWeight = tempProduct.getWeight();
-                                System.out.println("Alt godkendt - der kan konverteres og skrives til DB");
-                                //Product appProduct = new Product(appAmount, productNameField.getText(), 10, appWeight, "størrelse", appPrice, 10, true );
-                                // Navn, Pris, Antal, Vægt bliver valideret
-                                // Der er indsat tilfældigt: product ID(90), size("størrelse"), reOrderAmount(10), updateDB(true)
-                                 
+                                appWeight = eh.StringToDouble(tempProduct.getTempWeight()); 
+                                if(eh.isIDValid(tempProductID)) {
+                                    appID = eh.StringToInt(tempProduct.getTempID());
+                                    if(eh.isSizeValid(tempProductSize)) {                                        
+                                        if(eh.isProductReorderValid(tempProductReorder)) {
+                                            appReorder = eh.StringToInt(tempProduct.getTempReorder());
+                                            System.out.println("Alt godkendt - der kan konverteres");
+                                            Product appProduct = new Product(appID, tempProductName, appAmount, appWeight, tempProductSize, appPrice, appReorder, true);
+                                            System.out.println("Produkt konverteret - der kan nu skrives til DB");
+                                        } else {
+                                        System.out.println("Genbestil ikke godkendt " + tempProductReorder + " " );
+                                        ef = new ErrorFrame(tempProductReorder, "Genbestil");
+                                    }
+                                    } else {
+                                        System.out.println("Størrelse ikke godkendt " + tempProductSize + " " );
+                                        ef = new ErrorFrame(tempProductSize, "Størrelse");
+                                    }
+                                } else {
+                                    System.out.println("ID ikke godkendt " + tempProductID + " " );
+                                    ef = new ErrorFrame(tempProductID, "ID");
+                                }
                             } else {
                                 System.out.println("vægt ikke godkendt " + tempProductWeight + " " );
-                                ef = new ErrorFrame(tempProductWeight, "vægt");
+                                ef = new ErrorFrame(tempProductWeight, "Vægt");
                             }
                         } else {
                             System.out.println("antal ikke godkendt " + tempProductAmount );
-                            ef = new ErrorFrame(tempProductAmount, "antal");
+                            ef = new ErrorFrame(tempProductAmount, "Antal");
                         }
                     } else {
                         System.out.println("pris ikke godkendt " + tempProductPrice );
-                        ef = new ErrorFrame(tempProductPrice, "pris");
+                        ef = new ErrorFrame(tempProductPrice, "Pris");
                     }
                 } else {
                     System.out.println("navn ikke godkendt " + tempProductPrice);
-                    ef = new ErrorFrame(tempProductName, "navn");
+                    ef = new ErrorFrame(tempProductName, "Navn");
                 }
             }
 	});
-//            
 
             //productPanelBounds
             productNameLabel.setBounds(8, 30, 75, 15);
