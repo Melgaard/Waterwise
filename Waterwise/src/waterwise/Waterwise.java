@@ -16,8 +16,8 @@ public class Waterwise {
         Product p = new Product("akklad");
         Product h = new Product("emil");
         HashMap<Product, Integer> m = new HashMap<Product, Integer>();
-        Order test1 = new Incoming("D8W8", "Startdate", "closeddate", m, "paymenttype", "deliverytype", "Uafsluttet", 26549878, false);
-        Order test2 = new Incoming("KLI2", "Startdate", "closeddate", m, "paymenttype", "deliverytype", "Afsluttet", 96544585, false);
+        Order test1 = new Incoming("D8W8", "23-05-2015", "closeddate", m, "paymenttype", "deliverytype", "Uafsluttet", 26549878, false);
+        Order test2 = new Incoming("KLI2", "13-03-2015", "closeddate", m, "paymenttype", "deliverytype", "Afsluttet", 96544585, false);
         
         Customer c = new Customer(25552552, "emn@lol.dk", "emillol","testadresselol", "string by test", "testzip","test country" );
        

@@ -20,11 +20,17 @@ public class Listener {
     }
 
     //Inner classes
-    public class ResetViewButton extends AbstractAction {
+    public class ResetOrderViewButton extends AbstractAction {
 
+        Gui gui;
+        
+        public ResetOrderViewButton(Gui gui){
+            this.gui = gui;
+        }
+        
         @Override
         public void actionPerformed(ActionEvent ae) {
-
+            gui.updateOrderList();
         }
 
     }
