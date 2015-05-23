@@ -145,6 +145,7 @@ public class Gui extends JFrame {
         this.addComponentToPane();
         updateOrderList();
         updateCustomerList();
+        updateProductList();
 
         setVisible(true);
 
@@ -352,10 +353,8 @@ public class Gui extends JFrame {
             customerRow++;
         }
 
-        
-        
         customerTable.setModel(customerTableModel);
-        
+
     }
 
 //        //StockOrders
@@ -387,37 +386,34 @@ public class Gui extends JFrame {
 //        stockOrderTable.setModel(stockOrderTableModel);
 //
 //    }
-    
-           //        
-        //        //Products
-        //        DefaultTableModel productTableModel = new DefaultTableModel() {
-        //            @Override
-        //            public boolean isCellEditable(int row, int col){
-        //                return false;
-        //            }
-        //        };
-        //        
-        //        productTable.setAutoCreateRowSorter(true);
-        //
-        //        productTableModel.setColumnIdentifiers(new String[]{"OrderID", "StartDato", "SlutDato", "TotalPris", "Betalingstype", "Leveringstype", "OrdreStatus"});
-        //        productTableModel.setRowCount(oList.size());
-        //
-        //        int productRow = 0;
-        //        for (Product p : pList) {
-        //            orderTableModel.setValueAt(p.getOrderID(), productRow, 0);
-        //            orderTableModel.setValueAt(p.getStartDate(), productRow, 1);
-        //            orderTableModel.setValueAt(p.getClosedDate(), productRow, 2);
-        //            orderTableModel.setValueAt(p.getPaymentType(), productRow, 3);
-        //            orderTableModel.setValueAt(p.getPriceTotal(), productRow, 4);
-        //            orderTableModel.setValueAt(p.getDeliveryType(), productRow, 5);
-        //            orderTableModel.setValueAt(p.getOrderStatus(), productRow, 6);
-        //
-        //            productRow++;
-        //        }
-        //
-        //        productTable.setModel(productTableModel);
-        //        
-        //   
-    
-    
+    public void updateProductList() {
+        //Products
+        DefaultTableModel productTableModel = new DefaultTableModel() {
+            @Override
+            public boolean isCellEditable(int row, int col) {
+                return false;
+            }
+        };
+
+        productTable.setAutoCreateRowSorter(true);
+
+        productTableModel.setColumnIdentifiers(new String[]{"VareID", "VareNavn", "Antal på lager", "Vægt", "Størrelse", "Pris", "Genbestillingsgrænse", "boolean?"});
+        productTableModel.setRowCount(pList.size());
+
+        int productRow = 0;
+        for (Product p : pList) {
+            productTableModel.setValueAt(p.getProductID(), productRow, 0);
+            productTableModel.setValueAt(p.getProductName(), productRow, 1);
+            productTableModel.setValueAt(p.getAmountInStorage(), productRow, 2);
+            productTableModel.setValueAt(p.getSize(), productRow, 3);
+            productTableModel.setValueAt(p.getUnitPrice(), productRow, 4);
+            productTableModel.setValueAt(p.getReorderAmount(), productRow, 5);
+
+            productRow++;
+        }
+
+        productTable.setModel(productTableModel);
+
+    }
+
 }
