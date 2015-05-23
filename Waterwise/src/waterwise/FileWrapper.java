@@ -314,12 +314,12 @@ public class FileWrapper
 		}
         }
         
-        public ArrayList<Incoming> loadIncomingOrderList() throws Exception
+        public ArrayList<Order> loadIncomingOrderList() throws Exception
 	{
 		try
 		{
 			createConnection();
-			ArrayList<Incoming> list = new ArrayList<Incoming>();
+			ArrayList<Order> list = new ArrayList<Order>();
 			preparedStatement = connect.prepareStatement("SELECT * from waterWise.incomingOrder");
 			resultSet = preparedStatement.executeQuery();
 			while (resultSet.next())
@@ -340,10 +340,10 @@ public class FileWrapper
                             String orderStatus = resultSet.getString("status");
                             int customerPhone = resultSet.getInt("customerPhone");
 			
-                            Incoming order = new Incoming(orderID, startDate, closedDate, null, paymentType, deliveryType, orderStatus, customerPhone, false);
+                            Order order = new Incoming(orderID, startDate, closedDate, null, paymentType, deliveryType, orderStatus, customerPhone, false);
                             list.add(order);
 			}
-                        for(Incoming order : list)
+                        for(Order order : list)
                         {
                             HashMap<Product, Integer> map = loadOrderLine("incomingOrderLine", order.getOrderID());
                             order.setListOfProducts(map);
@@ -552,12 +552,12 @@ public class FileWrapper
 		}
         }
         
-        public ArrayList<Outgoing> loadOutgoingOrderList() throws Exception
+        public ArrayList<Order> loadOutgoingOrderList() throws Exception
 	{
 		try
 		{
 			createConnection();
-			ArrayList<Outgoing> list = new ArrayList<Outgoing>();
+			ArrayList<Order> list = new ArrayList<Order>();
 			preparedStatement = connect.prepareStatement("SELECT * from waterWise.outgoingOrder");
 			resultSet = preparedStatement.executeQuery();
 			while (resultSet.next())
@@ -586,10 +586,10 @@ public class FileWrapper
                             String ownCountry = supplier[5];
                             String ownPhone = supplier[6];
 			
-                            Outgoing order = new Outgoing(orderID, startDate, closedDate, null, paymentType, deliveryType, orderStatus, suppName, suppEmail, ownAddress, ownCity, ownZip, ownCountry, ownPhone, false);
+                            Order order = new Outgoing(orderID, startDate, closedDate, null, paymentType, deliveryType, orderStatus, suppName, suppEmail, ownAddress, ownCity, ownZip, ownCountry, ownPhone, false);
                             list.add(order);
 			}
-                        for(Outgoing order : list)
+                        for(Order order : list)
                         {
                             HashMap<Product, Integer> map = loadOrderLine("outgoingOrderLine", order.getOrderID());
                             order.setListOfProducts(map);
