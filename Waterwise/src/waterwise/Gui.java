@@ -146,6 +146,7 @@ public class Gui extends JFrame {
         updateOrderList();
         updateCustomerList();
         updateProductList();
+        updateStockOrderList();
 
         setVisible(true);
 
@@ -308,7 +309,7 @@ public class Gui extends JFrame {
         orderTableModel.setRowCount(oList.size());
 
         int orderRow = 0;
-        for (Order o : oList) {
+        for (Order o : ElementListCollection.getOList()) {
             orderTableModel.setValueAt(o.getOrderID(), orderRow, 0);
             System.out.println(o.getOrderID() + "");
             orderTableModel.setValueAt(o.getStartDate(), orderRow, 1);
@@ -341,7 +342,7 @@ public class Gui extends JFrame {
         customerTableModel.setRowCount(cList.size());
 
         int customerRow = 0;
-        for (Customer c : cList) {
+        for (Customer c : ElementListCollection.getCList()) {
             customerTableModel.setValueAt(c.getPhoneNumber(), customerRow, 0);
             customerTableModel.setValueAt(c.getCustomerEmail(), customerRow, 1);
             customerTableModel.setValueAt(c.getCustomerName(), customerRow, 2);
@@ -358,34 +359,36 @@ public class Gui extends JFrame {
     }
 
 //        //StockOrders
-//        DefaultTableModel stockOrderTableModel = new DefaultTableModel() {
-//            @Override
-//            public boolean isCellEditable(int row, int col) {
-//                return false;
-//            }
-//        };
-//
-//        customerTable.setAutoCreateRowSorter(true);
-//
-//        customerTableModel.setColumnIdentifiers(new String[]{"OrderID", "StartDato", "SlutDato", "TotalPris", "Betalingstype", "Leveringstype", "OrdreStatus"});
-//        customerTableModel.setRowCount(oList.size());
-//
-//        int stockOrderRow = 0;
-//        for (Order o : oList) {
-//            customerTableModel.setValueAt(o.getOrderID(), stockOrderRow, 0);
-//            customerTableModel.setValueAt(o.getStartDate(), stockOrderRow, 1);
-//            customerTableModel.setValueAt(o.getClosedDate(), stockOrderRow, 2);
-//            customerTableModel.setValueAt(o.getPaymentType(), stockOrderRow, 3);
-//            customerTableModel.setValueAt(o.getPriceTotal(), stockOrderRow, 4);
-//            customerTableModel.setValueAt(o.getDeliveryType(), stockOrderRow, 5);
-//            customerTableModel.setValueAt(o.getOrderStatus(), stockOrderRow, 6);
-//
-//            customerRow++;
-//        }
-//
-//        stockOrderTable.setModel(stockOrderTableModel);
-//
-//    }
+    public void updateStockOrderList() {
+        DefaultTableModel stockOrderTableModel = new DefaultTableModel() {
+            @Override
+            public boolean isCellEditable(int row, int col) {
+                return false;
+            }
+        };
+
+        customerTable.setAutoCreateRowSorter(true);
+
+        stockOrderTableModel.setColumnIdentifiers(new String[]{"OrderID", "StartDato", "SlutDato", "TotalPris", "Betalingstype", "Leveringstype", "OrdreStatus"});
+        stockOrderTableModel.setRowCount(oList.size());
+
+        int stockOrderRow = 0;
+        for (Order o : ElementListCollection.getStockList()) {
+            stockOrderTableModel.setValueAt(o.getOrderID(), stockOrderRow, 0);
+            stockOrderTableModel.setValueAt(o.getStartDate(), stockOrderRow, 1);
+            stockOrderTableModel.setValueAt(o.getClosedDate(), stockOrderRow, 2);
+            stockOrderTableModel.setValueAt(o.getPaymentType(), stockOrderRow, 3);
+            stockOrderTableModel.setValueAt(o.getPriceTotal(), stockOrderRow, 4);
+            stockOrderTableModel.setValueAt(o.getDeliveryType(), stockOrderRow, 5);
+            stockOrderTableModel.setValueAt(o.getOrderStatus(), stockOrderRow, 6);
+
+            stockOrderRow++;
+        }
+
+        stockOrderTable.setModel(stockOrderTableModel);
+
+    }
+
     public void updateProductList() {
         //Products
         DefaultTableModel productTableModel = new DefaultTableModel() {
@@ -401,7 +404,7 @@ public class Gui extends JFrame {
         productTableModel.setRowCount(pList.size());
 
         int productRow = 0;
-        for (Product p : pList) {
+        for (Product p : ElementListCollection.getPList()) {
             productTableModel.setValueAt(p.getProductID(), productRow, 0);
             productTableModel.setValueAt(p.getProductName(), productRow, 1);
             productTableModel.setValueAt(p.getAmountInStorage(), productRow, 2);
