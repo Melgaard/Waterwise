@@ -172,6 +172,7 @@ public class NewProductFrame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 ErrorFrame ef;
+                Error er;
                 eh = new ErrorChecker();
                 int appID = 0;
                 int appAmount = 0;
@@ -205,31 +206,33 @@ public class NewProductFrame extends JFrame {
                                             System.out.println("Produkt konverteret - der kan nu skrives til DB");
                                         } else {
                                         System.out.println("Genbestil ikke godkendt " + tempProductReorder + " " );
-                                        ef = new ErrorFrame(tempProductReorder, "Genbestil");
+                                        er = new Error(tempProductReorder, "Genbestil");
+                                       // ef = new ErrorFrame(tempProductReorder, "Genbestil");
+                                        
                                     }
                                     } else {
                                         System.out.println("Størrelse ikke godkendt " + tempProductSize + " " );
-                                        ef = new ErrorFrame(tempProductSize, "Størrelse");
+                          //              ef = new ErrorFrame(tempProductSize, "Størrelse");
                                     }
                                 } else {
                                     System.out.println("ID ikke godkendt " + tempProductID + " " );
-                                    ef = new ErrorFrame(tempProductID, "ID");
+                                    er = new Error(tempProductID, "ID");
                                 }
                             } else {
                                 System.out.println("vægt ikke godkendt " + tempProductWeight + " " );
-                                ef = new ErrorFrame(tempProductWeight, "Vægt");
+                                er = new Error(tempProductWeight, "Vægt");
                             }
                         } else {
                             System.out.println("antal ikke godkendt " + tempProductAmount );
-                            ef = new ErrorFrame(tempProductAmount, "Antal");
+                            er = new Error(tempProductAmount, "Antal");
                         }
                     } else {
                         System.out.println("pris ikke godkendt " + tempProductPrice );
-                        ef = new ErrorFrame(tempProductPrice, "Pris");
+                        er = new Error(tempProductPrice, "Pris");
                     }
                 } else {
                     System.out.println("navn ikke godkendt " + tempProductPrice);
-                    ef = new ErrorFrame(tempProductName, "Navn");
+                    er = new Error(tempProductName, "Navn");
                 }
             }
 	});

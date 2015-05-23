@@ -165,43 +165,17 @@ public class ErrorFrame extends JFrame {
     public ErrorFrame() {
         frameBuild();
     }
-    public ErrorFrame(String error, String category) {
-        System.out.println(category + " " + error);
-
+    public ErrorFrame(String error, String category, String inputFix, String correctExample) {
+    
         switch (category) {
-            case "Vægt"        :  errorOne.setText("fejl: " + error + " i kategorien: " + category); 
-                                  formatFix = "heltal eller kommatal";
-                                  correctExample ="2 eller 2.5";
-                                  fixOne.setText("korrekt format er " + formatFix + " f.eks. " + correctExample);
+            case "Vægt": case "ID": case "Antal":case "Genbestil": case "Pris":  
+                                  errorOne.setText("fejl: " + error + " i kategorien: " + category); 
+                                  fixOne.setText("korrekt format er " + inputFix + " f.eks. " + correctExample);
+                                break;           
+            case "Navn": case "Størrelse":   errorOne.setText(inputFix); 
+                                     fixOne.setText(correctExample);
                                 break;
-            case "ID"          :  errorOne.setText("fejl: " + error + " i kategorien: Vare" + category); 
-                                  formatFix = "heltal";
-                                  correctExample ="2";
-                                  fixOne.setText("korrekt format er " + formatFix + " f.eks. " + correctExample);
-                                break;
-            case "Antal"       :  errorOne.setText("fejl: " + error + " i kategorien: " + category); 
-                                  formatFix = "heltal";
-                                  correctExample ="2";
-                                  fixOne.setText("korrekt format er " + formatFix + " f.eks. " + correctExample);
-                                break;
-            case "Genbestil"   :  errorOne.setText("fejl: " + error + " i kategorien: " + category); 
-                                  formatFix = "heltal";
-                                  correctExample ="2";
-                                  fixOne.setText("korrekt format er " + formatFix + " f.eks. " + correctExample);
-                                break;
-            case "Navn"  :   errorOne.setText("Der er ikke indtastet et navn"); 
-                                     fixOne.setText("Navnefeltet må ikke være tomt");
-                                break;
-            case "Størrelse"   :  errorOne.setText("fejl: " + error + " i kategorien: " + category); 
-                                  formatFix = "heltal eller kommatal";
-                                  correctExample ="2 eller 2.5";
-                                  fixOne.setText("korrekt format er " + formatFix + " f.eks. " + correctExample);
-                                break;
-            case "Pris"         :  errorOne.setText("fejl: " + error + " i kategorien: " + category); 
-                                  formatFix = "heltal eller kommatal";
-                                  correctExample ="2 eller 2.5";
-                                  fixOne.setText("korrekt format er " + formatFix + " f.eks. " + correctExample);
-                                break;
+           
         }
         frameBuild();
 
