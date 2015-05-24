@@ -5,6 +5,7 @@
  */
 package waterwise;
 
+import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -89,6 +90,13 @@ public class ErrorChecker {
 			}
 			return false;
 		}
+                
+                public boolean doesListExist(HashMap listOfProducts) {
+                   if (listOfProducts == null) {
+                       return false;
+                   }
+                    return true;
+                }
                 public boolean isDateValid(String date) {
                     
                     if (date != "" && !date.isEmpty()) {                            

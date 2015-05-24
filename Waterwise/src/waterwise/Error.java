@@ -52,8 +52,11 @@ public class Error {
                                 this.correctExample = "2300";
                 break;
              case "Email"     :this.inputFix       = "med @ og domæne";
-                                this.correctExample = "farlig@llan.dk";
-                break; 
+                                this.correctExample= "farlig@llan.dk";
+                break;
+            case "Lev.Type"   :this.inputFix       = "Der er ikke indtastet nogen Lev.Type";
+                                this.correctExample= "Lev.Type må ikke være tomt";
+                break;
         }
         e = new ErrorFrame(error, category, inputFix, correctExample);
     }
