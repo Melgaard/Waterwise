@@ -27,8 +27,8 @@ public class Controller {
                                 if(ec.isAddressValid(ofSaveFrom.deliveryAddressZipField.getText())){
                                     if(ec.isStreetnameValid(ofSaveFrom.deliveryAddressField.getText())){
                                         if(ec.isPhonenumberValid(ofSaveFrom.customerPhonenumberField.getText())){
-                                                    System.out.println("SaveEditMethod har godkendt");
-
+                                                    System.out.println("Alle felter godkendt - der kan skrives til DB");
+                                                    
 
                                                         //Set order data to the orderframe data
                                                         orderSaveTo.setOrderID(ofSaveFrom.orderIDField.getText());

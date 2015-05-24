@@ -121,7 +121,6 @@ public class ErrorFrame extends JFrame {
     private void frameBuild() {
         this.setTitle("WaterWise DB Project - Error!");
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        this.setSize(500, 300);
         this.setLocation(540, 700);
 
 
@@ -154,10 +153,11 @@ public class ErrorFrame extends JFrame {
             
             //errorPanelBounds
             
-            errorOne.setBounds(8, 30, 200, 15);
-            fixOne.setBounds(8, 60, 200, 15);
+            errorOne.setBounds(8, 30, 500, 15);
+            fixOne.setBounds(8, 60, 500, 15);
             confirmJButton.setBounds(8, 90, 75, 15);
-
+        
+        
         ofPanel.setVisible(true);
         this.add(ofPanel);
         this.setVisible(true);
