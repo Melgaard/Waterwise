@@ -197,7 +197,7 @@ public class NewProductFrame extends JFrame {
                             appAmount = eh.StringToInt(tempAmount);
                             if(eh.isWeightValid(tempWeight)) {
                                 appWeight = eh.StringToDouble(tempWeight); 
-                                if(eh.isIDValid(tempID)) {
+                                if(eh.isProductIDValid(tempID)) {
                                     appID = eh.StringToInt(tempID);
                                     if(eh.isSizeValid(tempSize)) {                                        
                                         if(eh.isProductReorderValid(tempReorder)) {

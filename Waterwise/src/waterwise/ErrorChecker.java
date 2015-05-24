@@ -42,15 +42,15 @@ public class ErrorChecker {
 			return false;
 		}
                 
-                public boolean isIDValid(String amount) {
+                public boolean isProductIDValid(String amount) {
 			if (isInt(amount) == true) {
 				return true;
 			}
 			return false;
 		}
                 
-                public boolean isProductReorderValid(String amount) {
-			if (isInt(amount) == true) {
+                public boolean isProductReorderValid(String id) {
+			if (id != "" && !id.isEmpty()) {			
 				return true;
 			}
 			return false;
@@ -83,6 +83,20 @@ public class ErrorChecker {
 			}
 			return false;
 		}
+                public boolean isOrderIDValid(String name) {
+			if (name != "" && !name.isEmpty()) {			
+				return true;
+			}
+			return false;
+		}
+                
+                public String noProducts(boolean exists){
+                    if (exists)
+                    return "ingen produkter valgt";
+                    else
+                    return "der er valgt produkter";    
+                    
+                }
                 
                 public boolean isPaymentValid(String name) {
 			if (name != "" && !name.isEmpty()) {			

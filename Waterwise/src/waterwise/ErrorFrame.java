@@ -106,8 +106,8 @@ public class ErrorFrame extends JFrame {
     String correctExample;
     
     JPanel errorPanel = new JPanel();
-    JLabel errorOne = new JLabel("fejl: " + errorTxt + " i kategorien: " + errorCategory);    
-    JLabel fixOne = new JLabel("korrekt format er " + formatFix + " f.eks. " + correctExample);    
+    JLabel errorOne = new JLabel();    
+    JLabel fixOne = new JLabel();    
 
 
 
@@ -166,14 +166,15 @@ public class ErrorFrame extends JFrame {
         frameBuild();
     }
     public ErrorFrame(String error, String category, String inputFix, String correctExample) {
-        System.out.println(error + category + inputFix + correctExample);
+        System.out.println("EF modtaget: " + error + category + inputFix + correctExample);
         switch (category) {
             case "Vægt": case "Produkt ID": case "Antal": case "Genbestil": case "Produkt pris" :
-            case "Adresse" : case "Telefon" : case "Email" :  
+            case "Adresse" : case "Telefon" : case "Email" : case "Ordre ID": 
                                   errorOne.setText("fejl: " + error + " i kategorien: " + category); 
                                   fixOne.setText("korrekt format er " + inputFix + " f.eks. " + correctExample);
                                 break;           
-            case "Navn": case "Størrelse":   errorOne.setText(inputFix); 
+            case "Navn": case "Størrelse": case "Produkter" : case "Betalingstype" : case "Lev.Type" :   
+                                     errorOne.setText(inputFix); 
                                      fixOne.setText(correctExample);
                                 break;
            

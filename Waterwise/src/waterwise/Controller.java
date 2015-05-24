@@ -1,18 +1,24 @@
 package waterwise;
 
+import java.util.HashMap;
 import javax.swing.JTable;
 
 public class Controller {
 
     public void saveEditMethod(OrderFrame ofSaveFrom) {
+        
         Error er;
         ErrorChecker ec = new ErrorChecker();
         Order orderSaveTo = ofSaveFrom.orderShown;
-
+        String appProductID = "";
+        String decProducdID = "";
+        HashMap<Product, Integer> tempHashMap = null;
+        
         //Check for error in typed data
         System.out.println("something needs doing! - SaveEditButton");
-        if(ec.isIDValid(ofSaveFrom.orderIDField.getText())){
-            if(!ofSaveFrom.listOfProducts.isEmpty()){
+        if(ec.isOrderIDValid(ofSaveFrom.orderIDField.getText())){
+            appProductID = ofSaveFrom.orderIDField.getText();
+            if(!ofSaveFrom.chosenProducts.isEmpty()){
                 if(ec.isDeliveryValid(ofSaveFrom.deliveryTypeField.getText())){
                     if(ec.isPaymentValid(ofSaveFrom.paymentTypeField.getText())){
                     System.out.println("SaveEditMethod har godkendt");
@@ -45,10 +51,10 @@ public class Controller {
 
                         orderSaveTo.Update();
                         ofSaveFrom.dispose();
-                    } else { System.out.println("payment fanget: " +orderSaveTo.getPaymentType()); }
-                } else { System.out.println("delivery fanget: " + orderSaveTo.getDeliveryType());}
-            } else { System.out.println("Eksistere list of products? "  + ec.doesListExist(orderSaveTo.getListOfProducts()));}
-        } else { System.out.println("ordreID fanget: " + orderSaveTo.getOrderID());}       
+                    } else { er = new Error(ofSaveFrom.paymentTypeField.getText(), "Betalingstype"); }
+                } else { er = new Error(ofSaveFrom.deliveryTypeField.getText(), "Lev.Type"); }
+            } else { er = new Error("Intet produkt valgt", "Produkter"); }
+        } else { er = new Error(ofSaveFrom.orderIDField.getText(), "Ordre ID");}       
             
         
     }

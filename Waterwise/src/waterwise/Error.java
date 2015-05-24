@@ -33,6 +33,9 @@ public class Error {
             case "Produkt ID"  :this.inputFix       = "heltal";
                                 this.correctExample = "2";
                 break;
+            case "Ordre ID"     :this.inputFix       = "heltal eller bogstaver";
+                                this.correctExample = "2Xj";
+                break;    
             case "Antal"       :this.inputFix       = "heltal";
                                 this.correctExample = "2";
                 break;
@@ -54,8 +57,14 @@ public class Error {
              case "Email"     :this.inputFix       = "med @ og domæne";
                                 this.correctExample= "farlig@llan.dk";
                 break;
-            case "Lev.Type"   :this.inputFix       = "Der er ikke indtastet nogen Lev.Type";
-                                this.correctExample= "Lev.Type må ikke være tomt";
+            case "Lev.Type"   :this.inputFix       = "Der er ikke indtastet Lev.Type";
+                                this.correctExample= "Der kan kun oprettes ordre med indtastet Lev.Type";
+                break;
+            case "Produkter"   :this.inputFix       = "Der er ikke tilføjet nogle produkter til ordren";
+                                this.correctExample= "Der kan kun oprettes ordre med tilføjede produkter";
+                break;
+            case "Betalingstype":this.inputFix       = "Der er ikke indtastet betalingstype";
+                                this.correctExample= "Der kan kun oprettes ordre med indtastet betalingstype";
                 break;
         }
         e = new ErrorFrame(error, category, inputFix, correctExample);
