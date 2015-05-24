@@ -5,6 +5,7 @@ import javax.swing.JTable;
 public class Controller {
 
     public void saveEditMethod(OrderFrame ofSaveFrom) {
+        Error er;
         ErrorChecker ec = new ErrorChecker();
         Order orderSaveTo = ofSaveFrom.orderShown;
 
@@ -13,7 +14,7 @@ public class Controller {
         if(ec.isIDValid(ofSaveFrom.orderIDField.getText())){
             if(!ofSaveFrom.listOfProducts.isEmpty()){
                 if(ec.isDeliveryValid(ofSaveFrom.deliveryTypeField.getText())){
-                    if(ec.isDeliveryValid(ofSaveFrom.paymentTypeField.getText())){
+                    if(ec.isPaymentValid(ofSaveFrom.paymentTypeField.getText())){
                     System.out.println("SaveEditMethod har godkendt");
           
 
@@ -44,10 +45,10 @@ public class Controller {
 
                         orderSaveTo.Update();
                         ofSaveFrom.dispose();
-                    } else { System.out.println("fejl i paymenttype"); }
-                } else { System.out.println("fejl i deliverytype"); }
-            } else { System.out.println("fejl i listofproducts"); }    
-        } else { System.out.println("fejl i orderField"); }        
+                    } else { System.out.println("payment fanget: " +orderSaveTo.getPaymentType()); }
+                } else { System.out.println("delivery fanget: " + orderSaveTo.getDeliveryType());}
+            } else { System.out.println("Eksistere list of products? "  + ec.doesListExist(orderSaveTo.getListOfProducts()));}
+        } else { System.out.println("ordreID fanget: " + orderSaveTo.getOrderID());}       
             
         
     }
