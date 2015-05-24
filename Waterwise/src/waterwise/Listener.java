@@ -38,6 +38,22 @@ public class Listener {
         }
 
     }
+    
+    public class ResetOutgoingViewButton extends AbstractAction {
+
+        Gui gui;
+        
+        public ResetOutgoingViewButton(Gui gui){
+            this.gui = gui;
+        }
+        
+        @Override
+        public void actionPerformed(ActionEvent ae) {
+
+            gui.updateStockOrderList();
+        }
+
+    }
 
     public class EditOrderButton extends AbstractAction {
 

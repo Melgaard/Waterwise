@@ -19,7 +19,7 @@ public class ElementListCollection {
         pList.add(pToAdd);
     }
     
-    public void addOrder(Order newOrder) {
+    public static void addOrder(Order newOrder) {
         oList.add(newOrder);
     }
     
@@ -27,8 +27,8 @@ public class ElementListCollection {
         cList.add(cToAdd);
     }
 
-    public void addCustomer(Customer newCustomer) {
-        cList.add(newCustomer);
+    public static void addStock(Order newOrder) {
+        stockList.add(newOrder);
     }
 
     //Getter

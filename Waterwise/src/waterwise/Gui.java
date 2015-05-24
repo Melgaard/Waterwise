@@ -136,7 +136,7 @@ public class Gui extends JFrame {
     JButton deleteStockOrder = new JButton("Slet ordre");
 
     //Order Sort
-    String[] stockOrderSort = {"Alle ordrer", "Seneste 14 dage", "3 mÃ¥neder", "VÃ¦lg Periode"};
+    String[] stockOrderSort = {"Alle ordrer", "Seneste 14 dage", "Uafsluttede", "Afsluttede"};
     JComboBox stockOrderSorter = new JComboBox(stockOrderSort);
 
     public Gui() {
@@ -289,6 +289,8 @@ public class Gui extends JFrame {
         printStockLabel.setPreferredSize(buttonSize);
         deleteStockOrder.setPreferredSize(buttonSize);
         stockOrderSorter.setPreferredSize(buttonSize);
+        
+        stockOrderSorter.addActionListener(listen.new ResetOutgoingViewButton(this));
 
         stockOrderButtonPanel.add(createStockOrder);
         stockOrderButtonPanel.add(editStockOrder);
@@ -420,14 +422,61 @@ public class Gui extends JFrame {
                 return false;
             }
         };
+        
+        ArrayList<Order> templist = new ArrayList<>();
+        String viewSort = stockOrderSorter.getSelectedItem().toString();
+
+        switch (viewSort) {
+            case "Uafsluttede":
+                for (Order loop : ElementListCollection.getStockList()) {
+                    if (loop.getOrderStatus().equals("Uafsluttet")) {
+                        templist.add(loop);
+                    }
+                }
+                break;
+            case "Afsluttede":
+                for (Order loop : ElementListCollection.getStockList()) {
+                    if (loop.getOrderStatus().equals("Afsluttet")) {
+                        templist.add(loop);
+                    }
+                }
+                break;
+            case "Seneste 14 dage":
+                for (Order loop : ElementListCollection.getStockList()) {
+                    SimpleDateFormat tempdateformat = new SimpleDateFormat("dd-MM-yyyy");
+                    Date tempdate;
+                    try {
+                        tempdate = tempdateformat.parse(loop.getStartDate());
+
+                            Date predt = Calendar.getInstance().getTime();
+                            String dt = tempdateformat.format(predt);
+                            
+                            Calendar c = Calendar.getInstance();
+                            c.setTime(tempdateformat.parse(dt));
+                            c.add(Calendar.DATE, -14);  // number of days to add
+
+                        Date temp14ago = c.getTime();
+                        if (tempdate.after(temp14ago)) {
+                            templist.add(loop);
+                        }
+                    } catch (ParseException ex) {
+                        System.out.println("parseException");
+                    }
+
+                }
+            break;
+            default:
+                templist = ElementListCollection.getStockList();
+                break;
+        }
 
         customerTable.setAutoCreateRowSorter(true);
 
         stockOrderTableModel.setColumnIdentifiers(new String[]{"OrderID", "StartDato", "SlutDato", "TotalPris", "Betalingstype", "Leveringstype", "OrdreStatus"});
-        stockOrderTableModel.setRowCount(oList.size());
+        stockOrderTableModel.setRowCount(templist.size());
 
         int stockOrderRow = 0;
-        for (Order o : ElementListCollection.getStockList()) {
+        for (Order o : templist) {
             stockOrderTableModel.setValueAt(o.getOrderID(), stockOrderRow, 0);
             stockOrderTableModel.setValueAt(o.getStartDate(), stockOrderRow, 1);
             stockOrderTableModel.setValueAt(o.getClosedDate(), stockOrderRow, 2);
