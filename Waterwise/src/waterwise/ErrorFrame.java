@@ -121,6 +121,7 @@ public class ErrorFrame extends JFrame {
     private void frameBuild() {
         this.setTitle("WaterWise DB Project - Error!");
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        this.setSize(325, 150);
         this.setLocation(540, 700);
 
 
