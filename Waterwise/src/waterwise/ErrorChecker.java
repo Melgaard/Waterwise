@@ -142,6 +142,21 @@ public class ErrorChecker {
 			return false;
 		}
                 
+                public boolean isStreetnameValid(String streetname) {
+                        if (streetname != "" && !streetname.isEmpty()) {                            
+                                String zipPattern = "(.)*(\\d)";                                
+                                Pattern zip = Pattern.compile(zipPattern);                                
+                                Matcher m = zip.matcher(streetname);
+                                if(m.find()) {
+                                    return true;
+                                }
+                                else {
+                                    return false;
+                                }                               
+			}
+			return false;
+		}
+                
                 public boolean isSizeValid(String size) {
 			if (size.equals("Stor") || size.equals("Lille") || size.equals("Standard")) {			
 				return true;

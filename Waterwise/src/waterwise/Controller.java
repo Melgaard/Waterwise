@@ -14,49 +14,60 @@ public class Controller {
         String decProducdID = "";
         HashMap<Product, Integer> tempHashMap = null;
         
+        
         //Check for error in typed data
-        System.out.println("something needs doing! - SaveEditButton");
+        
         if(ec.isOrderIDValid(ofSaveFrom.orderIDField.getText())){
             appProductID = ofSaveFrom.orderIDField.getText();
             if(!ofSaveFrom.chosenProducts.isEmpty()){
                 if(ec.isDeliveryValid(ofSaveFrom.deliveryTypeField.getText())){
                     if(ec.isPaymentValid(ofSaveFrom.paymentTypeField.getText())){
-                    System.out.println("SaveEditMethod har godkendt");
-          
+                        if(ec.isNameValid(ofSaveFrom.customerNameField.getText())){
+                            if(ec.isEmailValid(ofSaveFrom.customerEmailField.getText())){
+                                if(ec.isAddressValid(ofSaveFrom.deliveryAddressZipField.getText())){
+                                    if(ec.isStreetnameValid(ofSaveFrom.deliveryAddressField.getText())){
+                                        if(ec.isPhonenumberValid(ofSaveFrom.customerPhonenumberField.getText())){
+                                                    System.out.println("SaveEditMethod har godkendt");
 
-                        //Set order data to the orderframe data
-                        orderSaveTo.setOrderID(ofSaveFrom.orderIDField.getText());
-                        orderSaveTo.setListOfProducts(ofSaveFrom.listOfProducts);
-                        orderSaveTo.setDeliveryType(ofSaveFrom.deliveryTypeField.getText());
-                        orderSaveTo.setPaymentType(ofSaveFrom.paymentTypeField.getText());
 
-                        if (orderSaveTo instanceof Outgoing) {
-                            saveEditOutgoing(ofSaveFrom, (Outgoing) orderSaveTo);
-                        } else if (orderSaveTo instanceof Incoming) {
-                            saveEditIncoming(ofSaveFrom, (Incoming) orderSaveTo);
+                                                        //Set order data to the orderframe data
+                                                        orderSaveTo.setOrderID(ofSaveFrom.orderIDField.getText());
+                                                        orderSaveTo.setListOfProducts(ofSaveFrom.listOfProducts);
+                                                        orderSaveTo.setDeliveryType(ofSaveFrom.deliveryTypeField.getText());
+                                                        orderSaveTo.setPaymentType(ofSaveFrom.paymentTypeField.getText());
 
-                            int phone = Integer.parseInt(ofSaveFrom.customerPhonenumberField.getText());
-                            String email = ofSaveFrom.customerEmailField.getText();
-                            String name = ofSaveFrom.customerNameField.getText();
-                            String address = ofSaveFrom.deliveryAddressField.getText();
-                            String city = ofSaveFrom.deliveryAddressCityField.getText();
-                            String zip = ofSaveFrom.deliveryAddressZipField.getText();
-                            String country = ofSaveFrom.deliveryAddressCountryField.getText();
+                                                        if (orderSaveTo instanceof Outgoing) {
+                                                            saveEditOutgoing(ofSaveFrom, (Outgoing) orderSaveTo);
+                                                        } else if (orderSaveTo instanceof Incoming) {
+                                                            saveEditIncoming(ofSaveFrom, (Incoming) orderSaveTo);
 
-                            Customer customerOfOrder = new Customer(phone, email, name, address, city, zip, country);
+                                                            int phone = Integer.parseInt(ofSaveFrom.customerPhonenumberField.getText());
+                                                            String email = ofSaveFrom.customerEmailField.getText();
+                                                            String name = ofSaveFrom.customerNameField.getText();
+                                                            String address = ofSaveFrom.deliveryAddressField.getText();
+                                                            String city = ofSaveFrom.deliveryAddressCityField.getText();
+                                                            String zip = ofSaveFrom.deliveryAddressZipField.getText();
+                                                            String country = ofSaveFrom.deliveryAddressCountryField.getText();
 
-                            customerOfOrder.Update();
+                                                            Customer customerOfOrder = new Customer(phone, email, name, address, city, zip, country);
 
-                            }
+                                                            customerOfOrder.Update();
 
-                        orderSaveTo.Update();
-                        ofSaveFrom.dispose();
+                                                            }
+
+                                            orderSaveTo.Update();
+                                            ofSaveFrom.dispose();
+                                        } else { er = new Error(ofSaveFrom.customerPhonenumberField.getText(), "Telefon"); }
+                                    } else { er = new Error(ofSaveFrom.deliveryAddressField.getText(), "Adresse"); }
+                                } else { er = new Error(ofSaveFrom.deliveryAddressZipField.getText(), "Postnummer"); }
+                            } else { er = new Error(ofSaveFrom.customerEmailField.getText(), "Email"); }
+                        } else { er = new Error(ofSaveFrom.customerNameField.getText(), "Navn"); }
                     } else { er = new Error(ofSaveFrom.paymentTypeField.getText(), "Betalingstype"); }
                 } else { er = new Error(ofSaveFrom.deliveryTypeField.getText(), "Lev.Type"); }
             } else { er = new Error("Intet produkt valgt", "Produkter"); }
         } else { er = new Error(ofSaveFrom.orderIDField.getText(), "Ordre ID");}       
             
-        
+           
     }
 
     private void saveEditOutgoing(OrderFrame ofSaveFrom, Outgoing orderSaveTo) {

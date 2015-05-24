@@ -19,7 +19,7 @@ public class Error {
     private String stringFix;
     
     public Error(String error, String category)  {
-        System.out.println("modtaget: " + error + " " + category);
+        
         ErrorFrame e;
         this.errorInput = error;
         this.errorCategory = category;
@@ -51,12 +51,15 @@ public class Error {
             case "Telefon"     :this.inputFix       = "8 cifret heltal";
                                 this.correctExample = "20304050";
                 break;
-            case "Adresse"     :this.inputFix       = "4 cifret heltal";
-                                this.correctExample = "2300";
+            case "Adresse"     :this.inputFix       = "Der er fejl i den indtastede adresse";
+                                this.correctExample = "Adresse skal indeholde vejnavn og husnummer";
                 break;
              case "Email"     :this.inputFix       = "med @ og domæne";
                                 this.correctExample= "farlig@llan.dk";
                 break;
+              case "Postnummer":this.inputFix       = "4 heltal";
+                                this.correctExample = "2860";
+                  
             case "Lev.Type"   :this.inputFix       = "Der er ikke indtastet Lev.Type";
                                 this.correctExample= "Der kan kun oprettes ordre med indtastet Lev.Type";
                 break;
