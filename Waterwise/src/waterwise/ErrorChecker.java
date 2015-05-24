@@ -76,11 +76,37 @@ public class ErrorChecker {
 			return false;
 		}
                 
-                public boolean isAddressValid(String address) {
-                    int i;
-                    String loop = "";
+                public boolean isDeliveryValid(String name) {
+			if (name != "" && !name.isEmpty()) {			
+				return true;
+			}
+			return false;
+		}
+                
+                public boolean isPaymentValid(String name) {
+			if (name != "" && !name.isEmpty()) {			
+				return true;
+			}
+			return false;
+		}
+                public boolean isDateValid(String date) {
                     
-                    if (address != "" && !address.isEmpty()) {                            
+                    if (date != "" && !date.isEmpty()) {                            
+                                String zipPattern = "\\d\\d\\d\\d-\\d\\d-\\d\\d";                                
+                                Pattern zip = Pattern.compile(zipPattern);                                
+                                Matcher m = zip.matcher(date);
+                                if(m.find()) {
+                                    return true;
+                                }
+                                else {
+                                    return false;
+                                }                               
+			}
+			return false;
+		}
+                
+                public boolean isAddressValid(String address) {
+                        if (address != "" && !address.isEmpty()) {                            
                                 String zipPattern = "\\d\\d\\d\\d";                                
                                 Pattern zip = Pattern.compile(zipPattern);                                
                                 Matcher m = zip.matcher(address);
