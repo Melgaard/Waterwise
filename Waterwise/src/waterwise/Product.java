@@ -15,6 +15,12 @@ public class Product extends DataBaseElement
     private String size;
     private double unitPrice;
     private int reorderAmount;
+    private String tempPrice;
+    private String tempAmount;
+    private String tempWeight;
+    private String tempReorder;
+    private String updateDB;
+    private String tempID;
 
     //Constructor
     //Creates dummy product with only name, meant for testing
@@ -40,6 +46,7 @@ public class Product extends DataBaseElement
         }
         
     }
+       
     
     @Override
     public void Update(){
@@ -116,8 +123,31 @@ public class Product extends DataBaseElement
 
     public void setSize(String size) {
         this.size = size;
+    }    
+    
+    public String getTempPrice() {
+        return tempPrice;
     }
 
+    public String getTempAmount() {
+        return tempAmount;
+    }
+
+    public String getTempWeight() {
+        return tempWeight;
+    }
+
+    public String getTempReorder() {
+        return tempReorder;
+    }
+
+    public String getUpdateDB() {
+        return updateDB;
+    }
+
+    public String getTempID() {
+        return tempID;
+    }
     //Setters
     public void setUnitPrice(double unitPrice) {
         this.unitPrice = unitPrice;

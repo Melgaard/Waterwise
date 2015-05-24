@@ -189,7 +189,7 @@ public class OrderFrame extends JFrame {
         topPanel.add(orderIDPanel, BorderLayout.WEST);
         orderIDPanel.add(orderIDLabel);
         orderIDPanel.add(orderIDField);
-        orderIDField.setEditable(false);
+        //orderIDField.setEditable(false);
         topPanel.add(statusPanel, BorderLayout.EAST);
         statusPanel.add(statusLabel);
         statusPanel.add(statusmenu);

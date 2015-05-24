@@ -23,11 +23,17 @@ public class Listener {
     }
 
     //Inner classes
-    public class ResetViewButton extends AbstractAction {
+    public class ResetOrderViewButton extends AbstractAction {
 
+        Gui gui;
+        
+        public ResetOrderViewButton(Gui gui){
+            this.gui = gui;
+        }
+        
         @Override
         public void actionPerformed(ActionEvent ae) {
-
+            gui.updateOrderList();
         }
 
     }
@@ -348,6 +354,14 @@ public class Listener {
         @Override
         public void actionPerformed(ActionEvent ae) {
             AddProductFrame aPF = new AddProductFrame();
+        }
+    }
+    
+    public class showErrorFrame extends AbstractAction {
+        ErrorFrame eF;
+        @Override
+        public void actionPerformed(ActionEvent ae) {
+            eF = new ErrorFrame();
         }
     }
 

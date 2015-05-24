@@ -3,8 +3,11 @@ package waterwise;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.Scanner;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -24,16 +27,10 @@ import javax.swing.table.DefaultTableModel;
 public class NewCustomerFrame extends JFrame {
 
     //Fields
-    //this will be set to the order we are working on
-    Order orderShown;
+    
     //variable to determine wheter it is an incoming or outgoing order - 
     //true is incoming
 
-    String orderID;
-    String startDate;
-    String closedDate;
-    String deliveryType;
-    String paymentType;
     String customerEmail;
     String deliveryAddress;
     String addressCity;
@@ -71,34 +68,8 @@ public class NewCustomerFrame extends JFrame {
     JPanel bottomPanel = new JPanel();
     JPanel supplierPanel = new JPanel();
 
-    //Supplier
-    JLabel supplierNameLabel = new JLabel("Supplier:");
-    JTextField supplierNameField = new JTextField();
 
-    JLabel supplierEmailLabel = new JLabel("Email:");
-    JTextField supplierEmailField = new JTextField();
-
-    JLabel ownAddressLabel = new JLabel("Addresse:");
-    JTextField ownAddressField = new JTextField();
-
-    JLabel ownCityLabel = new JLabel("By:");
-    JTextField ownCityField = new JTextField();
-
-    JLabel ownZipLabel = new JLabel("Postnr:");
-    JTextField ownZipField = new JTextField();
-
-    JLabel ownCountryLabel = new JLabel("Land:");
-    JTextField ownCountryField = new JTextField();
-
-    JLabel ownPhonenumberLabel = new JLabel("Telefon:");
-    JTextField ownPhonenumberField = new JTextField();
-
-    //ScrollPane
-    JTable productTable = new JTable();
-    JScrollPane productTableScrollPane = new JScrollPane(productTable);
-    ArrayList<String> chosenProducts = new ArrayList<>(); // Hvad gør vi her?
-
-    //VareID 
+    // Panels og indhold
     JPanel customerIDPanel = new JPanel();
     JLabel customerIDLabel = new JLabel("KundeID: ");
     JTextField customerIDField = new JTextField("", 5);    
@@ -106,28 +77,27 @@ public class NewCustomerFrame extends JFrame {
     JLabel customerNameLabel = new JLabel("Navn:");
     JTextField customerNameField = new JTextField();
 
-    JLabel customerPhoneLabel = new JLabel("Telefon:");
-    JTextField customerPhoneField = new JTextField("");
+    JLabel customerPhonenumberLabel = new JLabel("Telefon:");
+    JTextField customerPhonenumberField = new JTextField("");
 
     //VareName
-    JPanel customerMailPanel = new JPanel();
-    JLabel customerMailLabel = new JLabel("Email");
-    JTextField customerMailField = new JTextField();
+    JPanel customerEmailPanel = new JPanel();
+    JLabel customerEmailLabel = new JLabel("Email");
+    JTextField customerEmailField = new JTextField();
     
-        //VarePris
+        //Address
     JPanel customerAddressPanel = new JPanel();
-    JLabel customerAddressLabel = new JLabel("Adresse:");
+    JLabel customerAddressLabel = new JLabel("Vejnavn:");
     JTextField customerAddressField = new JTextField();
+    
+     JLabel cityLabel = new JLabel("By:");
+    JTextField cityField = new JTextField();
 
+    JLabel zipLabel = new JLabel("Postnr:");
+    JTextField zipField = new JTextField();
 
-
-    //ProductdropDown
-
-    ArrayList<String> productComboList = new ArrayList<>();
-    String[] productarray = {" "};
-
-
-
+    JLabel countryLabel = new JLabel("Land:");
+    JTextField countryField = new JTextField();
     //Buttons
     JPanel buttonPanel = new JPanel();
     JButton confirmJButton = new JButton("Opret kunde");
@@ -138,7 +108,7 @@ public class NewCustomerFrame extends JFrame {
     private void frameBuild() {
         this.setTitle("WaterWise - Tilføj Kunde");
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        this.setSize(300, 300);
+        this.setSize(500, 280);
         this.setLocationRelativeTo(null);
 
         //ProductArrayList
@@ -164,130 +134,88 @@ public class NewCustomerFrame extends JFrame {
 
         //middlePanel.add(stockOverviewPanel, BorderLayout.SOUTH);
 
-        //CustomerPanel
-            
+        //CustomerPanel           
 
+                
+            
+    
             middlePanel.add(customerPanel, BorderLayout.CENTER);
-            customerPanel.setBorder(new TitledBorder("Kunde oplysninger"));
+            customerPanel.setBorder(new TitledBorder("Opret Kunde - Oplysninger"));
             customerPanel.setLayout(null);
             customerPanel.add(customerNameLabel);
             customerPanel.add(customerNameField);
-            customerPanel.add(customerPhoneLabel);
-            customerPanel.add(customerPhoneField);
-            customerPanel.add(customerMailLabel);
-            customerPanel.add(customerMailField);
+            customerPanel.add(customerPhonenumberLabel);
+            customerPanel.add(customerPhonenumberField);
+            customerPanel.add(customerEmailLabel);
+            customerPanel.add(customerEmailField);
             customerPanel.add(customerAddressLabel);
             customerPanel.add(customerAddressField);
+            customerPanel.add(zipLabel);
+            customerPanel.add(zipField);
+            customerPanel.add(countryLabel);
+            customerPanel.add(countryField);
+            customerPanel.add(cityLabel);
+            customerPanel.add(cityField);
             customerPanel.add(confirmJButton);
             customerPanel.add(cancelJButton);
             confirmJButton.setPreferredSize(buttonDimension);
             cancelJButton.setPreferredSize(buttonDimension);
-
-//            
+            
+            // ActionListener for errorchecking and adding a customer to DB
+            confirmJButton.addActionListener(new ActionListener() {  
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                
+                Error er;
+                ErrorChecker eh = new ErrorChecker();
+                int appPhone = 0; 
+                
+                String tempID       = customerPhonenumberField.getText();
+                String tempName     = customerNameField.getText();
+                String tempPhone    = customerPhonenumberField.getText();
+                String tempEmail    = customerEmailField.getText();
+                String tempStreet   = customerAddressField.getText();
+                String tempZip      = zipField.getText();
+                String tempCity     = cityField.getText();
+                String tempCountry  = countryField.getText();
+                String tempAddress  = tempStreet + tempZip + tempCity + tempCountry;
+                
+                if (eh.isNameValid(tempName)) {                    
+                    if(eh.isPhonenumberValid(tempPhone)) {
+                        appPhone = eh.StringToInt(tempPhone);
+                        if(eh.isEmailValid(tempEmail)) {                            
+                            if(eh.isAddressValid(tempAddress)) {   
+                                System.out.println("Alt godkendt - Opretter kunde objekt");
+                                Customer c = new Customer(appPhone, tempEmail, tempName, tempStreet, tempCity, tempZip, tempCountry);
+                                System.out.println("Kunde gemt i DB");
+                            } else {er = new Error(tempAddress, "Adresse");}
+                        } else {er = new Error(tempEmail, "Email");}
+                    } else {er = new Error(tempPhone, "Telefon");}
+                } else {er = new Error(tempName, "Navn");}
+            }
+            });
+            
 
             //productPanelBounds
             customerNameLabel.setBounds(8, 30, 75, 15);
             customerNameField.setBounds(78, 28, 150, 18);
-            customerPhoneLabel.setBounds(8, 60, 75, 15);
-            customerPhoneField.setBounds(78, 58, 150, 18);
-            customerMailLabel.setBounds(8, 90, 75, 15);
-            customerMailField.setBounds(78, 88, 150, 18);
-            customerAddressLabel.setBounds(8, 120, 75, 15);
-            customerAddressField.setBounds(78, 118, 150, 18);
-            confirmJButton.setBounds(25, 180, 120, 25);
-            cancelJButton.setBounds(150, 180, 120, 25);
+            customerEmailLabel.setBounds(8, 60, 75, 15);
+            customerEmailField.setBounds(78, 58, 150, 18);
+            customerPhonenumberLabel.setBounds(260, 30, 75, 10);
+            customerPhonenumberField.setBounds(318, 28, 150, 18);
+            customerAddressLabel.setBounds(8, 90, 75, 15);
+            customerAddressField.setBounds(78, 88, 150, 18);
+            cityLabel.setBounds(8, 120, 75, 15);
+            cityField.setBounds(78, 118, 150, 18);
+            zipLabel.setBounds(260, 90, 75, 15);
+            zipField.setBounds(318, 88, 150, 18);
+            countryLabel.setBounds(260, 120, 75, 15);
+            countryField.setBounds(318, 118, 150, 18);
+            confirmJButton.setBounds(100, 158, 120, 25);
+            cancelJButton.setBounds(250, 158, 120, 25);
 
-        
 
-//            middlePanel.add(supplierPanel);
-//            supplierPanel.setBorder(new TitledBorder("SupplierOplysninger"));
-//            supplierPanel.setLayout(null);
-//            supplierPanel.add(supplierNameLabel);
-//            supplierPanel.add(supplierNameField);
-//            supplierPanel.add(supplierEmailLabel);
-//            supplierPanel.add(supplierEmailField);
-//            supplierPanel.add(ownPhonenumberLabel);
-//            supplierPanel.add(ownPhonenumberField);
-//            supplierPanel.add(ownAddressLabel);
-//            supplierPanel.add(ownAddressField);
-//            supplierPanel.add(ownCityLabel);
-//            supplierPanel.add(ownCityField);
-//            supplierPanel.add(ownZipLabel);
-//            supplierPanel.add(ownZipField);
-//            supplierPanel.add(ownCountryLabel);
-//            supplierPanel.add(ownCountryField);
-//
-//            //CustomerPanelBounds
-//            supplierNameLabel.setBounds(8, 30, 75, 15);
-//            supplierNameField.setBounds(78, 28, 150, 18);
-//            supplierEmailLabel.setBounds(8, 60, 75, 15);
-//            supplierEmailField.setBounds(78, 58, 150, 18);
-//            ownPhonenumberLabel.setBounds(8, 90, 75, 15);
-//            ownPhonenumberField.setBounds(78, 88, 150, 18);
-//            ownAddressLabel.setBounds(260, 30, 75, 10);
-//            ownAddressField.setBounds(318, 28, 150, 18);
-//            ownCityLabel.setBounds(260, 60, 75, 15);
-//            ownCityField.setBounds(318, 58, 150, 18);
-//            ownZipLabel.setBounds(260, 90, 75, 15);
-//            ownZipField.setBounds(318, 88, 150, 18);
-//            ownCountryLabel.setBounds(260, 120, 75, 15);
-//            ownCountryField.setBounds(318, 118, 150, 18);
-
-        
-
-        //ProductPanel
-//        stockOverviewPanel.setPreferredSize(productPaneDimension);
-//        stockOverviewPanel.setBorder(new TitledBorder("Lager Oversigt"));
-//        stockOverviewPanel.setLayout(new BorderLayout());
-//        JLabel meh = new JLabel("FUUCK");
-//        stockOverviewPanel.add(meh, BorderLayout.SOUTH);
-//        stockOverviewPanel.add(productTableScrollPane, BorderLayout.CENTER);
-//        productTableScrollPane.setPreferredSize(productTableDimension);
-//
-//        bottomPanel.add(buttonPanel, BorderLayout.EAST);
-//        buttonPanel.setLayout(new FlowLayout());
-//        buttonPanel.add(confirmJButton);
-//        buttonPanel.add(cancelJButton);
-//        buttonPanel.setPreferredSize(buttonPanelDimension);
-//        confirmJButton.setPreferredSize(buttonDimension);
-//
-//        cancelJButton.setPreferredSize(buttonDimension);
-
-//        confirmJButton.addActionListener(new Listener().new SaveEditButton(this));
-//        cancelJButton.addActionListener(new Listener().new DisposeFrameButton(this));
-//
-//
-//        for (Product temp : ElementListCollection.getPList()) {
-//            productComboList.add(temp.getProductName());
-//        }
-//        productbox.setModel(new DefaultComboBoxModel(productComboList.toArray()));
-//
-//        stockOverviewPanel.add(productLabel);
-//        stockOverviewPanel.add(productbox);
-//
-//        stockOverviewPanel.add(amountLabel);
-//        stockOverviewPanel.add(amountField);
-//        stockOverviewPanel.add(addButton);
-//        addButton.setPreferredSize(buttonDimension);
-
-//        //BottomPanel
-//        ofPanel.add(bottomPanel, BorderLayout.CENTER);
-//        bottomPanel.setLayout(new BorderLayout());
-//        bottomPanel.add(productTableScrollPane, BorderLayout.CENTER);
-//        productTableScrollPane.setPreferredSize(productTableDimension);
-//
-//        bottomPanel.add(buttonPanel, BorderLayout.EAST);
-//        buttonPanel.setLayout(new FlowLayout());
-//        buttonPanel.add(confirmJButton);
-//        buttonPanel.add(cancelJButton);
-//        buttonPanel.setPreferredSize(buttonPanelDimension);
-//        confirmJButton.setPreferredSize(buttonDimension);
-//
-//        cancelJButton.setPreferredSize(buttonDimension);
-//
-//        confirmJButton.addActionListener(new Listener().new SaveEditButton(this));
-//        cancelJButton.addActionListener(new Listener().new DisposeFrameButton(this));
-
+     
         ofPanel.setVisible(true);
         this.add(ofPanel);
         this.setVisible(true);
@@ -301,22 +229,7 @@ public class NewCustomerFrame extends JFrame {
             }
         };
 
-        productTable.setAutoCreateRowSorter(true);
-
-        chosenProductsTableModel.setColumnIdentifiers(new String[]{"ProduktID", "ProduktNavn", "Antal", "Pris"});
-        chosenProductsTableModel.setRowCount(200);
-
-        int row = 0;
-        for (String products : chosenProducts) {
-            chosenProductsTableModel.setValueAt(productComboList.get(row), row, 0);
-//            chosenProductsTableModel.setValueAt(products.getStartDate(), row, 1);
-//            chosenProductsTableModel.setValueAt(products.getClosedDate(), row, 2);
-//            chosenProductsTableModel.setValueAt(products.getPaymentType(), row, 3);
-
-            row++;
-        }
-
-        productTable.setModel(chosenProductsTableModel);
+       
     }
 
     
