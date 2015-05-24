@@ -1,15 +1,15 @@
 package waterwise;
 
 import com.sun.glass.events.KeyEvent;
-import com.sun.java.swing.plaf.motif.MotifLookAndFeel;
-import com.sun.java.swing.plaf.windows.WindowsClassicLookAndFeel;
-import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -19,16 +19,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
-import javax.swing.LookAndFeel;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
-import javax.swing.border.BevelBorder;
-import javax.swing.border.EtchedBorder;
-import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
-import javax.swing.plaf.metal.MetalLookAndFeel;
-import javax.swing.plaf.nimbus.NimbusLookAndFeel;
-import javax.swing.plaf.synth.SynthLookAndFeel;
 import javax.swing.table.DefaultTableModel;
 
 public class Gui extends JFrame {
@@ -76,7 +67,7 @@ public class Gui extends JFrame {
     JButton deleteOrder = new JButton("Slet ordre");
 
     //Order Sort
-    String[] orderSort = {"Alle ordrer", "Seneste 14 dage", "3 mÃ¥neder", "VÃ¦lg Periode"};
+    String[] orderSort = {"Alle ordrer", "Seneste 14 dage", "Uafsluttede", "Afsluttede"};
     JComboBox orderSorter = new JComboBox(orderSort);
 
     //PRODUCT
@@ -202,6 +193,7 @@ public class Gui extends JFrame {
         changeStatus.addActionListener(listen.new ChangeStatusButton(this, "Incoming"));
         editOrder.addActionListener(listen.new EditOrderButton(orderTable, "Incoming"));
         printLabel.addActionListener(listen.new PrintLabelButton(this));
+        orderSorter.addActionListener(listen.new ResetOrderViewButton(this));
 
         orderButtonPanel.add(createOrder);
         orderButtonPanel.add(editOrder);
@@ -318,13 +310,60 @@ public class Gui extends JFrame {
             }
         };
 
+        ArrayList<Order> templist = new ArrayList<>();
+        String viewSort = orderSorter.getSelectedItem().toString();
+
+        switch (viewSort) {
+            case "Uafsluttede":
+                for (Order loop : ElementListCollection.getOList()) {
+                    if (loop.getOrderStatus().equals("Uafsluttet")) {
+                        templist.add(loop);
+                    }
+                }
+                break;
+            case "Afsluttede":
+                for (Order loop : ElementListCollection.getOList()) {
+                    if (loop.getOrderStatus().equals("Afsluttet")) {
+                        templist.add(loop);
+                    }
+                }
+                break;
+            case "Seneste 14 dage":
+                for (Order loop : ElementListCollection.getOList()) {
+                    SimpleDateFormat tempdateformat = new SimpleDateFormat("dd-MM-yyyy");
+                    Date tempdate;
+                    try {
+                        tempdate = tempdateformat.parse(loop.getStartDate());
+
+                            Date predt = Calendar.getInstance().getTime();
+                            String dt = tempdateformat.format(predt);
+                            
+                            Calendar c = Calendar.getInstance();
+                            c.setTime(tempdateformat.parse(dt));
+                            c.add(Calendar.DATE, -14);  // number of days to add
+
+                        Date temp14ago = c.getTime();
+                        if (tempdate.after(temp14ago)) {
+                            templist.add(loop);
+                        }
+                    } catch (ParseException ex) {
+                        System.out.println("parseException");
+                    }
+
+                }
+            break;
+            default:
+                templist = ElementListCollection.getOList();
+                break;
+        }
+        
         orderTable.setAutoCreateRowSorter(true);
 
         orderTableModel.setColumnIdentifiers(new String[]{"OrderID", "StartDato", "SlutDato", "Betalingstype", "Totalpris", "Leveringstype", "OrdreStatus"});
-        orderTableModel.setRowCount(oList.size());
+        orderTableModel.setRowCount(templist.size());
 
         int orderRow = 0;
-        for (Order o : ElementListCollection.getOList()) {
+        for (Order o : templist) {
             orderTableModel.setValueAt(o.getOrderID(), orderRow, 0);
             System.out.println(o.getOrderID() + "");
             orderTableModel.setValueAt(o.getStartDate(), orderRow, 1);
