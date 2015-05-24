@@ -1,5 +1,8 @@
 package waterwise;
 
+import java.awt.Toolkit;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.StringSelection;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import javax.swing.AbstractAction;
@@ -38,7 +41,7 @@ public class Listener {
 
             this.orderList = orders;
             this.cTTF = classToTestFor;
-            
+
         }
 
         @Override
@@ -84,12 +87,77 @@ public class Listener {
 
     public class PrintLabelButton extends AbstractAction {
 
+        Gui tableToPrint;
+        int selectedRow;
+        
+        String printOrderID;
+        String printStartDate;
+        double printTotalPris;
+        String printPaymentType;
+        String printDeliveryType;
+        String printOrderStatus;
+
+        
+        public PrintLabelButton(Gui gui) {
+
+            tableToPrint = gui;
+            
+        }
+
         @Override
         public void actionPerformed(ActionEvent ae) {
+            try {
+                if (tableToPrint.orderTable.getSelectedRowCount() == 1) {
+                    
+                    selectedRow = tableToPrint.orderTable.getSelectedRow();
+                    
+                    
+                    for(Order o : ElementListCollection.getOList()){
+                        if(o.getOrderID().equals(tableToPrint.orderTable.getValueAt(selectedRow, 0))){
+                            printOrderID = o.getOrderID();
+                            printStartDate = o.getStartDate();
+                            printTotalPris = o.getPriceTotal();
+                            printPaymentType = o.getPaymentType();
+                            printDeliveryType = o.getDeliveryType();
+                            printOrderStatus = o.getOrderStatus();
+                        } 
+                        
+                    }
+                    tableToPrint.printLabelFrame(printOrderID, printStartDate, printTotalPris, printPaymentType, printDeliveryType, printOrderStatus);
+                    
+                    
+                    //tableToPrint.printLabelFrame(selectedRow);
+                } else {
+                    JOptionPane.showMessageDialog(null, "Du skal vælge et element.");
+                }
+            } catch (IndexOutOfBoundsException iob) {
+                JOptionPane.showMessageDialog(null, "Du skal vælge et element.");
+
+            }
 
         }
 
     }
+    
+    
+    public class copyText extends AbstractAction{
+        
+        String textToClipboard;
+        
+        public copyText(String text){
+            textToClipboard = text;
+        }
+        
+        @Override
+        public void actionPerformed(ActionEvent ae){
+            StringSelection stringSelection = new StringSelection(textToClipboard);
+            Clipboard copy = Toolkit.getDefaultToolkit().getSystemClipboard();
+            copy.setContents(stringSelection,null);
+            JOptionPane.showMessageDialog(null, "tekst kopieret");
+            System.out.println(textToClipboard + "lol");
+        }
+    }
+    
 
     public class addProductButton extends AbstractAction {
 
@@ -257,7 +325,7 @@ public class Listener {
         }
 
     }
-    
+
     public class newCustomerFrame extends AbstractAction {
 
         @Override

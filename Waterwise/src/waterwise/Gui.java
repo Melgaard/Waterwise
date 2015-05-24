@@ -1,7 +1,11 @@
 package waterwise;
 
 import com.sun.glass.events.KeyEvent;
+import com.sun.java.swing.plaf.motif.MotifLookAndFeel;
+import com.sun.java.swing.plaf.windows.WindowsClassicLookAndFeel;
+import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
@@ -14,7 +18,17 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
+import javax.swing.JTextArea;
+import javax.swing.LookAndFeel;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.border.BevelBorder;
+import javax.swing.border.EtchedBorder;
+import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
+import javax.swing.plaf.metal.MetalLookAndFeel;
+import javax.swing.plaf.nimbus.NimbusLookAndFeel;
+import javax.swing.plaf.synth.SynthLookAndFeel;
 import javax.swing.table.DefaultTableModel;
 
 public class Gui extends JFrame {
@@ -187,6 +201,7 @@ public class Gui extends JFrame {
         createOrder.addActionListener(listen.new createNewIncoming());
         changeStatus.addActionListener(listen.new ChangeStatusButton(this, "Incoming"));
         editOrder.addActionListener(listen.new EditOrderButton(orderTable, "Incoming"));
+        printLabel.addActionListener(listen.new PrintLabelButton(this));
 
         orderButtonPanel.add(createOrder);
         orderButtonPanel.add(editOrder);
@@ -416,6 +431,43 @@ public class Gui extends JFrame {
         }
 
         productTable.setModel(productTableModel);
+
+    }
+
+    //PrintFrame "OrderID", "StartDato", "SlutDato", "TotalPris", "Betalingstype", "Leveringstype", "OrdreStatus
+    public void printLabelFrame(String orderID, String startDato, Double totalPris, String paymentType, String deliveryType, String status) {
+
+        JFrame printLabelFrame = new JFrame("Text to print");
+        JPanel printLabelPanel = new JPanel();
+        JTextArea textToPrint = new JTextArea();
+        JScrollPane scrollText = new JScrollPane(textToPrint);
+        JButton copyText = new JButton("Kopier..");
+
+        printLabelFrame.add(printLabelPanel);
+        printLabelPanel.setLayout(null);
+        printLabelPanel.add(scrollText);
+        printLabelPanel.add(copyText);
+        copyText.setBounds(30, 12, 80, 22);
+        scrollText.setBounds(30, 40, 320, 300);
+        printLabelFrame.setSize(400, 400);
+        textToPrint.setLineWrap(true);
+        textToPrint.setWrapStyleWord(true);
+
+        //Text
+        textToPrint.append(orderID + "\n");
+        textToPrint.append(startDato + "\n");
+        textToPrint.append(totalPris + "\n");
+        textToPrint.append(paymentType + "\n");
+        textToPrint.append(deliveryType + "\n");
+        textToPrint.append(status + "\n");
+        
+        copyText.setToolTipText("Teksten kopieres når der trykkes på knappen.");
+
+        copyText.addActionListener(new Listener().new copyText(textToPrint.getText()));
+
+        printLabelFrame.setLocationRelativeTo(null);
+        printLabelFrame.setDefaultCloseOperation(printLabelFrame.DISPOSE_ON_CLOSE);
+        printLabelFrame.setVisible(true);
 
     }
 
