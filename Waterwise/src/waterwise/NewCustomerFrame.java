@@ -72,7 +72,7 @@ public class NewCustomerFrame extends JFrame {
     // Panels og indhold
     JPanel customerIDPanel = new JPanel();
     JLabel customerIDLabel = new JLabel("KundeID: ");
-    JTextField customerIDField = new JTextField("", 5);    
+    JTextField customerIDField = new JTextField("", 6);    
 
     JLabel customerNameLabel = new JLabel("Navn:");
     JTextField customerNameField = new JTextField();
@@ -238,9 +238,9 @@ public class NewCustomerFrame extends JFrame {
         public void setTextCustomer(Customer c) {
                 ErrorChecker ec = new ErrorChecker();
 
-                customerIDField.setText(ec.intToString(c.getPhoneNumber()));
+                customerIDField.setText(c.getPhoneNumber() + "");
                 customerNameField.setText(c.getCustomerName());
-                customerPhonenumberField.setText(ec.intToString(c.getPhoneNumber()));
+                customerPhonenumberField.setText(c.getPhoneNumber() + "");
                 customerEmailField.setText(c.getCustomerEmail());
                 customerAddressField.setText(c.getDeliveryAddress());
                 zipField.setText(c.getDeliveryZipAddress());

@@ -146,7 +146,11 @@ public class Controller {
                 }
                 break;
             case "Customer":
-                System.out.println("Customer not supported in getelementfromtable");
+                for (Customer i : ElementListCollection.getCList()) {
+                    if (i.getPhoneNumber() == (Integer.parseInt(elementID))) {
+                        elementToReturn = i;
+                    }
+                }
                 break;
             default:
                 System.out.println("error in getelementfromtable - wrong class");

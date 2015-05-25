@@ -237,7 +237,28 @@ public class Gui extends JFrame {
         createProduct.addActionListener(listen.new createNewProduct());
         addProducts.addActionListener(listen.new addProduct());
         orderProducts.addActionListener(new Listener().new createNewOutgoing());
+        
+
+                //Customer
+        cardCustomers.add(customerPanel);
+        customerPanel.setLayout(new BorderLayout());
+        customerPanel.add(customerScrollPane, BorderLayout.CENTER);
+        customerScrollPane.setPreferredSize(tablesize);
+        customerPanel.add(customerWestPanel, BorderLayout.WEST);
+        customerWestPanel.add(customerButtonPanel);
+        customerButtonPanel.setPreferredSize(buttonPanelSize);
+        customerButtonPanel.setBorder(new TitledBorder("Handlinger"));
+
+        customerButtonPanel.add(createCustomer);
+        customerButtonPanel.add(editCustomer);
+        customerButtonPanel.add(deleteCustomer);
+
+        createCustomer.setPreferredSize(buttonSize);
+        editCustomer.setPreferredSize(buttonSize);
+        deleteCustomer.setPreferredSize(buttonSize);
+        
         createCustomer.addActionListener(listen.new newCustomerFrame());
+        editCustomer.addActionListener(listen.new EditCustomerButton(customerTable, "Customer"));
 
         //Settings
         cardSettings.add(settingsPanel);
@@ -259,24 +280,6 @@ public class Gui extends JFrame {
 
         southSettingsPanel.add(cancel);
         cancel.setPreferredSize(buttonSize);
-
-        //Customer
-        cardCustomers.add(customerPanel);
-        customerPanel.setLayout(new BorderLayout());
-        customerPanel.add(customerScrollPane, BorderLayout.CENTER);
-        customerScrollPane.setPreferredSize(tablesize);
-        customerPanel.add(customerWestPanel, BorderLayout.WEST);
-        customerWestPanel.add(customerButtonPanel);
-        customerButtonPanel.setPreferredSize(buttonPanelSize);
-        customerButtonPanel.setBorder(new TitledBorder("Handlinger"));
-
-        customerButtonPanel.add(createCustomer);
-        customerButtonPanel.add(editCustomer);
-        customerButtonPanel.add(deleteCustomer);
-
-        createCustomer.setPreferredSize(buttonSize);
-        editCustomer.setPreferredSize(buttonSize);
-        deleteCustomer.setPreferredSize(buttonSize);
 
         //StockOrder
         cardStockOrders.add(stockOrderPanel);
