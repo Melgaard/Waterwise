@@ -23,18 +23,12 @@ public class Listener {
     }
 
     //Inner classes
-    public class ResetOrderViewButton extends AbstractAction {
+    public class ResetViewButton extends AbstractAction {
 
-        Gui gui;
-        
-        public ResetOrderViewButton(Gui gui){
-            this.gui = gui;
-        }
-        
-        @Override
+         @Override
         public void actionPerformed(ActionEvent ae) {
 
-            gui.updateOrderList();
+            controller.resetView();
         }
 
     }
@@ -337,21 +331,8 @@ public class Listener {
         }
     }
     
-    public class updateTillCrash extends AbstractAction{
-        @Override
-        public void actionPerformed(ActionEvent ae){
-            Gui g = Gui.getGui();
-            for(int i = 0; i < 37; i++){
-                g.updateCustomerList();
-                g.updateOrderList();
-                g.updateProductList();
-                g.updateStockOrderList();
-                System.out.println("HALP! I IS BURNING UP! " + i);
-            }
-        }
-    }
-
-    public class SaveEditButton extends AbstractAction {
+   
+ public class SaveEditButton extends AbstractAction {
 
         OrderFrame ofSaveFrom;
 
@@ -362,6 +343,7 @@ public class Listener {
         @Override
         public void actionPerformed(ActionEvent ae) {
             controller.saveEditMethod(ofSaveFrom);
+            controller.resetView();
         }
 
     }

@@ -159,4 +159,15 @@ public class Controller {
         String[] address = completeString.split("§");
         return address;
     }
+    
+        public void resetView(){
+        Gui g = Gui.getGui();
+        
+        g.updateCustomerList();
+        g.updateOrderList();
+        g.updateProductList();
+        g.updateStockOrderList();
+    }
+    
+    
 }

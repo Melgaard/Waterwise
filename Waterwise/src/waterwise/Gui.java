@@ -202,8 +202,8 @@ public class Gui extends JFrame {
         changeStatus.addActionListener(listen.new ChangeStatusButton(this, "Incoming"));
         editOrder.addActionListener(listen.new EditOrderButton(orderTable, "Incoming"));
         printLabel.addActionListener(listen.new PrintLabelButton(this));
-        orderSorter.addActionListener(listen.new ResetOrderViewButton(this));
-        deleteOrder.addActionListener(listen.new updateTillCrash());
+        orderSorter.addActionListener(listen.new ResetViewButton());
+        deleteOrder.addActionListener(listen.new DeleteElementButton(orderTable, "Incoming"));
 
         orderButtonPanel.add(createOrder);
         orderButtonPanel.add(editOrder);
