@@ -291,15 +291,21 @@ public class Gui extends JFrame {
         stockOrderSorter.setPreferredSize(buttonSize);
         
         stockOrderSorter.addActionListener(listen.new ResetOutgoingViewButton(this));
-
+        stockOrderSorter.setSelectedIndex(0);
+        
         stockOrderButtonPanel.add(createStockOrder);
         stockOrderButtonPanel.add(editStockOrder);
         stockOrderButtonPanel.add(changeStockStatus);
         stockOrderButtonPanel.add(printStockLabel);
         stockOrderButtonPanel.add(deleteStockOrder);
         stockOrderButtonPanel.add(stockOrderSorter);
+        
+        createStockOrder.addActionListener(new Listener().new createNewOutgoing());
+        editStockOrder.addActionListener(new Listener().new EditOrderButton(stockOrderTable,"Outgoing"));
+        
+        
 
-        stockOrderSorter.setSelectedIndex(0);
+        
 
     }
 
