@@ -163,9 +163,7 @@ public class ErrorFrame extends JFrame {
         this.add(ofPanel);
         this.setVisible(true);
     }
-    public ErrorFrame() {
-        frameBuild();
-    }
+    
     public ErrorFrame(String error, String category, String inputFix, String correctExample) {
         
         switch (category) {

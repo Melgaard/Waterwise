@@ -31,19 +31,7 @@ public abstract class Order extends DataBaseElement {
 
         return sumPrice;
     }
-    public Order() {
-        
-    }
-    public Order(HashMap listOfProducts, String startDate, String closeDate, double priceTotal, String paymentType, String deliveryType, String status, int CustomerID ) {
-      this.orderID      = orderID;
-      this.startDate    = startDate;
-      this.closedDate   = closeDate;
-      this.priceTotal   = priceTotal;
-      this.paymentType  = paymentType;
-      this.deliveryType = deliveryType;
-      this.orderStatus  = status;
-      
-    }
+    
 
     //Setters
     public void setOrderID(String orderID) {
