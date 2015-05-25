@@ -168,7 +168,7 @@ public class AddProductFrame extends JFrame {
 
     //method that builds the frame and buttons
     private void frameBuild() {
-        this.setTitle("WaterWise DB Project - OrderFrame");
+        this.setTitle("WaterWise DB Project - Tilføj Produkter");
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         this.setSize(500, 400);
         this.setLocationRelativeTo(null);
@@ -199,88 +199,8 @@ public class AddProductFrame extends JFrame {
 
         middlePanel.add(productPanel, BorderLayout.CENTER);
 
-        //CustomerPanel
-//        if (orderShown instanceof Incoming) {
-//
-//            middlePanel.add(customerPanel);
-//            customerPanel.setBorder(new TitledBorder("KundeOplysninger"));
-//            customerPanel.setLayout(null);
-//            customerPanel.add(customerNameLabel);
-//            customerPanel.add(customerNameField);
-//            customerPanel.add(customerEmailLabel);
-//            customerPanel.add(customerEmailField);
-//            customerPanel.add(customerPhonenumberLabel);
-//            customerPanel.add(customerPhonenumberField);
-//            customerPanel.add(deliveryAddressLabel);
-//            customerPanel.add(deliveryAddressField);
-//            customerPanel.add(deliveryAddressCityLabel);
-//            customerPanel.add(deliveryAddressCityField);
-//            customerPanel.add(deliveryAddressZipLabel);
-//            customerPanel.add(deliveryAddressZipField);
-//            customerPanel.add(deliveryAddressCountryLabel);
-//            customerPanel.add(deliveryAddressCountryField);
-//            customerPanel.add(paymentTypeLabel);
-//            customerPanel.add(paymentTypeField);
-//            customerPanel.add(deliveryTypeLabel);
-//            customerPanel.add(deliveryTypeField);
-//
-//            //CustomerPanelBounds
-//            customerNameLabel.setBounds(8, 30, 75, 15);
-//            customerNameField.setBounds(78, 28, 150, 18);
-//            customerEmailLabel.setBounds(8, 60, 75, 15);
-//            customerEmailField.setBounds(78, 58, 150, 18);
-//            customerPhonenumberLabel.setBounds(8, 90, 75, 15);
-//            customerPhonenumberField.setBounds(78, 88, 150, 18);
-//            paymentTypeLabel.setBounds(8, 150, 75, 15);
-//            paymentTypeField.setBounds(78, 148, 150, 18);
-//            deliveryAddressLabel.setBounds(260, 30, 75, 10);
-//            deliveryAddressField.setBounds(318, 28, 150, 18);
-//            deliveryAddressCityLabel.setBounds(260, 60, 75, 15);
-//            deliveryAddressCityField.setBounds(318, 58, 150, 18);
-//            deliveryAddressZipLabel.setBounds(260, 90, 75, 15);
-//            deliveryAddressZipField.setBounds(318, 88, 150, 18);
-//            deliveryAddressCountryLabel.setBounds(260, 120, 75, 15);
-//            deliveryAddressCountryField.setBounds(318, 118, 150, 18);
-//            deliveryTypeLabel.setBounds(260, 150, 75, 15);
-//            deliveryTypeField.setBounds(318, 148, 150, 18);
-//        } else if (orderShown instanceof Outgoing) {
-//
-//            middlePanel.add(supplierPanel);
-//            supplierPanel.setBorder(new TitledBorder("SupplierOplysninger"));
-//            supplierPanel.setLayout(null);
-//            supplierPanel.add(supplierNameLabel);
-//            supplierPanel.add(supplierNameField);
-//            supplierPanel.add(supplierEmailLabel);
-//            supplierPanel.add(supplierEmailField);
-//            supplierPanel.add(ownPhonenumberLabel);
-//            supplierPanel.add(ownPhonenumberField);
-//            supplierPanel.add(ownAddressLabel);
-//            supplierPanel.add(ownAddressField);
-//            supplierPanel.add(ownCityLabel);
-//            supplierPanel.add(ownCityField);
-//            supplierPanel.add(ownZipLabel);
-//            supplierPanel.add(ownZipField);
-//            supplierPanel.add(ownCountryLabel);
-//            supplierPanel.add(ownCountryField);
-
-            //CustomerPanelBounds
-//            supplierNameLabel.setBounds(8, 30, 75, 15);
-//            supplierNameField.setBounds(78, 28, 150, 18);
-//            supplierEmailLabel.setBounds(8, 60, 75, 15);
-//            supplierEmailField.setBounds(78, 58, 150, 18);
-//            ownPhonenumberLabel.setBounds(8, 90, 75, 15);
-//            ownPhonenumberField.setBounds(78, 88, 150, 18);
-//            ownAddressLabel.setBounds(260, 30, 75, 10);
-//            ownAddressField.setBounds(318, 28, 150, 18);
-//            ownCityLabel.setBounds(260, 60, 75, 15);
-//            ownCityField.setBounds(318, 58, 150, 18);
-//            ownZipLabel.setBounds(260, 90, 75, 15);
-//            ownZipField.setBounds(318, 88, 150, 18);
-//            ownCountryLabel.setBounds(260, 120, 75, 15);
-//            ownCountryField.setBounds(318, 118, 150, 18);
-//
-//        }
-
+        
+        
         //ProductPanel
         productPanel.setPreferredSize(productPaneDimension);
         productPanel.setBorder(new TitledBorder("Produkter"));
@@ -343,15 +263,14 @@ public class AddProductFrame extends JFrame {
 
         productTable.setAutoCreateRowSorter(true);
 
-        chosenProductsTableModel.setColumnIdentifiers(new String[]{"ProduktID", "ProduktNavn", "Antal", "Pris"});
-        chosenProductsTableModel.setRowCount(200);
+        chosenProductsTableModel.setColumnIdentifiers(new String[]{"ProduktID", "ProduktNavn", "Antal"});
+        chosenProductsTableModel.setRowCount(ElementListCollection.getPList().size());
 
         int row = 0;
         for (Product products : chosenProducts) {
             chosenProductsTableModel.setValueAt(products.getProductID(), row, 0);
             chosenProductsTableModel.setValueAt(products.getProductName(), row, 1);
             chosenProductsTableModel.setValueAt(listOfProducts.get(products), row, 2);
-//            chosenProductsTableModel.setValueAt(products.getPaymentType(), row, 3);
 
             row++;
         }
@@ -363,45 +282,8 @@ public class AddProductFrame extends JFrame {
         frameBuild();
     }
 
-    private void setTextCommon(Order ots) {
-        orderIDField.setText(ots.getOrderID());
-        deliveryTypeField.setText(ots.getDeliveryType());
-        paymentTypeField.setText(ots.getPaymentType());
-        if (ots.getOrderStatus() != null) {
 
-            switch (ots.getOrderStatus()) {
-                case "Afsluttet":
-                    statusmenu.setSelectedIndex(0);
-                    break;
-                case "Uafsluttet":
-                    statusmenu.setSelectedIndex(1);
-                    break;
-            }
-        }
-    }
+   
 
-    private void setTextOutgoing(Outgoing ots) {
-
-        //Supplier
-        supplierEmailField.setText(ots.getSupplierEmail());
-        supplierNameField.setText(ots.getSupplierName());
-        ownAddressField.setText(ots.getOwnAddress());
-        ownCityField.setText(ots.getOwnCity());
-        ownZipField.setText(ots.getOwnZip());
-        ownCountryField.setText(ots.getOwnCountry());
-        ownPhonenumberField.setText(ots.getOwnPhonenumber());
-
-        setTextCommon(ots);
-    }
-
-    private void setTextIncoming(Incoming ots) {
-
-        //Customer
-        customerPhonenumberField.setText("" + ots.getCustomerPhonenumber());
-
-        System.out.println("Figure out how to customer addressfields"
-                + "Since they arent in the order object");
-        
-        setTextCommon(ots);
-    }
+   
 }

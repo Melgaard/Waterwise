@@ -398,7 +398,7 @@ public class Gui extends JFrame {
         customerTableModel.setRowCount(cList.size());
 
         int customerRow = 0;
-        for (Customer c : ElementListCollection.getCList()) {
+        for (Customer c : cList) {
             customerTableModel.setValueAt(c.getPhoneNumber(), customerRow, 0);
             customerTableModel.setValueAt(c.getCustomerEmail(), customerRow, 1);
             customerTableModel.setValueAt(c.getCustomerName(), customerRow, 2);
