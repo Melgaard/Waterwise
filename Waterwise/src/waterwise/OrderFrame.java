@@ -392,6 +392,13 @@ public class OrderFrame extends JFrame {
                     statusmenu.setSelectedIndex(1);
                     break;
             }
+            
+        }
+        for (Product loop : ots.getListOfProducts().keySet()){
+            
+            chosenProducts.add(loop);
+            updateProductList();
+            
         }
     }
 
@@ -413,12 +420,25 @@ public class OrderFrame extends JFrame {
 
         //Customer
         int phonenum = ots.getCustomerPhonenumber();
-        if (phonenum != 0){
-        customerPhonenumberField.setText("" + phonenum);
-        customerPhonenumberField.setEditable(false);
+        if (phonenum != 0) {
+            customerPhonenumberField.setText("" + phonenum);
+            customerPhonenumberField.setEditable(false);
+            FileWrapper fw = new FileWrapper();
+            Customer c;
+
+            try {
+                c = fw.loadCustomer(phonenum);
+                ownAddressField.setText(c.getDeliveryAddress());
+                ownCityField.setText(c.getDeliveryCityAddress());
+                ownZipField.setText(c.getDeliveryZipAddress());
+                ownCountryField.setText(c.getDeliveryCountryAddress());
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+
+            
+
         }
-        System.out.println("Figure out how to customer addressfields"
-                + "Since they arent in the order object");
         
         setTextCommon(ots);
     }
