@@ -101,7 +101,25 @@ public class Listener {
         }
 
     }
+    
+        public class EditProductButton extends AbstractAction {
+        String productToEdit;
+        JTable productList;
+        
+            public EditProductButton(JTable products, String category) {
+                productList = products;
+                productToEdit = category;
+            }
 
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+             
+                Product p = (Product) controller.getElementFromTable(productList, productToEdit);
+                NewProductFrame editProduct = new NewProductFrame();
+                editProduct.setTextProduct(p);
+            }
+        }
+        
     public class DeleteElementButton extends AbstractAction {
 
         JTable elementList;

@@ -249,7 +249,17 @@ public class NewProductFrame extends JFrame {
     public void setTempProductPrice(String tempProductPrice) {
         this.tempProductPrice = tempProductPrice;
     }
+    
+         public void setTextProduct(Product p) {
+                ErrorChecker ec = new ErrorChecker();
 
+                productIDField.setText(p.getProductID()+"");
+                productNameField.setText(p.getProductName());
+                productWeightField.setText(p.getWeight()+ "");
+                productAmountField.setText(p.getAmountInStorage()+ "");                
+                reorderField.setText(p.getReorderAmount()+ "");
+                productSize.setSelectedItem(p.getSize());
+       }
     
     public NewProductFrame() {
 
