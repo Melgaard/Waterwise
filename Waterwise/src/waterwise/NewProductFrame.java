@@ -168,12 +168,8 @@ public class NewProductFrame extends JFrame {
             cancelJButton.setPreferredSize(buttonDimension);
 //            confirmJButton.addActionListener(listen.new showErrorFrame());
             
-            cancelJButton.addActionListener(new ActionListener(){
-                @Override
-                public void actionPerformed(ActionEvent ae){
-                    dispose();
-                }
-            });
+            cancelJButton.addActionListener(new Listener().new DisposeFrameButton(this));
+            
             confirmJButton.addActionListener(new ActionListener() {  
             @Override
             public void actionPerformed(ActionEvent e) {
