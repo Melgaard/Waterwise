@@ -162,6 +162,9 @@ public class NewCustomerFrame extends JFrame {
             cancelJButton.setPreferredSize(buttonDimension);
             
             // ActionListener for errorchecking and adding a customer to DB
+            
+            cancelJButton.addActionListener(new Listener().new DisposeFrameButton(this));
+            
             confirmJButton.addActionListener(new ActionListener() {  
             @Override
             public void actionPerformed(ActionEvent e) {
