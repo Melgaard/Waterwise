@@ -33,18 +33,6 @@ public class Listener {
 
     }
 
-    //Test burn crash method
-    public class burnbabyburn extends AbstractAction {
-
-        @Override
-        public void actionPerformed(ActionEvent ae) {
-            for (int i = 0; i < 100; i++) {
-                controller.resetView();
-                System.out.println("halp? " + i);
-            }
-
-        }
-    }
 
     public class ResetOutgoingViewButton extends AbstractAction {
 
@@ -479,7 +467,6 @@ public class Listener {
                         } else {
                             er = new Error(tempAddress, "Adresse");
                         }
-                    } else {
                         er = new Error(tempEmail, "Email");
                     }
                 } else {
@@ -488,6 +475,7 @@ public class Listener {
             } else {
                 er = new Error(tempName, "Navn");
             }
+                
 
             controller.resetView();
             ec.dispose();
@@ -555,6 +543,8 @@ public class Listener {
         public void actionPerformed(ActionEvent ae) {
             controller.saveEditMethod(ofSaveFrom);
             controller.resetView();
+            
+            
         }
 
     }
@@ -608,6 +598,20 @@ public class Listener {
             Incoming i = new Incoming();
         }
 
+    }
+    
+    public class AddProductAmountButton extends AbstractAction{
+        AddProductFrame apf;
+        
+        public AddProductAmountButton(AddProductFrame modtagetApf){
+            this.apf = modtagetApf;
+        }
+        @Override
+        public void actionPerformed(ActionEvent ae){
+            apf.addProductsToStock();
+            controller.resetView();
+            apf.dispose();
+        }
     }
 
     public class createNewOutgoing extends AbstractAction {

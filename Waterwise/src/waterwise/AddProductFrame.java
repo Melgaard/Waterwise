@@ -236,7 +236,7 @@ public class AddProductFrame extends JFrame {
         cancelJButton.setPreferredSize(buttonDimension);
 
         addButton.addActionListener(new Listener().new addProductFrameButton(this));
-       // confirmJButton.addActionListener(new Listener().new SaveEditButton(this));
+        confirmJButton.addActionListener(new Listener().new AddProductAmountButton(this));
         cancelJButton.addActionListener(new Listener().new DisposeFrameButton(this));
        // removeProductButton.addActionListener(new Listener().new RemoveFromTableButton(this));
 
@@ -244,6 +244,19 @@ public class AddProductFrame extends JFrame {
         this.add(ofPanel);
         this.setVisible(true);
     }
+    
+    
+    public void addProductsToStock(){
+        for (Product key : listOfProducts.keySet()){
+            int x = listOfProducts.get(key);
+            x += key.getAmountInStorage();
+            key.setAmountInStorage(x);
+            key.Update();
+        }
+    }
+    
+    
+    
 
     public void updateProductComboBox() {
         productbox.setModel(new DefaultComboBoxModel(productComboList.toArray()));

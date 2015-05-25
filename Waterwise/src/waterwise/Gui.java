@@ -2,6 +2,7 @@ package waterwise;
 
 import com.sun.glass.events.KeyEvent;
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
@@ -10,10 +11,12 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
@@ -50,6 +53,17 @@ public class Gui extends JFrame {
     Dimension buttonPanelSize = new Dimension(150, 120);
     Dimension buttonSize = new Dimension(120, 30);
 
+    //ROOT
+    JPanel rootPanel = new JPanel();
+    JLabel imageLabel = new JLabel();
+    ImageIcon waterwise = new ImageIcon("waterwise.jpg");
+    JLabel info = new JLabel("Waterwise Lagerstyring - v.1.0 - KEA 2015");
+    
+    ImageIcon icon = new ImageIcon("drop.png");
+    
+    
+    
+    
     //ORDER    
     JPanel orderPanel = new JPanel();
 
@@ -133,17 +147,21 @@ public class Gui extends JFrame {
     JButton createStockOrder = new JButton("Opret Ordre");
     JButton editStockOrder = new JButton("Rediger Ordre");
     JButton changeStockStatus = new JButton("Skift status");
-    JButton printStockLabel = new JButton("Print label");
+    JButton printStockLabel = new JButton("Tekst til email");
     JButton deleteStockOrder = new JButton("Slet ordre");
 
     //Order Sort
     String[] stockOrderSort = {"Alle ordrer", "Seneste 14 dage", "Uafsluttede", "Afsluttede"};
     JComboBox stockOrderSorter = new JComboBox(stockOrderSort);
+    
+    
 
     public Gui() {
 
         instance = this;
 
+        instance.setIconImage(icon.getImage());
+        
         setSize(1000, 700);
         setTitle("WaterWise DB Project");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -166,10 +184,18 @@ public class Gui extends JFrame {
         tabbedPane.addTab(LAGER, cardProducts);
         tabbedPane.addTab(KUNDER, cardCustomers);
         tabbedPane.addTab(BESTILLINGER, cardStockOrders);
-        tabbedPane.addTab(INDSTILLINGER, cardSettings);
+        //tabbedPane.addTab(INDSTILLINGER, cardSettings);
 
         this.add(tabbedPane, BorderLayout.CENTER);
 
+        //Root
+        cardRoot.add(rootPanel);
+        rootPanel.setLayout(new BorderLayout());
+        rootPanel.add(imageLabel, BorderLayout.CENTER);
+        imageLabel.setIcon(waterwise);
+        rootPanel.add(info, BorderLayout.SOUTH);
+        
+        
         // Order
         cardOrder.add(orderPanel);
         orderPanel.setLayout(new BorderLayout());

@@ -263,6 +263,8 @@ public class OrderFrame extends JFrame {
             supplierPanel.add(ownCountryField);
             supplierPanel.add(deliveryTypeLabel);
             supplierPanel.add(deliveryTypeField);
+            supplierPanel.add(paymentTypeLabel);
+            supplierPanel.add(paymentTypeField);
 
             //CustomerPanelBounds
             supplierNameLabel.setBounds(8, 30, 75, 15);
@@ -281,7 +283,24 @@ public class OrderFrame extends JFrame {
             ownCountryField.setBounds(318, 118, 150, 18);
             deliveryTypeLabel.setBounds(260, 150, 75, 15);
             deliveryTypeField.setBounds(318, 148, 150, 18);
-
+            paymentTypeLabel.setBounds(8, 150, 75, 15);
+            paymentTypeField.setBounds(78, 148, 150, 18);
+            
+            
+            //Faktiske felter
+            supplierNameField.setText("Waterwise");
+            supplierEmailField.setText("waterwise@waterwise.com");
+            ownPhonenumberField.setText("21417007");
+            ownAddressField.setText("vejnavn");
+            ownCityField.setText("Copenhagen");
+            ownZipField.setText("1000");
+            ownCountryField.setText("Denmark");
+            paymentTypeField.setText("Overførsel");
+            deliveryTypeField.setText("Airmail");
+            
+            
+            
+            
         }
 
         //ProductPanel
@@ -434,6 +453,7 @@ public class OrderFrame extends JFrame {
             Customer c;
 
             try {
+                
                 c = fw.loadCustomer(phonenum);
                 ownAddressField.setText(c.getDeliveryAddress());
                 ownCityField.setText(c.getDeliveryCityAddress());
