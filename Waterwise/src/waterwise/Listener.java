@@ -330,10 +330,24 @@ public class Listener {
 
                 System.out.println(removeProduct.productTable.getValueAt(selectedRow, 1));
 
-            } catch (IndexOutOfBoundsException iob) {
+            } catch (IndexOutOfBoundsException iob) { 
                 JOptionPane.showMessageDialog(null, "Du skal markere et produkt.");
             }
 
+        }
+    }
+    
+    public class updateTillCrash extends AbstractAction{
+        @Override
+        public void actionPerformed(ActionEvent ae){
+            Gui g = Gui.getGui();
+            for(int i = 0; i < 37; i++){
+                g.updateCustomerList();
+                g.updateOrderList();
+                g.updateProductList();
+                g.updateStockOrderList();
+                System.out.println("HALP! I IS BURNING UP! " + i);
+            }
         }
     }
 
