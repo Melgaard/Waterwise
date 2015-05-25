@@ -168,7 +168,14 @@ public class FileWrapper
                 preparedStatement = connect.prepareStatement("insert into  waterWise.incomingOrder values (? , ?, ?, ?, ?, ?, ?, ?)");
                 preparedStatement.setString(1, ID);
                 preparedStatement.setDate(2, new java.sql.Date(new java.util.Date().getTime()));
-                preparedStatement.setDate(3, null);
+                if (order.getOrderStatus().equals("Uafsluttet"))
+                {
+                    preparedStatement.setDate(3, null);
+                }
+                else
+                {
+                    preparedStatement.setDate(3, new java.sql.Date(new java.util.Date().getTime()));
+                }
                 preparedStatement.setDouble(4, order.getPriceTotal());
                 preparedStatement.setString(5, order.getPaymentType());
                 preparedStatement.setString(6, order.getDeliveryType());
@@ -193,25 +200,7 @@ public class FileWrapper
         }
         else
         {
-            JOptionPane optionPane = new JOptionPane();
-                Object[] options =
-                {
-                    "Ja", "Nej"
-                };
-                int result = JOptionPane.showOptionDialog(optionPane, "Det indtasede order ID er allerede i brug.\n" + "Ønsker du at overskrive ordren?",
-                        "Database Advarsel",
-                        JOptionPane.YES_NO_OPTION,
-                        JOptionPane.QUESTION_MESSAGE,
-                        null,
-                        options,
-                        options[0]);
-                if(result == 0)
-                {
-                    updateIncomingOrder(order);
-                }
-                else if(result == 1)
-                {
-                }
+            updateIncomingOrder(order);
         }
     }
 
@@ -407,7 +396,14 @@ public class FileWrapper
                 preparedStatement = connect.prepareStatement("insert into  waterWise.outgoingOrder values (? , ?, ?, ?, ?, ?, ?, ?)");
                 preparedStatement.setString(1, ID);
                 preparedStatement.setDate(2, new java.sql.Date(new java.util.Date().getTime()));
-                preparedStatement.setDate(3, null);
+                if (order.getOrderStatus().equals("Uafsluttet"))
+                {
+                    preparedStatement.setDate(3, null);
+                }
+                else
+                {
+                    preparedStatement.setDate(3, new java.sql.Date(new java.util.Date().getTime()));
+                }
                 preparedStatement.setDouble(4, order.getPriceTotal());
                 preparedStatement.setString(5, order.getPaymentType());
                 preparedStatement.setString(6, order.getDeliveryType());
@@ -433,25 +429,7 @@ public class FileWrapper
         }
         else
         {
-            JOptionPane optionPane = new JOptionPane();
-                Object[] options =
-                {
-                    "Ja", "Nej"
-                };
-                int result = JOptionPane.showOptionDialog(optionPane, "Det indtasede order ID er allerede i brug.\n" + "Ønsker du at overskrive bestillingen?",
-                        "Database Advarsel",
-                        JOptionPane.YES_NO_OPTION,
-                        JOptionPane.QUESTION_MESSAGE,
-                        null,
-                        options,
-                        options[0]);
-                if(result == 0)
-                {
-                    updateOutgoingOrder(order);
-                }
-                else if(result == 1)
-                {
-                }
+            updateOutgoingOrder(order);
         }
 
     }
@@ -708,28 +686,6 @@ public class FileWrapper
         return productMap;
     }
 
-    public void printOrder(ResultSet rs)
-    {
-        try
-        {
-            if (rs.next())
-            {
-                System.out.println(rs.getString(1));
-                System.out.println(rs.getDate(2));
-                System.out.println(rs.getDate(3));
-                System.out.println(rs.getDouble(4));
-                System.out.println(rs.getString(5));
-                System.out.println(rs.getString(6));
-                System.out.println(rs.getString(7));
-                System.out.println(rs.getString(8));
-            }
-        }
-        catch (SQLException e)
-        {
-            e.printStackTrace();
-        }
-    }
-
     public void deleteOrderLines(String table, String orderID) throws SQLException
     {
         try
@@ -767,25 +723,7 @@ public class FileWrapper
             }
             else
             {
-                JOptionPane optionPane = new JOptionPane();
-                Object[] options =
-                {
-                    "Ja", "Nej"
-                };
-                int result = JOptionPane.showOptionDialog(optionPane, "Det indtasede telefonnummer er allerede i brug.\n" + "Ønsker du at overskrive kunden?",
-                        "Database Advarsel",
-                        JOptionPane.YES_NO_OPTION,
-                        JOptionPane.QUESTION_MESSAGE,
-                        null,
-                        options,
-                        options[0]);
-                if(result == 0)
-                {
-                    updateCustomer(customer);
-                }
-                else if(result == 1)
-                {
-                }
+                updateCustomer(customer);
             }
         }
         catch (ClassNotFoundException e)
@@ -927,25 +865,7 @@ public class FileWrapper
             }
             else
             {
-                JOptionPane optionPane = new JOptionPane();
-                Object[] options =
-                {
-                    "Ja", "Nej"
-                };
-                int result = JOptionPane.showOptionDialog(optionPane, "Det indtasede produkt ID er allerede i brug.\n" + "Ønsker du at overskrive produktet?",
-                        "Database Advarsel",
-                        JOptionPane.YES_NO_OPTION,
-                        JOptionPane.QUESTION_MESSAGE,
-                        null,
-                        options,
-                        options[0]);
-                if(result == 0)
-                {
-                    updateProduct(product);
-                }
-                else if(result == 1)
-                {
-                }
+                updateProduct(product);
             }
         }
         catch (ClassNotFoundException e)
