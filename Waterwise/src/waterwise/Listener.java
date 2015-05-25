@@ -23,18 +23,12 @@ public class Listener {
     }
 
     //Inner classes
-    public class ResetOrderViewButton extends AbstractAction {
+    public class ResetViewButton extends AbstractAction {
 
-        Gui gui;
-        
-        public ResetOrderViewButton(Gui gui){
-            this.gui = gui;
-        }
-        
-        @Override
+         @Override
         public void actionPerformed(ActionEvent ae) {
 
-            gui.updateOrderList();
+            controller.resetView();
         }
 
     }
@@ -330,14 +324,15 @@ public class Listener {
 
                 System.out.println(removeProduct.productTable.getValueAt(selectedRow, 1));
 
-            } catch (IndexOutOfBoundsException iob) {
+            } catch (IndexOutOfBoundsException iob) { 
                 JOptionPane.showMessageDialog(null, "Du skal markere et produkt.");
             }
 
         }
     }
-
-    public class SaveEditButton extends AbstractAction {
+    
+   
+ public class SaveEditButton extends AbstractAction {
 
         OrderFrame ofSaveFrom;
 
@@ -348,6 +343,7 @@ public class Listener {
         @Override
         public void actionPerformed(ActionEvent ae) {
             controller.saveEditMethod(ofSaveFrom);
+            controller.resetView();
         }
 
     }
