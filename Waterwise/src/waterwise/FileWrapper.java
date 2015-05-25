@@ -16,7 +16,6 @@ public class FileWrapper
 {
 
     private Connection connect = null;
-    private Statement statement = null;
     private PreparedStatement preparedStatement = null;
     private ResultSet resultSet = null;
     DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
@@ -27,8 +26,6 @@ public class FileWrapper
         Class.forName("com.mysql.jdbc.Driver");
 
         connect = DriverManager.getConnection("jdbc:mysql://localhost/waterwise", "sqluser", "sqluserpw");
-
-        statement = connect.createStatement();
     }
 
     // private methods
@@ -39,10 +36,6 @@ public class FileWrapper
             if (resultSet != null)
             {
                 resultSet.close();
-            }
-            if (statement != null)
-            {
-                statement.close();
             }
             if (connect != null)
             {
