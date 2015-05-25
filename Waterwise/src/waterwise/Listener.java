@@ -75,6 +75,26 @@ public class Listener {
 
     }
 
+    public class DeleteElementButton extends AbstractAction {
+
+        JTable elementList;
+        String cTTF;
+
+        public DeleteElementButton(JTable elements, String classToTestFor) {
+
+            this.elementList = elements;
+            this.cTTF = classToTestFor;
+
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent ae) {
+            DataBaseElement c = (DataBaseElement) controller.getElementFromTable(elementList, cTTF);
+            c.Delete();
+        }
+
+    }
+    
     public class ChangeStatusButton extends AbstractAction {
 
         JTable table;

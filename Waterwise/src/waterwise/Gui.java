@@ -291,6 +291,7 @@ public class Gui extends JFrame {
         stockOrderSorter.setPreferredSize(buttonSize);
         
         stockOrderSorter.addActionListener(listen.new ResetOutgoingViewButton(this));
+        deleteStockOrder.addActionListener(listen.new DeleteElementButton(stockOrderTable ,"Outgoing"));
         stockOrderSorter.setSelectedIndex(0);
         
         stockOrderButtonPanel.add(createStockOrder);
