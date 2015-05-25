@@ -82,7 +82,26 @@ public class Listener {
         }
 
     }
+    
+    
+    public class EditCustomerButton extends AbstractAction {
+        String cTTF;
+        JTable customerList;
+        
+        public EditCustomerButton(JTable customers, String category) {
+            customerList = customers;
+            cTTF = category;
+        }
 
+        @Override
+        public void actionPerformed(ActionEvent ae) {
+             
+             Customer c = (Customer) controller.getElementFromTable(customerList, cTTF);
+            NewCustomerFrame editCustomer = new NewCustomerFrame();
+            editCustomer.setTextCustomer(c);
+        }
+
+    }
     public class DeleteElementButton extends AbstractAction {
 
         JTable elementList;

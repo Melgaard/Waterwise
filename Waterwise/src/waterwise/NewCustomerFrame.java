@@ -234,7 +234,19 @@ public class NewCustomerFrame extends JFrame {
 
        
     }
+     
+        public void setTextCustomer(Customer c) {
+                ErrorChecker ec = new ErrorChecker();
 
+                customerIDField.setText(ec.intToString(c.getPhoneNumber()));
+                customerNameField.setText(c.getCustomerName());
+                customerPhonenumberField.setText(ec.intToString(c.getPhoneNumber()));
+                customerEmailField.setText(c.getCustomerEmail());
+                customerAddressField.setText(c.getDeliveryAddress());
+                zipField.setText(c.getDeliveryZipAddress());
+                countryField.setText(c.getDeliveryCountryAddress());
+                cityField.setText(c.getDeliveryCityAddress());
+       }
     
     public NewCustomerFrame() {
 
