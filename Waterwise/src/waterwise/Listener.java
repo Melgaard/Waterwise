@@ -116,9 +116,15 @@ public class Listener {
 
         @Override
         public void actionPerformed(ActionEvent ae) {
-            DataBaseElement c = (DataBaseElement) controller.getElementFromTable(elementList, cTTF);
-            c.Delete();
-            controller.resetView();
+
+            if (elementList.getSelectedRowCount() != 1) {
+                JOptionPane.showMessageDialog(null, "Du skal vælge et element i listen.");
+            } else {
+                DataBaseElement c = (DataBaseElement) controller.getElementFromTable(elementList, cTTF);
+                c.Delete();
+                controller.resetView();
+            }
+
         }
 
     }
@@ -207,6 +213,57 @@ public class Listener {
 
     }
 
+    public class PrintEmailButton extends AbstractAction {
+
+        Gui tableToPrint;
+        int selectedRow;
+
+        String printOrderID;
+        String printStartDate;
+        double printTotalPris;
+        String printPaymentType;
+        String printDeliveryType;
+        String printOrderStatus;
+
+        public PrintEmailButton(Gui gui) {
+
+            tableToPrint = gui;
+
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent ae) {
+            try {
+                if (tableToPrint.orderTable.getSelectedRowCount() == 1) {
+
+                    selectedRow = tableToPrint.orderTable.getSelectedRow();
+
+                    for (Order o : ElementListCollection.getOList()) {
+                        if (o.getOrderID().equals(tableToPrint.orderTable.getValueAt(selectedRow, 0))) {
+                            printOrderID = o.getOrderID();
+                            printStartDate = o.getStartDate();
+                            printTotalPris = o.getPriceTotal();
+                            printPaymentType = o.getPaymentType();
+                            printDeliveryType = o.getDeliveryType();
+                            printOrderStatus = o.getOrderStatus();
+                        }
+
+                    }
+                    tableToPrint.printLabelFrame(printOrderID, printStartDate, printTotalPris, printPaymentType, printDeliveryType, printOrderStatus);
+
+                    //tableToPrint.printLabelFrame(selectedRow);
+                } else {
+                    JOptionPane.showMessageDialog(null, "Du skal vælge et element.");
+                }
+            } catch (IndexOutOfBoundsException iob) {
+                JOptionPane.showMessageDialog(null, "Du skal vælge et element.");
+
+            }
+
+        }
+
+    }
+    
     public class copyText extends AbstractAction {
 
         String textToClipboard;
@@ -352,7 +409,7 @@ public class Listener {
                             System.out.println("Alt godkendt - Opretter kunde objekt");
                             Customer c = new Customer(appPhone, tempEmail, tempName, tempStreet, tempCity, tempZip, tempCountry);
                             System.out.println("Kunde gemt i DB");
-                            
+
                         } else {
                             er = new Error(tempAddress, "Adresse");
                         }
@@ -365,16 +422,17 @@ public class Listener {
             } else {
                 er = new Error(tempName, "Navn");
             }
-            
+
             controller.resetView();
             ec.dispose();
         }
-        
+
     }
-    
-    public class checkReset extends AbstractAction{
+
+    public class checkReset extends AbstractAction {
+
         @Override
-        public void actionPerformed(ActionEvent ae){
+        public void actionPerformed(ActionEvent ae) {
             controller.resetView();
         }
     }

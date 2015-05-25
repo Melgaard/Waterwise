@@ -23,10 +23,10 @@ import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 
 public class Gui extends JFrame {
-    
+
     static Gui instance;
     Controller controller = new Controller();
-    
+
     ElementListCollection of = new ElementListCollection();
 
     final static String ROOT = "ROOT";
@@ -108,7 +108,6 @@ public class Gui extends JFrame {
     //ScrollPane
     JTable customerTable = new JTable();
     JScrollPane customerScrollPane = new JScrollPane(customerTable);
-    
 
     //JPanel for customersidebar WEST
     JPanel customerWestPanel = new JPanel(new GridLayout(2, 1));
@@ -125,7 +124,6 @@ public class Gui extends JFrame {
     //ScrollPane
     JTable stockOrderTable = new JTable();
     JScrollPane stockOrderScrollPane = new JScrollPane(stockOrderTable);
-    
 
     //JPanel for stockordersidebar WEST
     JPanel stockOrderWestPanel = new JPanel(new GridLayout(2, 1));
@@ -145,7 +143,7 @@ public class Gui extends JFrame {
     public Gui() {
 
         instance = this;
-        
+
         setSize(1000, 700);
         setTitle("WaterWise DB Project");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -158,8 +156,6 @@ public class Gui extends JFrame {
         setVisible(true);
 
     }
-    
-    
 
     private void addComponentToPane() {
         Listener listen = new Listener();
@@ -199,7 +195,7 @@ public class Gui extends JFrame {
         printLabel.addActionListener(listen.new PrintLabelButton(this));
         orderSorter.addActionListener(listen.new ResetViewButton());
         deleteOrder.addActionListener(listen.new DeleteElementButton(orderTable, "Incoming"));
-        
+
         orderButtonPanel.add(createOrder);
         orderButtonPanel.add(editOrder);
         orderButtonPanel.add(changeStatus);
@@ -235,9 +231,8 @@ public class Gui extends JFrame {
         createProduct.addActionListener(listen.new createNewProduct());
         addProducts.addActionListener(listen.new addProduct());
         orderProducts.addActionListener(new Listener().new createNewOutgoing());
-        
 
-                //Customer
+        //Customer
         cardCustomers.add(customerPanel);
         customerPanel.setLayout(new BorderLayout());
         customerPanel.add(customerScrollPane, BorderLayout.CENTER);
@@ -254,7 +249,7 @@ public class Gui extends JFrame {
         createCustomer.setPreferredSize(buttonSize);
         editCustomer.setPreferredSize(buttonSize);
         deleteCustomer.setPreferredSize(buttonSize);
-        
+
         createCustomer.addActionListener(listen.new newCustomerFrame());
         editCustomer.addActionListener(listen.new EditCustomerButton(customerTable, "Customer"));
         deleteCustomer.addActionListener(listen.new DeleteElementButton(customerTable, "Customer"));
@@ -298,24 +293,21 @@ public class Gui extends JFrame {
         printStockLabel.setPreferredSize(buttonSize);
         deleteStockOrder.setPreferredSize(buttonSize);
         stockOrderSorter.setPreferredSize(buttonSize);
-        
+
         stockOrderSorter.addActionListener(listen.new ResetOutgoingViewButton(this));
-        deleteStockOrder.addActionListener(listen.new DeleteElementButton(stockOrderTable ,"Outgoing"));
+        deleteStockOrder.addActionListener(listen.new DeleteElementButton(stockOrderTable, "Outgoing"));
         stockOrderSorter.setSelectedIndex(0);
-        
+
         stockOrderButtonPanel.add(createStockOrder);
         stockOrderButtonPanel.add(editStockOrder);
         stockOrderButtonPanel.add(changeStockStatus);
         stockOrderButtonPanel.add(printStockLabel);
         stockOrderButtonPanel.add(deleteStockOrder);
         stockOrderButtonPanel.add(stockOrderSorter);
-        
-        createStockOrder.addActionListener(new Listener().new createNewOutgoing());
-        editStockOrder.addActionListener(new Listener().new EditOrderButton(stockOrderTable,"Outgoing"));
-        
-        
 
-        
+        createStockOrder.addActionListener(new Listener().new createNewOutgoing());
+        editStockOrder.addActionListener(new Listener().new EditOrderButton(stockOrderTable, "Outgoing"));
+        printStockLabel.addActionListener(new Listener().new PrintEmailButton(this));
 
     }
 
@@ -353,12 +345,12 @@ public class Gui extends JFrame {
                     try {
                         tempdate = tempdateformat.parse(loop.getStartDate());
 
-                            Date predt = Calendar.getInstance().getTime();
-                            String dt = tempdateformat.format(predt);
-                            
-                            Calendar c = Calendar.getInstance();
-                            c.setTime(tempdateformat.parse(dt));
-                            c.add(Calendar.DATE, -14);  // number of days to add
+                        Date predt = Calendar.getInstance().getTime();
+                        String dt = tempdateformat.format(predt);
+
+                        Calendar c = Calendar.getInstance();
+                        c.setTime(tempdateformat.parse(dt));
+                        c.add(Calendar.DATE, -14);  // number of days to add
 
                         Date temp14ago = c.getTime();
                         if (tempdate.after(temp14ago)) {
@@ -369,12 +361,12 @@ public class Gui extends JFrame {
                     }
 
                 }
-            break;
+                break;
             default:
                 templist = ElementListCollection.getOList();
                 break;
         }
-        
+
         orderTable.setAutoCreateRowSorter(true);
 
         orderTableModel.setColumnIdentifiers(new String[]{"OrderID", "StartDato", "SlutDato", "Betalingstype", "Totalpris", "Leveringstype", "OrdreStatus"});
@@ -409,7 +401,7 @@ public class Gui extends JFrame {
         };
 
         customerTable.setAutoCreateRowSorter(true);
-        
+
         ArrayList<Customer> templist = new ArrayList<>();
         templist = ElementListCollection.getCList();
 
@@ -441,7 +433,7 @@ public class Gui extends JFrame {
                 return false;
             }
         };
-        
+
         ArrayList<Order> templist = new ArrayList<>();
         String viewSort = stockOrderSorter.getSelectedItem().toString();
 
@@ -467,12 +459,12 @@ public class Gui extends JFrame {
                     try {
                         tempdate = tempdateformat.parse(loop.getStartDate());
 
-                            Date predt = Calendar.getInstance().getTime();
-                            String dt = tempdateformat.format(predt);
-                            
-                            Calendar c = Calendar.getInstance();
-                            c.setTime(tempdateformat.parse(dt));
-                            c.add(Calendar.DATE, -14);  // number of days to add
+                        Date predt = Calendar.getInstance().getTime();
+                        String dt = tempdateformat.format(predt);
+
+                        Calendar c = Calendar.getInstance();
+                        c.setTime(tempdateformat.parse(dt));
+                        c.add(Calendar.DATE, -14);  // number of days to add
 
                         Date temp14ago = c.getTime();
                         if (tempdate.after(temp14ago)) {
@@ -483,13 +475,11 @@ public class Gui extends JFrame {
                     }
 
                 }
-            break;
+                break;
             default:
                 templist = ElementListCollection.getStockList();
                 break;
         }
-
-        
 
         stockOrderTableModel.setColumnIdentifiers(new String[]{"OrderID", "StartDato", "SlutDato", "TotalPris", "Betalingstype", "Leveringstype", "OrdreStatus"});
         stockOrderTableModel.setRowCount(templist.size());
@@ -521,7 +511,7 @@ public class Gui extends JFrame {
         };
 
         productTable.setAutoCreateRowSorter(true);
-        
+
         ArrayList<Product> templist = new ArrayList<>();
         templist = ElementListCollection.getPList();
 
@@ -570,7 +560,7 @@ public class Gui extends JFrame {
         textToPrint.append(paymentType + "\n");
         textToPrint.append(deliveryType + "\n");
         textToPrint.append(status + "\n");
-        
+
         copyText.setToolTipText("Teksten kopieres når der trykkes på knappen.");
 
         copyText.addActionListener(new Listener().new copyText(textToPrint.getText()));

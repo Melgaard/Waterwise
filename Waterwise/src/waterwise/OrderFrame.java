@@ -243,7 +243,8 @@ public class OrderFrame extends JFrame {
             deliveryAddressCountryField.setBounds(318, 118, 150, 18);
             deliveryTypeLabel.setBounds(260, 150, 75, 15);
             deliveryTypeField.setBounds(318, 148, 150, 18);
-        } else if (orderShown instanceof Outgoing) {
+        } 
+        else if (orderShown instanceof Outgoing) {
 
             middlePanel.add(supplierPanel);
             supplierPanel.setBorder(new TitledBorder("SupplierOplysninger"));
@@ -407,8 +408,11 @@ public class OrderFrame extends JFrame {
     private void setTextIncoming(Incoming ots) {
 
         //Customer
-        customerPhonenumberField.setText("" + ots.getCustomerPhonenumber());
-
+        int phonenum = ots.getCustomerPhonenumber();
+        if (phonenum != 0){
+        customerPhonenumberField.setText("" + phonenum);
+        customerPhonenumberField.setEditable(false);
+        }
         System.out.println("Figure out how to customer addressfields"
                 + "Since they arent in the order object");
         
