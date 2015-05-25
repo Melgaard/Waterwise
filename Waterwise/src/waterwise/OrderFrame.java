@@ -51,7 +51,7 @@ public class OrderFrame extends JFrame {
     int ownPhonenumber;
 
     String orderStatus;
-    HashMap<Product, Integer> listOfProducts = new HashMap<Product, Integer>();
+    HashMap<Product, Integer> listOfProducts = new HashMap<>();
 
     //Dimensions
     Dimension buttonDimension = new Dimension(100, 30);
@@ -161,7 +161,7 @@ public class OrderFrame extends JFrame {
 
     //Buttons
     JPanel buttonPanel = new JPanel();
-    JButton confirmJButton = new JButton("Committest");
+    JButton confirmJButton = new JButton("Commit");
     JButton cancelJButton = new JButton("Cancel");
     JButton addButton = new JButton("Add");
     JButton removeProductButton = new JButton("Fjern vare");

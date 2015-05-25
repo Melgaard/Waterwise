@@ -10,15 +10,11 @@ public class Controller {
         Error er;
         ErrorChecker ec = new ErrorChecker();
         Order orderSaveTo = ofSaveFrom.orderShown;
-        String appProductID = "";
-        String decProducdID = "";
-        HashMap<Product, Integer> tempHashMap = null;
         
         
         //Check for error in typed data
         
         if(ec.isOrderIDValid(ofSaveFrom.orderIDField.getText())){
-            appProductID = ofSaveFrom.orderIDField.getText();
             if(!ofSaveFrom.chosenProducts.isEmpty()){
                 if(ec.isDeliveryValid(ofSaveFrom.deliveryTypeField.getText())){
                     if(ec.isPaymentValid(ofSaveFrom.paymentTypeField.getText())){
@@ -35,6 +31,7 @@ public class Controller {
                                                         orderSaveTo.setListOfProducts(ofSaveFrom.listOfProducts);
                                                         orderSaveTo.setDeliveryType(ofSaveFrom.deliveryTypeField.getText());
                                                         orderSaveTo.setPaymentType(ofSaveFrom.paymentTypeField.getText());
+                                                        orderSaveTo.setOrderStatus(ofSaveFrom.statusmenu.getSelectedItem().toString());
 
                                                         if (orderSaveTo instanceof Outgoing) {
                                                             saveEditOutgoing(ofSaveFrom, (Outgoing) orderSaveTo);
