@@ -373,14 +373,6 @@ public class Listener {
             AddProductFrame aPF = new AddProductFrame();
         }
     }
-    
-    public class showErrorFrame extends AbstractAction {
-        ErrorFrame eF;
-        @Override
-        public void actionPerformed(ActionEvent ae) {
-            eF = new ErrorFrame();
-        }
-    }
 
     public class createNewIncoming extends AbstractAction {
 
