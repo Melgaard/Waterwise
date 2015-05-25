@@ -175,8 +175,6 @@ public class OrderFrame extends JFrame {
 
         //ProductArrayList
         //ScrollPane initialiseres
-        updateProductList();
-
         //Panels
         ofPanel.setLayout(new BorderLayout());
 
@@ -243,8 +241,8 @@ public class OrderFrame extends JFrame {
             deliveryAddressCountryField.setBounds(318, 118, 150, 18);
             deliveryTypeLabel.setBounds(260, 150, 75, 15);
             deliveryTypeField.setBounds(318, 148, 150, 18);
-        } 
-        else if (orderShown instanceof Outgoing) {
+
+        } else if (orderShown instanceof Outgoing) {
 
             middlePanel.add(supplierPanel);
             supplierPanel.setBorder(new TitledBorder("SupplierOplysninger"));
@@ -291,9 +289,18 @@ public class OrderFrame extends JFrame {
         productPanel.setBorder(new TitledBorder("Produkter"));
         productPanel.setLayout(new FlowLayout());
 
-        for (Product temp : ElementListCollection.getPList()) {
+       ArrayList<Product> temporary = ElementListCollection.getPList();
+
+        for (Product temp : temporary) {
             productComboList.add(temp.getProductName());
+            for (Product tempp : listOfProducts.keySet()) {
+                if (temp.getProductID() == tempp.getProductID()) {
+                    productComboList.remove(temp.getProductName());
+                }
+            }
+
         }
+
         productbox.setModel(new DefaultComboBoxModel(productComboList.toArray()));
 
         productPanel.add(productLabel);
@@ -327,33 +334,34 @@ public class OrderFrame extends JFrame {
 
         ofPanel.setVisible(true);
         this.add(ofPanel);
+        updateProductList();
         this.setVisible(true);
     }
 
     public void updateProductComboBox() {
         productbox.setModel(new DefaultComboBoxModel(productComboList.toArray()));
     }
-    
+
     public void updateProductList() {
         DefaultTableModel chosenProductsTableModel = new DefaultTableModel() {
             @Override
             public boolean isCellEditable(int row, int col) {
-                if(col == 2){
+                if (col == 2) {
                     return true;
-                } else{
+                } else {
                     return false;
                 }
-                
+
             }
         };
 
         productTable.setAutoCreateRowSorter(true);
 
         chosenProductsTableModel.setColumnIdentifiers(new String[]{"ProduktID", "ProduktNavn", "Antal", "Pris"});
-        chosenProductsTableModel.setRowCount(chosenProducts.size()+1);
+        chosenProductsTableModel.setRowCount(listOfProducts.keySet().size() + 1);
 
         int row = 0;
-        for (Product products : chosenProducts) {
+        for (Product products : listOfProducts.keySet()) {
             chosenProductsTableModel.setValueAt(products.getProductID(), row, 0);
             chosenProductsTableModel.setValueAt(products.getProductName(), row, 1);
             chosenProductsTableModel.setValueAt(listOfProducts.get(products), row, 2);
@@ -368,13 +376,13 @@ public class OrderFrame extends JFrame {
     public OrderFrame(Order orderToShow) {
 
         orderShown = orderToShow;
+        listOfProducts = orderShown.getListOfProducts();
         frameBuild();
         if (orderToShow instanceof Outgoing) {
             setTextOutgoing((Outgoing) orderToShow);
         } else if (orderToShow instanceof Incoming) {
             setTextIncoming((Incoming) orderToShow);
         }
-        
 
     }
 
@@ -392,13 +400,12 @@ public class OrderFrame extends JFrame {
                     statusmenu.setSelectedIndex(1);
                     break;
             }
-            
+
         }
-        for (Product loop : ots.getListOfProducts().keySet()){
-            
-            chosenProducts.add(loop);
+        if (ots.getListOfProducts() != null) {
+            listOfProducts = ots.getListOfProducts();
             updateProductList();
-            
+
         }
     }
 
@@ -436,10 +443,8 @@ public class OrderFrame extends JFrame {
                 ex.printStackTrace();
             }
 
-            
-
         }
-        
+
         setTextCommon(ots);
     }
 }
