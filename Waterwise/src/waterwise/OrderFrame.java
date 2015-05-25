@@ -263,6 +263,8 @@ public class OrderFrame extends JFrame {
             supplierPanel.add(ownZipField);
             supplierPanel.add(ownCountryLabel);
             supplierPanel.add(ownCountryField);
+            supplierPanel.add(deliveryTypeLabel);
+            supplierPanel.add(deliveryTypeField);
 
             //CustomerPanelBounds
             supplierNameLabel.setBounds(8, 30, 75, 15);
@@ -279,6 +281,8 @@ public class OrderFrame extends JFrame {
             ownZipField.setBounds(318, 88, 150, 18);
             ownCountryLabel.setBounds(260, 120, 75, 15);
             ownCountryField.setBounds(318, 118, 150, 18);
+            deliveryTypeLabel.setBounds(260, 150, 75, 15);
+            deliveryTypeField.setBounds(318, 148, 150, 18);
 
         }
 
