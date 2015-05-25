@@ -11,6 +11,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
+import javax.swing.JOptionPane;
 
 public class FileWrapper
 {
@@ -730,6 +731,18 @@ public class FileWrapper
             }
             else
             {
+                JOptionPane optionPane = new JOptionPane();
+                Object[] options =
+                {
+                    "Yes, please", "No way!"
+                };
+                int n = JOptionPane.showOptionDialog(optionPane, "Would you like green eggs and ham?",
+                        "Duplicate phonenumber",
+                        JOptionPane.YES_NO_OPTION,
+                        JOptionPane.QUESTION_MESSAGE,
+                        null, //do not use a custom Icon
+                        options, //the titles of buttons
+                        options[0]); //default button title
                 updateCustomer(customer);
             }
         }
