@@ -25,36 +25,35 @@ public class Listener {
     //Inner classes
     public class ResetViewButton extends AbstractAction {
 
-         @Override
+        @Override
         public void actionPerformed(ActionEvent ae) {
 
             controller.resetView();
         }
 
     }
-   
-    
+
     //Test burn crash method
-    public class burnbabyburn extends AbstractAction{
+    public class burnbabyburn extends AbstractAction {
+
         @Override
-        public void actionPerformed(ActionEvent ae){
-            for(int i = 0; i < 100; i++){
+        public void actionPerformed(ActionEvent ae) {
+            for (int i = 0; i < 100; i++) {
                 controller.resetView();
                 System.out.println("halp? " + i);
             }
-            
+
         }
     }
-    
-    
+
     public class ResetOutgoingViewButton extends AbstractAction {
 
         Gui gui;
-        
-        public ResetOutgoingViewButton(Gui gui){
+
+        public ResetOutgoingViewButton(Gui gui) {
             this.gui = gui;
         }
-        
+
         @Override
         public void actionPerformed(ActionEvent ae) {
 
@@ -82,12 +81,12 @@ public class Listener {
         }
 
     }
-    
-    
+
     public class EditCustomerButton extends AbstractAction {
+
         String cTTF;
         JTable customerList;
-        
+
         public EditCustomerButton(JTable customers, String category) {
             customerList = customers;
             cTTF = category;
@@ -95,13 +94,14 @@ public class Listener {
 
         @Override
         public void actionPerformed(ActionEvent ae) {
-             
-             Customer c = (Customer) controller.getElementFromTable(customerList, cTTF);
+
+            Customer c = (Customer) controller.getElementFromTable(customerList, cTTF);
             NewCustomerFrame editCustomer = new NewCustomerFrame();
             editCustomer.setTextCustomer(c);
         }
 
     }
+
     public class DeleteElementButton extends AbstractAction {
 
         JTable elementList;
@@ -118,10 +118,11 @@ public class Listener {
         public void actionPerformed(ActionEvent ae) {
             DataBaseElement c = (DataBaseElement) controller.getElementFromTable(elementList, cTTF);
             c.Delete();
+            controller.resetView();
         }
 
     }
-    
+
     public class ChangeStatusButton extends AbstractAction {
 
         JTable table;
@@ -159,7 +160,7 @@ public class Listener {
 
         Gui tableToPrint;
         int selectedRow;
-        
+
         String printOrderID;
         String printStartDate;
         double printTotalPris;
@@ -167,35 +168,32 @@ public class Listener {
         String printDeliveryType;
         String printOrderStatus;
 
-        
         public PrintLabelButton(Gui gui) {
 
             tableToPrint = gui;
-            
+
         }
 
         @Override
         public void actionPerformed(ActionEvent ae) {
             try {
                 if (tableToPrint.orderTable.getSelectedRowCount() == 1) {
-                    
+
                     selectedRow = tableToPrint.orderTable.getSelectedRow();
-                    
-                    
-                    for(Order o : ElementListCollection.getOList()){
-                        if(o.getOrderID().equals(tableToPrint.orderTable.getValueAt(selectedRow, 0))){
+
+                    for (Order o : ElementListCollection.getOList()) {
+                        if (o.getOrderID().equals(tableToPrint.orderTable.getValueAt(selectedRow, 0))) {
                             printOrderID = o.getOrderID();
                             printStartDate = o.getStartDate();
                             printTotalPris = o.getPriceTotal();
                             printPaymentType = o.getPaymentType();
                             printDeliveryType = o.getDeliveryType();
                             printOrderStatus = o.getOrderStatus();
-                        } 
-                        
+                        }
+
                     }
                     tableToPrint.printLabelFrame(printOrderID, printStartDate, printTotalPris, printPaymentType, printDeliveryType, printOrderStatus);
-                    
-                    
+
                     //tableToPrint.printLabelFrame(selectedRow);
                 } else {
                     JOptionPane.showMessageDialog(null, "Du skal vælge et element.");
@@ -208,26 +206,24 @@ public class Listener {
         }
 
     }
-    
-    
-    public class copyText extends AbstractAction{
-        
+
+    public class copyText extends AbstractAction {
+
         String textToClipboard;
-        
-        public copyText(String text){
+
+        public copyText(String text) {
             textToClipboard = text;
         }
-        
+
         @Override
-        public void actionPerformed(ActionEvent ae){
+        public void actionPerformed(ActionEvent ae) {
             StringSelection stringSelection = new StringSelection(textToClipboard);
             Clipboard copy = Toolkit.getDefaultToolkit().getSystemClipboard();
-            copy.setContents(stringSelection,null);
+            copy.setContents(stringSelection, null);
             JOptionPane.showMessageDialog(null, "tekst kopieret");
             System.out.println(textToClipboard + "lol");
         }
     }
-    
 
     public class addProductButton extends AbstractAction {
 
@@ -323,6 +319,66 @@ public class Listener {
         }
     }
 
+    public class confirmCustomerButton extends AbstractAction {
+
+        NewCustomerFrame ec;
+
+        public confirmCustomerButton(NewCustomerFrame editCustomer) {
+            ec = editCustomer;
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent ae) {
+
+            Error er;
+            ErrorChecker eh = new ErrorChecker();
+            int appPhone = 0;
+
+            String tempID = ec.customerPhonenumberField.getText();
+            String tempName = ec.customerNameField.getText();
+            String tempPhone = ec.customerPhonenumberField.getText();
+            String tempEmail = ec.customerEmailField.getText();
+            String tempStreet = ec.customerAddressField.getText();
+            String tempZip = ec.zipField.getText();
+            String tempCity = ec.cityField.getText();
+            String tempCountry = ec.countryField.getText();
+            String tempAddress = tempStreet + tempZip + tempCity + tempCountry;
+
+            if (eh.isNameValid(tempName)) {
+                if (eh.isPhonenumberValid(tempPhone)) {
+                    appPhone = eh.StringToInt(tempPhone);
+                    if (eh.isEmailValid(tempEmail)) {
+                        if (eh.isAddressValid(tempAddress)) {
+                            System.out.println("Alt godkendt - Opretter kunde objekt");
+                            Customer c = new Customer(appPhone, tempEmail, tempName, tempStreet, tempCity, tempZip, tempCountry);
+                            System.out.println("Kunde gemt i DB");
+                            
+                        } else {
+                            er = new Error(tempAddress, "Adresse");
+                        }
+                    } else {
+                        er = new Error(tempEmail, "Email");
+                    }
+                } else {
+                    er = new Error(tempPhone, "Telefon");
+                }
+            } else {
+                er = new Error(tempName, "Navn");
+            }
+            
+            controller.resetView();
+            ec.dispose();
+        }
+        
+    }
+    
+    public class checkReset extends AbstractAction{
+        @Override
+        public void actionPerformed(ActionEvent ae){
+            controller.resetView();
+        }
+    }
+
     public class RemoveFromTableButton extends AbstractAction {
 
         OrderFrame removeProduct;
@@ -357,15 +413,14 @@ public class Listener {
 
                 System.out.println(removeProduct.productTable.getValueAt(selectedRow, 1));
 
-            } catch (IndexOutOfBoundsException iob) { 
+            } catch (IndexOutOfBoundsException iob) {
                 JOptionPane.showMessageDialog(null, "Du skal markere et produkt.");
             }
 
         }
     }
-    
-   
- public class SaveEditButton extends AbstractAction {
+
+    public class SaveEditButton extends AbstractAction {
 
         OrderFrame ofSaveFrom;
 

@@ -25,6 +25,7 @@ import javax.swing.table.DefaultTableModel;
 public class Gui extends JFrame {
     
     static Gui instance;
+    Controller controller = new Controller();
     
     ElementListCollection of = new ElementListCollection();
 
@@ -107,7 +108,7 @@ public class Gui extends JFrame {
     //ScrollPane
     JTable customerTable = new JTable();
     JScrollPane customerScrollPane = new JScrollPane(customerTable);
-    ArrayList<Customer> cList = of.getCList();
+    
 
     //JPanel for customersidebar WEST
     JPanel customerWestPanel = new JPanel(new GridLayout(2, 1));
@@ -124,7 +125,7 @@ public class Gui extends JFrame {
     //ScrollPane
     JTable stockOrderTable = new JTable();
     JScrollPane stockOrderScrollPane = new JScrollPane(stockOrderTable);
-    ArrayList<Order> stockList = of.getStockList();
+    
 
     //JPanel for stockordersidebar WEST
     JPanel stockOrderWestPanel = new JPanel(new GridLayout(2, 1));
@@ -152,10 +153,7 @@ public class Gui extends JFrame {
         setResizable(false);
 
         this.addComponentToPane();
-        updateOrderList();
-        updateCustomerList();
-        updateProductList();
-        updateStockOrderList();
+        controller.resetView();
 
         setVisible(true);
 
@@ -259,6 +257,7 @@ public class Gui extends JFrame {
         
         createCustomer.addActionListener(listen.new newCustomerFrame());
         editCustomer.addActionListener(listen.new EditCustomerButton(customerTable, "Customer"));
+        deleteCustomer.addActionListener(listen.new DeleteElementButton(customerTable, "Customer"));
 
         //Settings
         cardSettings.add(settingsPanel);
@@ -410,12 +409,15 @@ public class Gui extends JFrame {
         };
 
         customerTable.setAutoCreateRowSorter(true);
+        
+        ArrayList<Customer> templist = new ArrayList<>();
+        templist = ElementListCollection.getCList();
 
         customerTableModel.setColumnIdentifiers(new String[]{"Telefon", "Email", "Navn", "Vejnavn", "By", "Postnr", "Land"});
-        customerTableModel.setRowCount(cList.size());
+        customerTableModel.setRowCount(templist.size());
 
         int customerRow = 0;
-        for (Customer c : cList) {
+        for (Customer c : templist) {
             customerTableModel.setValueAt(c.getPhoneNumber(), customerRow, 0);
             customerTableModel.setValueAt(c.getCustomerEmail(), customerRow, 1);
             customerTableModel.setValueAt(c.getCustomerName(), customerRow, 2);
@@ -487,7 +489,7 @@ public class Gui extends JFrame {
                 break;
         }
 
-        customerTable.setAutoCreateRowSorter(true);
+        
 
         stockOrderTableModel.setColumnIdentifiers(new String[]{"OrderID", "StartDato", "SlutDato", "TotalPris", "Betalingstype", "Leveringstype", "OrdreStatus"});
         stockOrderTableModel.setRowCount(templist.size());
@@ -519,12 +521,15 @@ public class Gui extends JFrame {
         };
 
         productTable.setAutoCreateRowSorter(true);
+        
+        ArrayList<Product> templist = new ArrayList<>();
+        templist = ElementListCollection.getPList();
 
         productTableModel.setColumnIdentifiers(new String[]{"VareID", "VareNavn", "Antal på lager", "Vægt", "Størrelse", "Pris", "Genbestillingsgrænse", "boolean?"});
-        productTableModel.setRowCount(pList.size());
+        productTableModel.setRowCount(templist.size());
 
         int productRow = 0;
-        for (Product p : ElementListCollection.getPList()) {
+        for (Product p : templist) {
             productTableModel.setValueAt(p.getProductID(), productRow, 0);
             productTableModel.setValueAt(p.getProductName(), productRow, 1);
             productTableModel.setValueAt(p.getAmountInStorage(), productRow, 2);

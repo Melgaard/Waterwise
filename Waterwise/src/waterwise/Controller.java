@@ -179,10 +179,11 @@ public class Controller {
     public void resetView() {
         Gui g = Gui.instance;
 
-        g.updateCustomerList();
+        
         g.updateOrderList();
         g.updateProductList();
         g.updateStockOrderList();
+        g.updateCustomerList();
     }
 
 }

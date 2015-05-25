@@ -165,38 +165,10 @@ public class NewCustomerFrame extends JFrame {
             
             cancelJButton.addActionListener(new Listener().new DisposeFrameButton(this));
             
-            confirmJButton.addActionListener(new ActionListener() {  
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                
-                Error er;
-                ErrorChecker eh = new ErrorChecker();
-                int appPhone = 0; 
-                
-                String tempID       = customerPhonenumberField.getText();
-                String tempName     = customerNameField.getText();
-                String tempPhone    = customerPhonenumberField.getText();
-                String tempEmail    = customerEmailField.getText();
-                String tempStreet   = customerAddressField.getText();
-                String tempZip      = zipField.getText();
-                String tempCity     = cityField.getText();
-                String tempCountry  = countryField.getText();
-                String tempAddress  = tempStreet + tempZip + tempCity + tempCountry;
-                
-                if (eh.isNameValid(tempName)) {                    
-                    if(eh.isPhonenumberValid(tempPhone)) {
-                        appPhone = eh.StringToInt(tempPhone);
-                        if(eh.isEmailValid(tempEmail)) {                            
-                            if(eh.isAddressValid(tempAddress)) {   
-                                System.out.println("Alt godkendt - Opretter kunde objekt");
-                                Customer c = new Customer(appPhone, tempEmail, tempName, tempStreet, tempCity, tempZip, tempCountry);
-                                System.out.println("Kunde gemt i DB");
-                            } else {er = new Error(tempAddress, "Adresse");}
-                        } else {er = new Error(tempEmail, "Email");}
-                    } else {er = new Error(tempPhone, "Telefon");}
-                } else {er = new Error(tempName, "Navn");}
-            }
-            });
+            confirmJButton.addActionListener(new Listener().new confirmCustomerButton(this));
+            
+            
+            
             
 
             //productPanelBounds
