@@ -193,7 +193,25 @@ public class FileWrapper
         }
         else
         {
-            updateIncomingOrder(order);
+            JOptionPane optionPane = new JOptionPane();
+                Object[] options =
+                {
+                    "Ja", "Nej"
+                };
+                int result = JOptionPane.showOptionDialog(optionPane, "Det indtasede order ID er allerede i brug.\n" + "Ønsker du at overskrive ordren?",
+                        "Database Advarsel",
+                        JOptionPane.YES_NO_OPTION,
+                        JOptionPane.QUESTION_MESSAGE,
+                        null,
+                        options,
+                        options[0]);
+                if(result == 0)
+                {
+                    updateIncomingOrder(order);
+                }
+                else if(result == 1)
+                {
+                }
         }
     }
 
@@ -415,7 +433,25 @@ public class FileWrapper
         }
         else
         {
-            updateOutgoingOrder(order);
+            JOptionPane optionPane = new JOptionPane();
+                Object[] options =
+                {
+                    "Ja", "Nej"
+                };
+                int result = JOptionPane.showOptionDialog(optionPane, "Det indtasede order ID er allerede i brug.\n" + "Ønsker du at overskrive bestillingen?",
+                        "Database Advarsel",
+                        JOptionPane.YES_NO_OPTION,
+                        JOptionPane.QUESTION_MESSAGE,
+                        null,
+                        options,
+                        options[0]);
+                if(result == 0)
+                {
+                    updateOutgoingOrder(order);
+                }
+                else if(result == 1)
+                {
+                }
         }
 
     }
@@ -734,16 +770,22 @@ public class FileWrapper
                 JOptionPane optionPane = new JOptionPane();
                 Object[] options =
                 {
-                    "Yes, please", "No way!"
+                    "Ja", "Nej"
                 };
-                int n = JOptionPane.showOptionDialog(optionPane, "Would you like green eggs and ham?",
-                        "Duplicate phonenumber",
+                int result = JOptionPane.showOptionDialog(optionPane, "Det indtasede telefonnummer er allerede i brug.\n" + "Ønsker du at overskrive kunden?",
+                        "Database Advarsel",
                         JOptionPane.YES_NO_OPTION,
                         JOptionPane.QUESTION_MESSAGE,
-                        null, //do not use a custom Icon
-                        options, //the titles of buttons
-                        options[0]); //default button title
-                updateCustomer(customer);
+                        null,
+                        options,
+                        options[0]);
+                if(result == 0)
+                {
+                    updateCustomer(customer);
+                }
+                else if(result == 1)
+                {
+                }
             }
         }
         catch (ClassNotFoundException e)
@@ -885,9 +927,26 @@ public class FileWrapper
             }
             else
             {
-                updateProduct(product);
+                JOptionPane optionPane = new JOptionPane();
+                Object[] options =
+                {
+                    "Ja", "Nej"
+                };
+                int result = JOptionPane.showOptionDialog(optionPane, "Det indtasede produkt ID er allerede i brug.\n" + "Ønsker du at overskrive produktet?",
+                        "Database Advarsel",
+                        JOptionPane.YES_NO_OPTION,
+                        JOptionPane.QUESTION_MESSAGE,
+                        null,
+                        options,
+                        options[0]);
+                if(result == 0)
+                {
+                    updateProduct(product);
+                }
+                else if(result == 1)
+                {
+                }
             }
-
         }
         catch (ClassNotFoundException e)
         {
