@@ -231,7 +231,7 @@ public class Gui extends JFrame {
         createProduct.addActionListener(listen.new createNewProduct());
         addProducts.addActionListener(listen.new addProduct());
         orderProducts.addActionListener(new Listener().new createNewOutgoing());
-
+        editProduct.addActionListener(listen.new EditProductButton(productTable, "Product"));
         //Customer
         cardCustomers.add(customerPanel);
         customerPanel.setLayout(new BorderLayout());
