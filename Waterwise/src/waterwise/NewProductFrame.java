@@ -168,6 +168,12 @@ public class NewProductFrame extends JFrame {
             cancelJButton.setPreferredSize(buttonDimension);
 //            confirmJButton.addActionListener(listen.new showErrorFrame());
             
+            cancelJButton.addActionListener(new ActionListener(){
+                @Override
+                public void actionPerformed(ActionEvent ae){
+                    dispose();
+                }
+            });
             confirmJButton.addActionListener(new ActionListener() {  
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -205,6 +211,7 @@ public class NewProductFrame extends JFrame {
                                             System.out.println("Alt godkendt - der kan konverteres");
                                             Product appProduct = new Product(appID, tempName, appAmount, appWeight, tempSize, appPrice, appReorder, true);
                                             System.out.println("Produkt konverteret - der kan nu skrives til DB");
+                                            dispose();
                                         } else {er = new Error(tempReorder, "Genbestil");}
                                     } else { er = new Error(tempSize, "Størrelse"); }
                                 } else { er = new Error(tempID, "Produkt ID"); }
@@ -212,6 +219,8 @@ public class NewProductFrame extends JFrame {
                         } else { er = new Error(tempAmount, "Antal"); }
                     } else { er = new Error(tempPrice, "Produkt pris"); }
                 } else { er = new Error(tempName, "Navn"); }
+            
+            
             }
             });
 
