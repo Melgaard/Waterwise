@@ -279,7 +279,7 @@ public class Gui extends JFrame {
         cardStockOrders.add(stockOrderPanel);
         stockOrderPanel.setLayout(new BorderLayout());
 
-        stockOrderPanel.add(stockOrderScrollPane, BorderLayout.CENTER);
+        stockOrderPanel.add(stockOrderScrollPane    , BorderLayout.CENTER);
 
         stockOrderScrollPane.setPreferredSize(tablesize);
         stockOrderPanel.add(stockOrderWestPanel, BorderLayout.WEST);

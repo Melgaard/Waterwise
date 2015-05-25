@@ -8,7 +8,7 @@ public abstract class Order extends DataBaseElement {
     private String orderID;
     private String startDate;
     private String closedDate;
-    private HashMap<Product, Integer> listOfProducts;
+    private HashMap<Product, Integer> listOfProducts = new HashMap<>();
     private double priceTotal;
     private String paymentType;
     private String deliveryType;

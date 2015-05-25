@@ -452,10 +452,9 @@ public class Listener {
 
                 }
 
-                ArrayList<Product> tableProducts = new ArrayList<>(removeProduct.chosenProducts);
-                for (Product p : tableProducts) {
+                for (Product p : removeProduct.listOfProducts.keySet()) {
                     if (p.getProductName().equals(removeProduct.productTable.getValueAt(selectedRow, 1))) {
-                        removeProduct.chosenProducts.remove(p);
+                        removeProduct.listOfProducts.remove(p);
                         selectedProduct = p.getProductName();
                     }
 
