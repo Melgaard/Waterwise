@@ -26,7 +26,7 @@ public class FileWrapper
     {
 	Class.forName("com.mysql.jdbc.Driver");
 
-	connect = DriverManager.getConnection("jdbc:mysql://localhost/waterwise", "root", "120994");
+	connect = DriverManager.getConnection("jdbc:mysql://localhost/waterwise", "sqluser", "sqluserpw");
 
 	statement = connect.createStatement();
     }
