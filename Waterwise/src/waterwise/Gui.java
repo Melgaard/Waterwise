@@ -307,7 +307,7 @@ public class Gui extends JFrame {
 
         createStockOrder.addActionListener(new Listener().new createNewOutgoing());
         editStockOrder.addActionListener(new Listener().new EditOrderButton(stockOrderTable, "Outgoing"));
-        printStockLabel.addActionListener(new Listener().new PrintEmailButton(this));
+        printStockLabel.addActionListener(new Listener().new PrintEmailButton(this, stockOrderTable, "Outgoing"));
 
     }
 
@@ -560,6 +560,44 @@ public class Gui extends JFrame {
         textToPrint.append(paymentType + "\n");
         textToPrint.append(deliveryType + "\n");
         textToPrint.append(status + "\n");
+
+        copyText.setToolTipText("Teksten kopieres når der trykkes på knappen.");
+
+        copyText.addActionListener(new Listener().new copyText(textToPrint.getText()));
+
+        printLabelFrame.setLocationRelativeTo(null);
+        printLabelFrame.setDefaultCloseOperation(printLabelFrame.DISPOSE_ON_CLOSE);
+        printLabelFrame.setVisible(true);
+
+    }
+    
+     public void printEmailFrame(Order outgoingOrder) {
+
+         
+         
+        JFrame printLabelFrame = new JFrame("Text to print");
+        JPanel printLabelPanel = new JPanel();
+        JTextArea textToPrint = new JTextArea();
+        JScrollPane scrollText = new JScrollPane(textToPrint);
+        JButton copyText = new JButton("Kopier..");
+
+        printLabelFrame.add(printLabelPanel);
+        printLabelPanel.setLayout(null);
+        printLabelPanel.add(scrollText);
+        printLabelPanel.add(copyText);
+        copyText.setBounds(30, 12, 80, 22);
+        scrollText.setBounds(30, 40, 320, 300);
+        printLabelFrame.setSize(400, 400);
+        textToPrint.setLineWrap(true);
+        textToPrint.setWrapStyleWord(true);
+
+        //Text
+        textToPrint.append(outgoingOrder.getOrderID() + "\n");
+//        textToPrint.append(startDato + "\n");
+//        textToPrint.append(totalPris + "\n");
+//        textToPrint.append(paymentType + "\n");
+//        textToPrint.append(deliveryType + "\n");
+//        textToPrint.append(status + "\n");
 
         copyText.setToolTipText("Teksten kopieres når der trykkes på knappen.");
 

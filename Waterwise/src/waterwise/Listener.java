@@ -233,55 +233,32 @@ public class Listener {
 
     public class PrintEmailButton extends AbstractAction {
 
-        Gui tableToPrint;
-        int selectedRow;
+        JTable elementList;
+        String cTTF;
+        Gui gui;
 
-        String printOrderID;
-        String printStartDate;
-        double printTotalPris;
-        String printPaymentType;
-        String printDeliveryType;
-        String printOrderStatus;
+        public PrintEmailButton(Gui gui, JTable elementList, String cTTF) {
 
-        public PrintEmailButton(Gui gui) {
-
-            tableToPrint = gui;
+            this.elementList = elementList;
+            this.cTTF = cTTF;
+            this.gui = gui;
 
         }
 
         @Override
         public void actionPerformed(ActionEvent ae) {
             try {
-                if (tableToPrint.orderTable.getSelectedRowCount() == 1) {
 
-                    selectedRow = tableToPrint.orderTable.getSelectedRow();
+                Order c = (Order) controller.getElementFromTable(elementList, cTTF);
 
-                    for (Order o : ElementListCollection.getOList()) {
-                        if (o.getOrderID().equals(tableToPrint.orderTable.getValueAt(selectedRow, 0))) {
-                            printOrderID = o.getOrderID();
-                            printStartDate = o.getStartDate();
-                            printTotalPris = o.getPriceTotal();
-                            printPaymentType = o.getPaymentType();
-                            printDeliveryType = o.getDeliveryType();
-                            printOrderStatus = o.getOrderStatus();
-                        }
-
-                    }
-                    tableToPrint.printLabelFrame(printOrderID, printStartDate, printTotalPris, printPaymentType, printDeliveryType, printOrderStatus);
-
-                    //tableToPrint.printLabelFrame(selectedRow);
-                } else {
-                    JOptionPane.showMessageDialog(null, "Du skal vælge et element.");
-                }
+                gui.printEmailFrame(c);
             } catch (IndexOutOfBoundsException iob) {
                 JOptionPane.showMessageDialog(null, "Du skal vælge et element.");
 
             }
-
         }
-
     }
-    
+
     public class copyText extends AbstractAction {
 
         String textToClipboard;
