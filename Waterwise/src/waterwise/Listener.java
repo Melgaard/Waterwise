@@ -32,6 +32,20 @@ public class Listener {
         }
 
     }
+   
+    
+    //Test burn crash method
+    public class burnbabyburn extends AbstractAction{
+        @Override
+        public void actionPerformed(ActionEvent ae){
+            for(int i = 0; i < 100; i++){
+                controller.resetView();
+                System.out.println("halp? " + i);
+            }
+            
+        }
+    }
+    
     
     public class ResetOutgoingViewButton extends AbstractAction {
 

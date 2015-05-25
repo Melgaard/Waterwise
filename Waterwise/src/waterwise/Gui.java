@@ -24,7 +24,7 @@ import javax.swing.table.DefaultTableModel;
 
 public class Gui extends JFrame {
     
-    static Gui instance = null;
+    static Gui instance;
     
     ElementListCollection of = new ElementListCollection();
 
@@ -141,8 +141,10 @@ public class Gui extends JFrame {
     String[] stockOrderSort = {"Alle ordrer", "Seneste 14 dage", "Uafsluttede", "Afsluttede"};
     JComboBox stockOrderSorter = new JComboBox(stockOrderSort);
 
-    private Gui() {
+    public Gui() {
 
+        instance = this;
+        
         setSize(1000, 700);
         setTitle("WaterWise DB Project");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -159,12 +161,7 @@ public class Gui extends JFrame {
 
     }
     
-    public static Gui getGui(){
-        if(instance == null){
-            instance = new Gui();
-        }
-        return instance;
-    }
+    
 
     private void addComponentToPane() {
         Listener listen = new Listener();
@@ -204,7 +201,7 @@ public class Gui extends JFrame {
         printLabel.addActionListener(listen.new PrintLabelButton(this));
         orderSorter.addActionListener(listen.new ResetViewButton());
         deleteOrder.addActionListener(listen.new DeleteElementButton(orderTable, "Incoming"));
-
+        
         orderButtonPanel.add(createOrder);
         orderButtonPanel.add(editOrder);
         orderButtonPanel.add(changeStatus);
