@@ -35,7 +35,7 @@ public class Waterwise {
         
         e.addPList(h);
         e.addPList(p);
-        Gui g = new Gui();
+        Gui.getGui();
         
     }
     

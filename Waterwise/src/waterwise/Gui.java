@@ -23,7 +23,9 @@ import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 
 public class Gui extends JFrame {
-
+    
+    static Gui instance = null;
+    
     ElementListCollection of = new ElementListCollection();
 
     final static String ROOT = "ROOT";
@@ -139,7 +141,7 @@ public class Gui extends JFrame {
     String[] stockOrderSort = {"Alle ordrer", "Seneste 14 dage", "Uafsluttede", "Afsluttede"};
     JComboBox stockOrderSorter = new JComboBox(stockOrderSort);
 
-    public Gui() {
+    private Gui() {
 
         setSize(1000, 700);
         setTitle("WaterWise DB Project");
@@ -155,6 +157,13 @@ public class Gui extends JFrame {
 
         setVisible(true);
 
+    }
+    
+    public static Gui getGui(){
+        if(instance == null){
+            instance = new Gui();
+        }
+        return instance;
     }
 
     private void addComponentToPane() {
