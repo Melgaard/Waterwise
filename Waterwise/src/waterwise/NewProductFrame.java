@@ -170,55 +170,8 @@ public class NewProductFrame extends JFrame {
             
             cancelJButton.addActionListener(new Listener().new DisposeFrameButton(this));
             
-            confirmJButton.addActionListener(new ActionListener() {  
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                
-                Error er;
-                
-                eh = new ErrorChecker();
-                
-                int appID = 0;
-                int appAmount = 0;
-                double appPrice = 0.0;
-                double appWeight = 0.0;
-                int appReorder = 0;
-                String tempID = productIDField.getText();
-                String tempName = productNameField.getText();
-                String tempAmount = productAmountField.getText();
-                String tempWeight = productWeightField.getText();
-                String tempSize = productSize.getSelectedItem().toString();
-                String tempPrice = productPriceField.getText();
-                String tempReorder = reorderField.getText();               
-               
-               
-                if (eh.isNameValid(tempName)) {                    
-                    if(eh.isPriceValid(tempPrice)) {
-                        appPrice = eh.StringToDouble(tempPrice);
-                        if(eh.isAmountValid(tempAmount)) {
-                            appAmount = eh.StringToInt(tempAmount);
-                            if(eh.isWeightValid(tempWeight)) {
-                                appWeight = eh.StringToDouble(tempWeight); 
-                                if(eh.isProductIDValid(tempID)) {
-                                    appID = eh.StringToInt(tempID);
-                                    if(eh.isSizeValid(tempSize)) {                                        
-                                        if(eh.isProductReorderValid(tempReorder)) {
-                                            appReorder = eh.StringToInt(tempReorder);
-                                            System.out.println("Alt godkendt - der kan konverteres");
-                                            Product appProduct = new Product(appID, tempName, appAmount, appWeight, tempSize, appPrice, appReorder, true);
-                                            System.out.println("Produkt konverteret - der kan nu skrives til DB");
-                                            dispose();
-                                        } else {er = new Error(tempReorder, "Genbestil");}
-                                    } else { er = new Error(tempSize, "Størrelse"); }
-                                } else { er = new Error(tempID, "Produkt ID"); }
-                            } else { er = new Error(tempWeight, "Vægt"); }
-                        } else { er = new Error(tempAmount, "Antal"); }
-                    } else { er = new Error(tempPrice, "Produkt pris"); }
-                } else { er = new Error(tempName, "Navn"); }
+            confirmJButton.addActionListener(new Listener().new newProductFrameConfirmButton(this)); 
             
-            
-            }
-            });
 
             //productPanelBounds
             productNameLabel.setBounds(8, 30, 75, 15);
@@ -259,6 +212,7 @@ public class NewProductFrame extends JFrame {
                 productAmountField.setText(p.getAmountInStorage()+ "");                
                 reorderField.setText(p.getReorderAmount()+ "");
                 productSize.setSelectedItem(p.getSize());
+                productPriceField.setText(p.getUnitPrice()+"");
        }
     
     public NewProductFrame() {

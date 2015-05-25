@@ -101,25 +101,26 @@ public class Listener {
         }
 
     }
-    
-        public class EditProductButton extends AbstractAction {
+
+    public class EditProductButton extends AbstractAction {
+
         String productToEdit;
         JTable productList;
-        
-            public EditProductButton(JTable products, String category) {
-                productList = products;
-                productToEdit = category;
-            }
 
-            @Override
-            public void actionPerformed(ActionEvent ae) {
-             
-                Product p = (Product) controller.getElementFromTable(productList, productToEdit);
-                NewProductFrame editProduct = new NewProductFrame();
-                editProduct.setTextProduct(p);
-            }
+        public EditProductButton(JTable products, String category) {
+            productList = products;
+            productToEdit = category;
         }
-        
+
+        @Override
+        public void actionPerformed(ActionEvent ae) {
+
+            Product p = (Product) controller.getElementFromTable(productList, productToEdit);
+            NewProductFrame editProduct = new NewProductFrame();
+            editProduct.setTextProduct(p);
+        }
+    }
+
     public class DeleteElementButton extends AbstractAction {
 
         JTable elementList;
@@ -275,6 +276,76 @@ public class Listener {
             JOptionPane.showMessageDialog(null, "tekst kopieret");
             System.out.println(textToClipboard + "lol");
         }
+    }
+
+    public class newProductFrameConfirmButton extends AbstractAction {
+
+        NewProductFrame npf;
+        
+        public newProductFrameConfirmButton(NewProductFrame npf){
+            this.npf = npf;
+        }
+        
+        @Override
+        public void actionPerformed(ActionEvent e) {
+
+            Error er;
+
+            npf.eh = new ErrorChecker();
+
+            int appID = 0;
+            int appAmount = 0;
+            double appPrice = 0.0;
+            double appWeight = 0.0;
+            int appReorder = 0;
+            String tempID = npf.productIDField.getText();
+            String tempName = npf.productNameField.getText();
+            String tempAmount = npf.productAmountField.getText();
+            String tempWeight = npf.productWeightField.getText();
+            String tempSize = npf.productSize.getSelectedItem().toString();
+            String tempPrice = npf.productPriceField.getText();
+            String tempReorder = npf.reorderField.getText();
+
+            if (npf.eh.isNameValid(tempName)) {
+                if (npf.eh.isPriceValid(tempPrice)) {
+                    appPrice = npf.eh.StringToDouble(tempPrice);
+                    if (npf.eh.isAmountValid(tempAmount)) {
+                        appAmount = npf.eh.StringToInt(tempAmount);
+                        if (npf.eh.isWeightValid(tempWeight)) {
+                            appWeight = npf.eh.StringToDouble(tempWeight);
+                            if (npf.eh.isProductIDValid(tempID)) {
+                                appID = npf.eh.StringToInt(tempID);
+                                if (npf.eh.isSizeValid(tempSize)) {
+                                    if (npf.eh.isProductReorderValid(tempReorder)) {
+                                        appReorder = npf.eh.StringToInt(tempReorder);
+                                        System.out.println("Alt godkendt - der kan konverteres");
+                                        Product appProduct = new Product(appID, tempName, appAmount, appWeight, tempSize, appPrice, appReorder, true);
+                                        System.out.println("Produkt konverteret - der kan nu skrives til DB");
+                                        npf.dispose();
+                                    } else {
+                                        er = new Error(tempReorder, "Genbestil");
+                                    }
+                                } else {
+                                    er = new Error(tempSize, "Størrelse");
+                                }
+                            } else {
+                                er = new Error(tempID, "Produkt ID");
+                            }
+                        } else {
+                            er = new Error(tempWeight, "Vægt");
+                        }
+                    } else {
+                        er = new Error(tempAmount, "Antal");
+                    }
+                } else {
+                    er = new Error(tempPrice, "Produkt pris");
+                }
+            } else {
+                er = new Error(tempName, "Navn");
+            }
+            controller.resetView();
+        }
+        
     }
 
     public class addProductButton extends AbstractAction {
