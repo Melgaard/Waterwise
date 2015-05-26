@@ -42,6 +42,10 @@ public class FileWrapper
             {
                 connect.close();
             }
+            if(preparedStatement != null)
+            {
+                preparedStatement.close();
+            }
         }
         catch (Exception e)
         {
