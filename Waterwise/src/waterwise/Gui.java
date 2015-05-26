@@ -2,7 +2,6 @@ package waterwise;
 
 import com.sun.glass.events.KeyEvent;
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
@@ -59,7 +58,7 @@ public class Gui extends JFrame {
     ImageIcon waterwise = new ImageIcon("waterwise.jpg");
     JLabel info = new JLabel("Waterwise Lagerstyring - v.1.0 - KEA 2015");
     
-    ImageIcon icon = new ImageIcon("drop.png");
+    ImageIcon icon = new ImageIcon("drop2.png");
     
     
     
@@ -160,7 +159,7 @@ public class Gui extends JFrame {
 
         instance = this;
 
-        instance.setIconImage(icon.getImage());
+        setIconImage(icon.getImage());
         
         setSize(1000, 700);
         setTitle("WaterWise DB Project");
@@ -176,6 +175,8 @@ public class Gui extends JFrame {
     }
 
     private void addComponentToPane() {
+        
+        
         Listener listen = new Listener();
         JTabbedPane tabbedPane = new JTabbedPane();
 
@@ -258,6 +259,8 @@ public class Gui extends JFrame {
         addProducts.addActionListener(listen.new addProduct());
         orderProducts.addActionListener(new Listener().new createNewOutgoing());
         editProduct.addActionListener(listen.new EditProductButton(productTable, "Product"));
+        deleteProduct.addActionListener(listen.new DeleteElementButton(productTable, "Product"));
+        
         //Customer
         cardCustomers.add(customerPanel);
         customerPanel.setLayout(new BorderLayout());
@@ -401,11 +404,10 @@ public class Gui extends JFrame {
         int orderRow = 0;
         for (Order o : templist) {
             orderTableModel.setValueAt(o.getOrderID(), orderRow, 0);
-            System.out.println(o.getOrderID() + "");
             orderTableModel.setValueAt(o.getStartDate(), orderRow, 1);
             orderTableModel.setValueAt(o.getClosedDate(), orderRow, 2);
             orderTableModel.setValueAt(o.getPaymentType(), orderRow, 3);
-            orderTableModel.setValueAt(o.getPriceTotal(), orderRow, 4);
+            orderTableModel.setValueAt(o.getPriceTotal() + " kr", orderRow, 4);
             orderTableModel.setValueAt(o.getDeliveryType(), orderRow, 5);
             orderTableModel.setValueAt(o.getOrderStatus(), orderRow, 6);
 
@@ -507,7 +509,7 @@ public class Gui extends JFrame {
                 break;
         }
 
-        stockOrderTableModel.setColumnIdentifiers(new String[]{"OrderID", "StartDato", "SlutDato", "TotalPris", "Betalingstype", "Leveringstype", "OrdreStatus"});
+        stockOrderTableModel.setColumnIdentifiers(new String[]{"OrderID", "StartDato", "SlutDato", "Betalingstype", "TotalPris", "Leveringstype", "OrdreStatus"});
         stockOrderTableModel.setRowCount(templist.size());
 
         int stockOrderRow = 0;
@@ -516,7 +518,7 @@ public class Gui extends JFrame {
             stockOrderTableModel.setValueAt(o.getStartDate(), stockOrderRow, 1);
             stockOrderTableModel.setValueAt(o.getClosedDate(), stockOrderRow, 2);
             stockOrderTableModel.setValueAt(o.getPaymentType(), stockOrderRow, 3);
-            stockOrderTableModel.setValueAt(o.getPriceTotal(), stockOrderRow, 4);
+            stockOrderTableModel.setValueAt(o.getPriceTotal() + " kr", stockOrderRow, 4);
             stockOrderTableModel.setValueAt(o.getDeliveryType(), stockOrderRow, 5);
             stockOrderTableModel.setValueAt(o.getOrderStatus(), stockOrderRow, 6);
 
@@ -541,7 +543,7 @@ public class Gui extends JFrame {
         ArrayList<Product> templist = new ArrayList<>();
         templist = ElementListCollection.getPList();
 
-        productTableModel.setColumnIdentifiers(new String[]{"VareID", "VareNavn", "Antal på lager", "Vægt", "Størrelse", "Pris", "Genbestillingsgrænse", "boolean?"});
+        productTableModel.setColumnIdentifiers(new String[]{"VareID", "VareNavn", "Antal på lager", "Størrelse", "Pris", "Genbestillingsgrænse", "Vægt"});
         productTableModel.setRowCount(templist.size());
 
         int productRow = 0;
@@ -550,8 +552,9 @@ public class Gui extends JFrame {
             productTableModel.setValueAt(p.getProductName(), productRow, 1);
             productTableModel.setValueAt(p.getAmountInStorage(), productRow, 2);
             productTableModel.setValueAt(p.getSize(), productRow, 3);
-            productTableModel.setValueAt(p.getUnitPrice(), productRow, 4);
+            productTableModel.setValueAt(p.getUnitPrice() + " kr", productRow, 4);
             productTableModel.setValueAt(p.getReorderAmount(), productRow, 5);
+            productTableModel.setValueAt(p.getWeight() + " kg", productRow, 6);
 
             productRow++;
         }

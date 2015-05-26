@@ -149,14 +149,12 @@ public class ErrorFrame extends JFrame {
             mainPanel.add(fixOne);
             
             mainPanel.add(confirmJButton);
-            confirmJButton.setPreferredSize(buttonDimension);
-//            confirmJButton.addActionListener(listen.new showErrorFrame());
+            
             
             //errorPanelBounds
             
             errorOne.setBounds(8, 30, 500, 15);
             fixOne.setBounds(8, 60, 500, 15);
-            confirmJButton.setBounds(8, 90, 75, 15);
         
         
         ofPanel.setVisible(true);

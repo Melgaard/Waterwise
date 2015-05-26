@@ -72,7 +72,7 @@ public class NewCustomerFrame extends JFrame {
     // Panels og indhold
     JPanel customerIDPanel = new JPanel();
     JLabel customerIDLabel = new JLabel("KundeID: ");
-    JTextField customerIDField = new JTextField("", 6);    
+    JTextField customerIDField = new JTextField("Ny kunde", 6);    
 
     JLabel customerNameLabel = new JLabel("Navn:");
     JTextField customerNameField = new JTextField();
@@ -113,7 +113,7 @@ public class NewCustomerFrame extends JFrame {
 
         //ProductArrayList
         //ScrollPane initialiseres
-        updateProductList();
+        
 
         //Panels
         ofPanel.setLayout(new BorderLayout());
@@ -196,21 +196,12 @@ public class NewCustomerFrame extends JFrame {
         this.setVisible(true);
     }
 
-    private void updateProductList() {
-        DefaultTableModel chosenProductsTableModel = new DefaultTableModel() {
-            @Override
-            public boolean isCellEditable(int row, int col) {
-                return false;
-            }
-        };
-
-       
-    }
      
         public void setTextCustomer(Customer c) {
                 ErrorChecker ec = new ErrorChecker();
-
+                
                 customerIDField.setText(c.getPhoneNumber() + "");
+                
                 customerNameField.setText(c.getCustomerName());
                 customerPhonenumberField.setText(c.getPhoneNumber() + "");
                 customerEmailField.setText(c.getCustomerEmail());
@@ -218,6 +209,8 @@ public class NewCustomerFrame extends JFrame {
                 zipField.setText(c.getDeliveryZipAddress());
                 countryField.setText(c.getDeliveryCountryAddress());
                 cityField.setText(c.getDeliveryCityAddress());
+                
+
        }
     
     public NewCustomerFrame() {

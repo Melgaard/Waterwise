@@ -46,6 +46,9 @@ public class Outgoing extends Order {
         this.setOwnCountry(ownCountry);
         this.setOwnPhonenumber(ownPhone);
 
+        if (productMap != null) {
+            this.CalculatePriceTotal();
+        }
         if (updateDB) {
             this.Update();
         }
@@ -62,14 +65,14 @@ public class Outgoing extends Order {
             System.out.println(ex + " thrown from - " + this.getClass().toString());
         }
     }
-    
+
     @Override
     public void Delete() {
         FileWrapper fw = new FileWrapper();
         try {
             fw.deleteOrder("outgoingOrder", "ID", this.getOrderID());
         } catch (Exception ex) {
-            System.out.println( ex + " thrown from - " + this.getClass().toString());
+            System.out.println(ex + " thrown from - " + this.getClass().toString());
         }
     }
 

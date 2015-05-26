@@ -352,6 +352,7 @@ public class FileWrapper
             {
                 HashMap<Product, Integer> map = loadOrderLine("incomingOrderLine", order.getOrderID());
                 order.setListOfProducts(map);
+                order.CalculatePriceTotal();
             }
         }
         catch (Exception e)
@@ -606,6 +607,7 @@ public class FileWrapper
             {
                 HashMap<Product, Integer> map = loadOrderLine("outgoingOrderLine", order.getOrderID());
                 order.setListOfProducts(map);
+                order.CalculatePriceTotal();
             }
         }
         catch (Exception e)

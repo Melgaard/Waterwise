@@ -17,19 +17,19 @@ public abstract class Order extends DataBaseElement {
     
 
     //Methods
-    private double CalculatePriceTotal() {
+    public void CalculatePriceTotal() {
 
         double sumPrice = 0.0;
         
-        for (HashMap.Entry<Product, Integer> entrySet : listOfProducts.entrySet()) {
-            Product key = entrySet.getKey();
-            Integer value = entrySet.getValue();
+        for (Product key : listOfProducts.keySet()) {
+            
+            Integer value = listOfProducts.get(key);
             
             sumPrice = sumPrice + (key.getUnitPrice() * value);
 
         }
 
-        return sumPrice;
+        priceTotal = sumPrice;
     }
     
 

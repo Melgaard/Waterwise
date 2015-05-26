@@ -41,6 +41,7 @@ public class Controller {
             customerOfOrder.Update();
 
         }
+        orderSaveTo.CalculatePriceTotal();
 
         orderSaveTo.Update();
         

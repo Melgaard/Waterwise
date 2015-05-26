@@ -33,7 +33,6 @@ public class Listener {
 
     }
 
-
     public class ResetOutgoingViewButton extends AbstractAction {
 
         Gui gui;
@@ -262,18 +261,17 @@ public class Listener {
             Clipboard copy = Toolkit.getDefaultToolkit().getSystemClipboard();
             copy.setContents(stringSelection, null);
             JOptionPane.showMessageDialog(null, "tekst kopieret");
-            System.out.println(textToClipboard + "lol");
         }
     }
 
     public class newProductFrameConfirmButton extends AbstractAction {
 
         NewProductFrame npf;
-        
-        public newProductFrameConfirmButton(NewProductFrame npf){
+
+        public newProductFrameConfirmButton(NewProductFrame npf) {
             this.npf = npf;
         }
-        
+
         @Override
         public void actionPerformed(ActionEvent e) {
 
@@ -333,7 +331,7 @@ public class Listener {
             }
             controller.resetView();
         }
-        
+
     }
 
     public class addProductButton extends AbstractAction {
@@ -366,7 +364,6 @@ public class Listener {
 
                 }
                 addProductAmount.chosenProducts.add(temp);
-                System.out.println("fra listener" + addProductAmount.chosenProducts.size());
                 addProductAmount.listOfProducts.put(temp, selectedAmount);
                 addProductAmount.productComboList.remove(temp.getProductName());
                 addProductAmount.updateProductList();
@@ -413,7 +410,6 @@ public class Listener {
 
                 }
                 addProductFrameAmount.chosenProducts.add(temp);
-                System.out.println("fra listener" + addProductFrameAmount.chosenProducts.size());
                 addProductFrameAmount.listOfProducts.put(temp, selectedAmount);
                 addProductFrameAmount.productComboList.remove(temp.getProductName());
                 addProductFrameAmount.updateProductList();
@@ -463,22 +459,23 @@ public class Listener {
                             System.out.println("Alt godkendt - Opretter kunde objekt");
                             Customer c = new Customer(appPhone, tempEmail, tempName, tempStreet, tempCity, tempZip, tempCountry);
                             System.out.println("Kunde gemt i DB");
+                            ec.dispose();
+                            controller.resetView();
 
                         } else {
                             er = new Error(tempAddress, "Adresse");
                         }
+                    } else {
                         er = new Error(tempEmail, "Email");
                     }
+
                 } else {
                     er = new Error(tempPhone, "Telefon");
                 }
             } else {
                 er = new Error(tempName, "Navn");
             }
-                
 
-            controller.resetView();
-            ec.dispose();
         }
 
     }
@@ -543,8 +540,7 @@ public class Listener {
         public void actionPerformed(ActionEvent ae) {
             controller.saveEditMethod(ofSaveFrom);
             controller.resetView();
-            
-            
+
         }
 
     }
@@ -599,15 +595,17 @@ public class Listener {
         }
 
     }
-    
-    public class AddProductAmountButton extends AbstractAction{
+
+    public class AddProductAmountButton extends AbstractAction {
+
         AddProductFrame apf;
-        
-        public AddProductAmountButton(AddProductFrame modtagetApf){
+
+        public AddProductAmountButton(AddProductFrame modtagetApf) {
             this.apf = modtagetApf;
         }
+
         @Override
-        public void actionPerformed(ActionEvent ae){
+        public void actionPerformed(ActionEvent ae) {
             apf.addProductsToStock();
             controller.resetView();
             apf.dispose();

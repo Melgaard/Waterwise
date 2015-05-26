@@ -58,6 +58,7 @@ public class OrderFrame extends JFrame {
     Dimension productPaneDimension = new Dimension(0, 120);
     Dimension productTableDimension = new Dimension(200, 200);
     Dimension buttonPanelDimension = new Dimension(120, 100);
+    Dimension totalpricePanelDimension = new Dimension(120, 100);
 
     //JPanels
     JPanel ofPanel = new JPanel();
@@ -73,25 +74,25 @@ public class OrderFrame extends JFrame {
 
     //Supplier
     JLabel supplierNameLabel = new JLabel("Supplier:");
-    JTextField supplierNameField = new JTextField();
+    JTextField supplierNameField = new JTextField("Waterwise");
 
     JLabel supplierEmailLabel = new JLabel("Email:");
-    JTextField supplierEmailField = new JTextField();
+    JTextField supplierEmailField = new JTextField("waterwise@waterwise.com");
 
     JLabel ownAddressLabel = new JLabel("Addresse:");
-    JTextField ownAddressField = new JTextField();
+    JTextField ownAddressField = new JTextField("vejnavn 1");
 
     JLabel ownCityLabel = new JLabel("By:");
-    JTextField ownCityField = new JTextField();
+    JTextField ownCityField = new JTextField("Copenhagen");
 
     JLabel ownZipLabel = new JLabel("Postnr:");
-    JTextField ownZipField = new JTextField();
+    JTextField ownZipField = new JTextField("1000");
 
     JLabel ownCountryLabel = new JLabel("Land:");
-    JTextField ownCountryField = new JTextField();
+    JTextField ownCountryField = new JTextField("Denmark");
 
     JLabel ownPhonenumberLabel = new JLabel("Telefon:");
-    JTextField ownPhonenumberField = new JTextField();
+    JTextField ownPhonenumberField = new JTextField("21417007");
 
     //ScrollPane
     JTable productTable = new JTable();
@@ -165,6 +166,9 @@ public class OrderFrame extends JFrame {
     JButton cancelJButton = new JButton("Cancel");
     JButton addButton = new JButton("Add");
     JButton removeProductButton = new JButton("Fjern vare");
+
+    //Total pris
+    JTextField totalPrice = new JTextField("", 6);
 
     //method that builds the frame and buttons
     private void frameBuild() {
@@ -285,8 +289,7 @@ public class OrderFrame extends JFrame {
             deliveryTypeField.setBounds(318, 148, 150, 18);
             paymentTypeLabel.setBounds(8, 150, 75, 15);
             paymentTypeField.setBounds(78, 148, 150, 18);
-            
-            
+
             //Faktiske felter
             supplierNameField.setText("Waterwise");
             supplierEmailField.setText("waterwise@waterwise.com");
@@ -297,10 +300,7 @@ public class OrderFrame extends JFrame {
             ownCountryField.setText("Denmark");
             paymentTypeField.setText("Overførsel");
             deliveryTypeField.setText("Airmail");
-            
-            
-            
-            
+
         }
 
         //ProductPanel
@@ -308,7 +308,7 @@ public class OrderFrame extends JFrame {
         productPanel.setBorder(new TitledBorder("Produkter"));
         productPanel.setLayout(new FlowLayout());
 
-       ArrayList<Product> temporary = ElementListCollection.getPList();
+        ArrayList<Product> temporary = ElementListCollection.getPList();
 
         for (Product temp : temporary) {
             productComboList.add(temp.getProductName());
@@ -341,6 +341,7 @@ public class OrderFrame extends JFrame {
         buttonPanel.add(confirmJButton);
         buttonPanel.add(cancelJButton);
         buttonPanel.add(removeProductButton);
+
         buttonPanel.setPreferredSize(buttonPanelDimension);
         confirmJButton.setPreferredSize(buttonDimension);
         removeProductButton.setPreferredSize(buttonDimension);
@@ -384,7 +385,7 @@ public class OrderFrame extends JFrame {
             chosenProductsTableModel.setValueAt(products.getProductID(), row, 0);
             chosenProductsTableModel.setValueAt(products.getProductName(), row, 1);
             chosenProductsTableModel.setValueAt(listOfProducts.get(products), row, 2);
-//            chosenProductsTableModel.setValueAt(products.getPaymentType(), row, 3);
+            chosenProductsTableModel.setValueAt(products.getUnitPrice(), row, 3);
 
             row++;
         }
@@ -430,16 +431,21 @@ public class OrderFrame extends JFrame {
 
     private void setTextOutgoing(Outgoing ots) {
 
-        //Supplier
-        supplierEmailField.setText(ots.getSupplierEmail());
-        supplierNameField.setText(ots.getSupplierName());
-        ownAddressField.setText(ots.getOwnAddress());
-        ownCityField.setText(ots.getOwnCity());
-        ownZipField.setText(ots.getOwnZip());
-        ownCountryField.setText(ots.getOwnCountry());
-        ownPhonenumberField.setText(ots.getOwnPhonenumber());
+        //supplier
+        if (ots.getSupplierName()!= null) {
+            supplierEmailField.setText(ots.getSupplierEmail());
+            supplierNameField.setText(ots.getSupplierName());
+            ownAddressField.setText(ots.getOwnAddress());
+            ownCityField.setText(ots.getOwnCity());
+            ownZipField.setText(ots.getOwnZip());
+            ownCountryField.setText(ots.getOwnCountry());
+            ownPhonenumberField.setText(ots.getOwnPhonenumber());
+            orderIDField.setEditable(false);
+
+        }
 
         setTextCommon(ots);
+
     }
 
     private void setTextIncoming(Incoming ots) {
@@ -453,7 +459,7 @@ public class OrderFrame extends JFrame {
             Customer c;
 
             try {
-                
+
                 c = fw.loadCustomer(phonenum);
                 ownAddressField.setText(c.getDeliveryAddress());
                 ownCityField.setText(c.getDeliveryCityAddress());

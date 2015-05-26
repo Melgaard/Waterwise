@@ -55,6 +55,13 @@ public class Incoming extends Order {
         this.setOrderStatus(orderStatus);
         this.setCustomerPhonenumber(phonenumber);
         
+        if(productMap != null)
+        {
+            this.CalculatePriceTotal();
+        }
+        
+        
+        
          if(updateDB){
             this.Update();
         }
