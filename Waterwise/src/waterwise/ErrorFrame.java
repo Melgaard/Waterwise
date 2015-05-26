@@ -171,7 +171,7 @@ public class ErrorFrame extends JFrame {
                                   fixOne.setText("korrekt format er " + inputFix + " f.eks. " + correctExample);
                                 break;           
             case "Navn": case "Størrelse": case "Produkter" : case "Betalingstype" : 
-            case "Lev.Type" : case "Adresse" :   
+            case "Levering" : case "Adresse" :   
                                      errorOne.setText(inputFix); 
                                      fixOne.setText(correctExample);
                                 break;

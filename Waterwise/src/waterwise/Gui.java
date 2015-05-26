@@ -10,6 +10,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -57,12 +58,9 @@ public class Gui extends JFrame {
     JLabel imageLabel = new JLabel();
     ImageIcon waterwise = new ImageIcon("waterwise.jpg");
     JLabel info = new JLabel("Waterwise Lagerstyring - v.1.0 - KEA 2015");
-    
+
     ImageIcon icon = new ImageIcon("drop2.png");
-    
-    
-    
-    
+
     //ORDER    
     JPanel orderPanel = new JPanel();
 
@@ -112,8 +110,8 @@ public class Gui extends JFrame {
     JPanel southSettingsPanel = new JPanel();
 
     //SettingsButtons
-    JButton commit = new JButton("BekrÃ¦ft");
-    JButton cancel = new JButton("AnnulÃ©r");
+    JButton commit = new JButton("Bekræft");
+    JButton cancel = new JButton("Annulér");
 
     //Customers
     JPanel customerPanel = new JPanel();
@@ -127,7 +125,7 @@ public class Gui extends JFrame {
     JPanel customerButtonPanel = new JPanel();
 
     //CustomerButtons
-    JButton createCustomer = new JButton("TilfÃ¸j kunde");
+    JButton createCustomer = new JButton("Tilføj kunde");
     JButton editCustomer = new JButton("Rediger kunde");
     JButton deleteCustomer = new JButton("Slet kunde");
 
@@ -152,15 +150,13 @@ public class Gui extends JFrame {
     //Order Sort
     String[] stockOrderSort = {"Alle ordrer", "Seneste 14 dage", "Uafsluttede", "Afsluttede"};
     JComboBox stockOrderSorter = new JComboBox(stockOrderSort);
-    
-    
 
     public Gui() {
 
         instance = this;
 
         setIconImage(icon.getImage());
-        
+
         setSize(1000, 700);
         setTitle("WaterWise DB Project");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -175,8 +171,7 @@ public class Gui extends JFrame {
     }
 
     private void addComponentToPane() {
-        
-        
+
         Listener listen = new Listener();
         JTabbedPane tabbedPane = new JTabbedPane();
 
@@ -195,8 +190,7 @@ public class Gui extends JFrame {
         rootPanel.add(imageLabel, BorderLayout.CENTER);
         imageLabel.setIcon(waterwise);
         rootPanel.add(info, BorderLayout.SOUTH);
-        
-        
+
         // Order
         cardOrder.add(orderPanel);
         orderPanel.setLayout(new BorderLayout());
@@ -219,7 +213,7 @@ public class Gui extends JFrame {
         createOrder.addActionListener(listen.new createNewIncoming());
         changeStatus.addActionListener(listen.new ChangeStatusButton(this, "Incoming"));
         editOrder.addActionListener(listen.new EditOrderButton(orderTable, "Incoming"));
-        printLabel.addActionListener(listen.new PrintLabelButton(this));
+        printLabel.addActionListener(listen.new PrintLabelButton(this, orderTable, "Incoming"));
         orderSorter.addActionListener(listen.new ResetViewButton());
         deleteOrder.addActionListener(listen.new DeleteElementButton(orderTable, "Incoming"));
 
@@ -260,7 +254,7 @@ public class Gui extends JFrame {
         orderProducts.addActionListener(new Listener().new createNewOutgoing());
         editProduct.addActionListener(listen.new EditProductButton(productTable, "Product"));
         deleteProduct.addActionListener(listen.new DeleteElementButton(productTable, "Product"));
-        
+
         //Customer
         cardCustomers.add(customerPanel);
         customerPanel.setLayout(new BorderLayout());
@@ -308,7 +302,7 @@ public class Gui extends JFrame {
         cardStockOrders.add(stockOrderPanel);
         stockOrderPanel.setLayout(new BorderLayout());
 
-        stockOrderPanel.add(stockOrderScrollPane    , BorderLayout.CENTER);
+        stockOrderPanel.add(stockOrderScrollPane, BorderLayout.CENTER);
 
         stockOrderScrollPane.setPreferredSize(tablesize);
         stockOrderPanel.add(stockOrderWestPanel, BorderLayout.WEST);
@@ -337,6 +331,7 @@ public class Gui extends JFrame {
         createStockOrder.addActionListener(new Listener().new createNewOutgoing());
         editStockOrder.addActionListener(new Listener().new EditOrderButton(stockOrderTable, "Outgoing"));
         printStockLabel.addActionListener(new Listener().new PrintEmailButton(this, stockOrderTable, "Outgoing"));
+        changeStockStatus.addActionListener(listen.new ChangeStatusButton(this, "Outgoing"));
 
     }
 
@@ -564,7 +559,9 @@ public class Gui extends JFrame {
     }
 
     //PrintFrame "OrderID", "StartDato", "SlutDato", "TotalPris", "Betalingstype", "Leveringstype", "OrdreStatus
-    public void printLabelFrame(String orderID, String startDato, Double totalPris, String paymentType, String deliveryType, String status) {
+    public void printLabelFrame(Order toLabel) {
+
+        Incoming printOrder = (Incoming) toLabel;
 
         JFrame printLabelFrame = new JFrame("Text to print");
         JPanel printLabelPanel = new JPanel();
@@ -582,13 +579,16 @@ public class Gui extends JFrame {
         textToPrint.setLineWrap(true);
         textToPrint.setWrapStyleWord(true);
 
-        //Text
-        textToPrint.append(orderID + "\n");
-        textToPrint.append(startDato + "\n");
-        textToPrint.append(totalPris + "\n");
-        textToPrint.append(paymentType + "\n");
-        textToPrint.append(deliveryType + "\n");
-        textToPrint.append(status + "\n");
+        ArrayList<Customer> customers = ElementListCollection.getCList();
+
+        for (Customer c : customers) {
+            if (c.getPhoneNumber() == printOrder.getCustomerPhonenumber()) {
+                textToPrint.append(c.getCustomerName() + "\n");
+                textToPrint.append(c.getDeliveryAddress() + "\n");
+                textToPrint.append(c.getDeliveryZipAddress() + " " + c.getDeliveryCityAddress() + "\n");
+                textToPrint.append(c.getDeliveryCountryAddress() + "\n");
+            }
+        }
 
         copyText.setToolTipText("Teksten kopieres når der trykkes på knappen.");
 
@@ -599,11 +599,9 @@ public class Gui extends JFrame {
         printLabelFrame.setVisible(true);
 
     }
-    
-     public void printEmailFrame(Order outgoingOrder) {
 
-         
-         
+    public void printEmailFrame(Order outgoingOrder) {
+
         JFrame printLabelFrame = new JFrame("Text to print");
         JPanel printLabelPanel = new JPanel();
         JTextArea textToPrint = new JTextArea();
@@ -621,12 +619,14 @@ public class Gui extends JFrame {
         textToPrint.setWrapStyleWord(true);
 
         //Text
-        textToPrint.append(outgoingOrder.getOrderID() + "\n");
-//        textToPrint.append(startDato + "\n");
-//        textToPrint.append(totalPris + "\n");
-//        textToPrint.append(paymentType + "\n");
-//        textToPrint.append(deliveryType + "\n");
-//        textToPrint.append(status + "\n");
+        textToPrint.append("OrderID: " + outgoingOrder.getOrderID() + "\n");
+        textToPrint.append("Amount    --   Product ID\n\n");
+
+        HashMap<Product, Integer> map = outgoingOrder.getListOfProducts();
+
+        for (Product p : map.keySet()) {
+            textToPrint.append(map.get(p) + " x Product ID: " + p.getProductID() + "\n");
+        }
 
         copyText.setToolTipText("Teksten kopieres når der trykkes på knappen.");
 

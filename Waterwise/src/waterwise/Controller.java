@@ -9,13 +9,14 @@ public class Controller {
 
         ErrorChecker ec = new ErrorChecker();
         Order orderSaveTo = ofSaveFrom.orderShown;
-
+        boolean bool = false;
         //Check for error in typed data
         if (orderSaveTo instanceof Outgoing) {
-            ec.outgoingCheck(ofSaveFrom);
+            bool = ec.outgoingCheck(ofSaveFrom);
         } else if (orderSaveTo instanceof Incoming) {
-            ec.incomingCheck(ofSaveFrom);
+            bool = ec.incomingCheck(ofSaveFrom);
         }
+        if (bool){
         //Set order data to the orderframe data
         orderSaveTo.setOrderID(ofSaveFrom.orderIDField.getText());
         orderSaveTo.setListOfProducts(ofSaveFrom.listOfProducts);
@@ -44,7 +45,7 @@ public class Controller {
         orderSaveTo.CalculatePriceTotal();
 
         orderSaveTo.Update();
-        
+        }
 
     }
 

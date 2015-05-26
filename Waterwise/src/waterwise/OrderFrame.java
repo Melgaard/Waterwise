@@ -106,12 +106,12 @@ public class OrderFrame extends JFrame {
 
     //Delivery
     JPanel deliveryTypePanel = new JPanel();
-    JLabel deliveryTypeLabel = new JLabel("Lev.type:");
+    JLabel deliveryTypeLabel = new JLabel("Levering:");
     JTextField deliveryTypeField = new JTextField("", 15);
 
     //Paymenttype
     JPanel paymentTypePanel = new JPanel();
-    JLabel paymentTypeLabel = new JLabel("Btl.type:");
+    JLabel paymentTypeLabel = new JLabel("Betalt via:");
     JTextField paymentTypeField = new JTextField();
 
     //Customer Email
@@ -162,9 +162,9 @@ public class OrderFrame extends JFrame {
 
     //Buttons
     JPanel buttonPanel = new JPanel();
-    JButton confirmJButton = new JButton("Commit");
-    JButton cancelJButton = new JButton("Cancel");
-    JButton addButton = new JButton("Add");
+    JButton confirmJButton = new JButton("Bekræft");
+    JButton cancelJButton = new JButton("Annullér");
+    JButton addButton = new JButton("Tilføj");
     JButton removeProductButton = new JButton("Fjern vare");
 
     //Total pris
@@ -228,23 +228,24 @@ public class OrderFrame extends JFrame {
 
             //CustomerPanelBounds
             customerNameLabel.setBounds(8, 30, 75, 15);
-            customerNameField.setBounds(78, 28, 150, 18);
+            customerNameField.setBounds(78, 28, 150, 30);
             customerEmailLabel.setBounds(8, 60, 75, 15);
-            customerEmailField.setBounds(78, 58, 150, 18);
+            customerEmailField.setBounds(78, 58, 150, 30);
             customerPhonenumberLabel.setBounds(8, 90, 75, 15);
-            customerPhonenumberField.setBounds(78, 88, 150, 18);
+            customerPhonenumberField.setBounds(78, 88, 150, 30);
             paymentTypeLabel.setBounds(8, 150, 75, 15);
-            paymentTypeField.setBounds(78, 148, 150, 18);
+            paymentTypeField.setBounds(78, 148, 150, 30);
             deliveryAddressLabel.setBounds(260, 30, 75, 10);
-            deliveryAddressField.setBounds(318, 28, 150, 18);
+            deliveryAddressField.setBounds(318, 28, 150, 30);
             deliveryAddressCityLabel.setBounds(260, 60, 75, 15);
-            deliveryAddressCityField.setBounds(318, 58, 150, 18);
+            deliveryAddressCityField.setBounds(318, 58, 150, 30);
             deliveryAddressZipLabel.setBounds(260, 90, 75, 15);
-            deliveryAddressZipField.setBounds(318, 88, 150, 18);
+            deliveryAddressZipField.setBounds(318, 88, 150, 30);
             deliveryAddressCountryLabel.setBounds(260, 120, 75, 15);
-            deliveryAddressCountryField.setBounds(318, 118, 150, 18);
-            deliveryTypeLabel.setBounds(260, 150, 75, 15);
-            deliveryTypeField.setBounds(318, 148, 150, 18);
+            deliveryAddressCountryField.setBounds(318, 118, 150, 30);
+            deliveryTypeLabel.setBounds(260, 150, 75, 25);
+            
+            deliveryTypeField.setBounds(318, 148, 150, 30);
 
         } else if (orderShown instanceof Outgoing) {
 
@@ -272,23 +273,23 @@ public class OrderFrame extends JFrame {
 
             //CustomerPanelBounds
             supplierNameLabel.setBounds(8, 30, 75, 15);
-            supplierNameField.setBounds(78, 28, 150, 18);
+            supplierNameField.setBounds(78, 28, 150, 30);
             supplierEmailLabel.setBounds(8, 60, 75, 15);
-            supplierEmailField.setBounds(78, 58, 150, 18);
+            supplierEmailField.setBounds(78, 58, 150, 30);
             ownPhonenumberLabel.setBounds(8, 90, 75, 15);
-            ownPhonenumberField.setBounds(78, 88, 150, 18);
+            ownPhonenumberField.setBounds(78, 88, 150, 30);
             ownAddressLabel.setBounds(260, 30, 75, 10);
-            ownAddressField.setBounds(318, 28, 150, 18);
+            ownAddressField.setBounds(318, 28, 150, 30);
             ownCityLabel.setBounds(260, 60, 75, 15);
-            ownCityField.setBounds(318, 58, 150, 18);
+            ownCityField.setBounds(318, 58, 150, 30);
             ownZipLabel.setBounds(260, 90, 75, 15);
-            ownZipField.setBounds(318, 88, 150, 18);
+            ownZipField.setBounds(318, 88, 150, 30);
             ownCountryLabel.setBounds(260, 120, 75, 15);
-            ownCountryField.setBounds(318, 118, 150, 18);
+            ownCountryField.setBounds(318, 118, 150, 30);
             deliveryTypeLabel.setBounds(260, 150, 75, 15);
-            deliveryTypeField.setBounds(318, 148, 150, 18);
+            deliveryTypeField.setBounds(318, 148, 150, 30);
             paymentTypeLabel.setBounds(8, 150, 75, 15);
-            paymentTypeField.setBounds(78, 148, 150, 18);
+            paymentTypeField.setBounds(78, 148, 150, 30);
 
             //Faktiske felter
             supplierNameField.setText("Waterwise");

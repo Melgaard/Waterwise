@@ -60,8 +60,8 @@ public class Error {
               case "Postnummer":this.inputFix       = "4 heltal";
                                 this.correctExample = "2860";
                 break;
-            case "Lev.Type"     :this.inputFix       = "Der er ikke indtastet Lev.Type";
-                                this.correctExample= "Der kan kun oprettes ordre med indtastet Lev.Type";
+            case "Levering"     :this.inputFix       = "Der er ikke indtastet leveringstype";
+                                this.correctExample= "Der kan kun oprettes ordre med indtastet leveringstype";
                 break;
             case "Produkter"   :this.inputFix       = "Der er ikke tilføjet nogle produkter til ordren";
                                 this.correctExample= "Der kan kun oprettes ordre med tilføjede produkter";

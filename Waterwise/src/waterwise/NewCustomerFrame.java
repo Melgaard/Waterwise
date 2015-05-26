@@ -173,19 +173,19 @@ public class NewCustomerFrame extends JFrame {
 
             //productPanelBounds
             customerNameLabel.setBounds(8, 30, 75, 15);
-            customerNameField.setBounds(78, 28, 150, 18);
+            customerNameField.setBounds(78, 28, 150, 30);
             customerEmailLabel.setBounds(8, 60, 75, 15);
-            customerEmailField.setBounds(78, 58, 150, 18);
+            customerEmailField.setBounds(78, 58, 150, 30);
             customerPhonenumberLabel.setBounds(260, 30, 75, 10);
-            customerPhonenumberField.setBounds(318, 28, 150, 18);
+            customerPhonenumberField.setBounds(318, 28, 150, 30);
             customerAddressLabel.setBounds(8, 90, 75, 15);
-            customerAddressField.setBounds(78, 88, 150, 18);
+            customerAddressField.setBounds(78, 88, 150, 30);
             cityLabel.setBounds(8, 120, 75, 15);
-            cityField.setBounds(78, 118, 150, 18);
+            cityField.setBounds(78, 118, 150, 30);
             zipLabel.setBounds(260, 90, 75, 15);
-            zipField.setBounds(318, 88, 150, 18);
+            zipField.setBounds(318, 88, 150, 30);
             countryLabel.setBounds(260, 120, 75, 15);
-            countryField.setBounds(318, 118, 150, 18);
+            countryField.setBounds(318, 118, 150, 30);
             confirmJButton.setBounds(100, 158, 120, 25);
             cancelJButton.setBounds(250, 158, 120, 25);
 

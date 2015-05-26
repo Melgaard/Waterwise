@@ -253,7 +253,7 @@ public class ErrorChecker {
                         er = new Error(ofcheck.paymentTypeField.getText(), "Betalingstype");
                     }
                 } else {
-                    er = new Error(ofcheck.deliveryTypeField.getText(), "Lev.Type");
+                    er = new Error(ofcheck.deliveryTypeField.getText(), "Levering");
                 }
             } else {
                 er = new Error("Intet produkt valgt", "Produkter");

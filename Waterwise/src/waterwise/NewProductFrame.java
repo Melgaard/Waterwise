@@ -175,15 +175,15 @@ public class NewProductFrame extends JFrame {
 
             //productPanelBounds
             productNameLabel.setBounds(8, 30, 75, 15);
-            productNameField.setBounds(78, 28, 150, 18);
+            productNameField.setBounds(78, 28, 150, 30);
             productPriceLabel.setBounds(8, 60, 75, 15);
-            productPriceField.setBounds(78, 58, 150, 18);
+            productPriceField.setBounds(78, 58, 150, 30);
             productAmountLabel.setBounds(8, 90, 75, 15);
-            productAmountField.setBounds(78, 88, 150, 18);
+            productAmountField.setBounds(78, 88, 150, 30);
             productWeightLabel.setBounds(8, 120, 75, 15);
-            productWeightField.setBounds(78, 118, 150, 18);
+            productWeightField.setBounds(78, 118, 150, 30);
            reorderLabel.setBounds(8, 150, 75, 15);
-            reorderField.setBounds(78, 148, 150, 18);
+            reorderField.setBounds(78, 148, 150, 30);
             productSizeLabel.setBounds(8, 178, 100, 25);
             productSize.setBounds(108, 178, 100, 25);
             confirmJButton.setBounds(25, 210, 100, 25);

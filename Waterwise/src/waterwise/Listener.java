@@ -63,8 +63,15 @@ public class Listener {
 
         @Override
         public void actionPerformed(ActionEvent ae) {
-            Order c = (Order) controller.getElementFromTable(orderList, cTTF);
-            OrderFrame editOrder = new OrderFrame(c);
+
+            if (orderList.getSelectedRow() != 1) {
+                JOptionPane.showMessageDialog(null, "Du skal vælge et element i listen.");
+
+            } else {
+
+                Order c = (Order) controller.getElementFromTable(orderList, cTTF);
+                OrderFrame editOrder = new OrderFrame(c);
+            }
         }
 
     }
@@ -82,9 +89,13 @@ public class Listener {
         @Override
         public void actionPerformed(ActionEvent ae) {
 
-            Customer c = (Customer) controller.getElementFromTable(customerList, cTTF);
-            NewCustomerFrame editCustomer = new NewCustomerFrame();
-            editCustomer.setTextCustomer(c);
+            if (customerList.getSelectedRow() != 1) {
+                JOptionPane.showMessageDialog(null, "Du skal vælge et element i listen.");
+            } else {
+                Customer c = (Customer) controller.getElementFromTable(customerList, cTTF);
+                NewCustomerFrame editCustomer = new NewCustomerFrame();
+                editCustomer.setTextCustomer(c);
+            }
         }
 
     }
@@ -101,10 +112,13 @@ public class Listener {
 
         @Override
         public void actionPerformed(ActionEvent ae) {
-
-            Product p = (Product) controller.getElementFromTable(productList, productToEdit);
-            NewProductFrame editProduct = new NewProductFrame();
-            editProduct.setTextProduct(p);
+            if (productList.getSelectedRow() != 1) {
+                JOptionPane.showMessageDialog(null, "Du skal vælge et element i listen.");
+            } else {
+                Product p = (Product) controller.getElementFromTable(productList, productToEdit);
+                NewProductFrame editProduct = new NewProductFrame();
+                editProduct.setTextProduct(p);
+            }
         }
     }
 
@@ -137,27 +151,35 @@ public class Listener {
 
     public class ChangeStatusButton extends AbstractAction {
 
-        JTable table;
+        JTable table = null;
         String cTTF;
         Gui gui;
 
         public ChangeStatusButton(Gui gui, String classToTestFor) {
 
-            this.gui = gui;
-            table = gui.orderTable;
             cTTF = classToTestFor;
+            this.gui = gui;
+            switch (cTTF) {
+                case "Outgoing":
+                    table = gui.stockOrderTable;
+                    break;
+                case "Incoming":
+                    table = gui.orderTable;
+                    break;
+            }
 
         }
 
         @Override
         public void actionPerformed(ActionEvent ae) {
             try {
+
                 if (table.getSelectedRowCount() > 1) {
-                    JOptionPane.showMessageDialog(null, "Du kan kun vælge et element af gangen.");
+                    JOptionPane.showMessageDialog(null, "Du skal vælge ét element i listen.");
                 } else {
                     Order c = (Order) controller.getElementFromTable(table, cTTF);
                     controller.changeStatusMethod(c);
-                    gui.updateOrderList();
+                    controller.resetView();
                 }
 
             } catch (IndexOutOfBoundsException iob) {
@@ -170,46 +192,23 @@ public class Listener {
 
     public class PrintLabelButton extends AbstractAction {
 
-        Gui tableToPrint;
-        int selectedRow;
+        JTable elementList;
+        String cTTF;
+        Gui gui;
 
-        String printOrderID;
-        String printStartDate;
-        double printTotalPris;
-        String printPaymentType;
-        String printDeliveryType;
-        String printOrderStatus;
+        public PrintLabelButton(Gui gui, JTable elementList, String cTTF) {
 
-        public PrintLabelButton(Gui gui) {
-
-            tableToPrint = gui;
-
+            this.elementList = elementList;
+            this.cTTF = cTTF;
+            this.gui = gui;
         }
 
         @Override
         public void actionPerformed(ActionEvent ae) {
             try {
-                if (tableToPrint.orderTable.getSelectedRowCount() == 1) {
+                Order c = (Order) controller.getElementFromTable(elementList, cTTF);
 
-                    selectedRow = tableToPrint.orderTable.getSelectedRow();
-
-                    for (Order o : ElementListCollection.getOList()) {
-                        if (o.getOrderID().equals(tableToPrint.orderTable.getValueAt(selectedRow, 0))) {
-                            printOrderID = o.getOrderID();
-                            printStartDate = o.getStartDate();
-                            printTotalPris = o.getPriceTotal();
-                            printPaymentType = o.getPaymentType();
-                            printDeliveryType = o.getDeliveryType();
-                            printOrderStatus = o.getOrderStatus();
-                        }
-
-                    }
-                    tableToPrint.printLabelFrame(printOrderID, printStartDate, printTotalPris, printPaymentType, printDeliveryType, printOrderStatus);
-
-                    //tableToPrint.printLabelFrame(selectedRow);
-                } else {
-                    JOptionPane.showMessageDialog(null, "Du skal vælge et element.");
-                }
+                gui.printLabelFrame(c);
             } catch (IndexOutOfBoundsException iob) {
                 JOptionPane.showMessageDialog(null, "Du skal vælge et element.");
 
