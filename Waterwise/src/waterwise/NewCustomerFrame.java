@@ -2,58 +2,20 @@ package waterwise;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.Scanner;
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
-import javax.swing.table.DefaultTableModel;
 
-/**
- *
- * @author BlottoG
- */
+        // The NewCustomerFrame is used to create new users
 public class NewCustomerFrame extends JFrame {
-
-    //Fields
     
-    //variable to determine wheter it is an incoming or outgoing order - 
-    //true is incoming
-
-    String customerEmail;
-    String deliveryAddress;
-    String addressCity;
-    String addressZip;
-    String addressCountry;
-    String customerName;
-    int customerPhonenumber;
-
-    String supplierName;
-    String supplierEmail;
-    String ownAddress;
-    String ownCity;
-    String ownZip;
-    String ownCountry;
-    int ownPhonenumber;
-
-    String orderStatus;
-    Map<Product, Integer> listOfProducts;
-
+    // Fields
+    
     //Dimensions
-    Dimension buttonDimension = new Dimension(100, 30);
-    Dimension productPaneDimension = new Dimension(0, 120);
-    Dimension productTableDimension = new Dimension(200, 200);
+    Dimension buttonDimension = new Dimension(100, 30); 
     Dimension buttonPanelDimension = new Dimension(120, 100);
 
     //JPanels
@@ -61,12 +23,6 @@ public class NewCustomerFrame extends JFrame {
     JPanel topPanel = new JPanel();
     JPanel middlePanel = new JPanel();
     JPanel customerPanel = new JPanel();
-    JPanel customerPanelWEST = new JPanel();
-    JPanel customerPanelEAST = new JPanel();
-    JPanel stockOverviewPanel = new JPanel();
-    JPanel productTablePanel = new JPanel();
-    JPanel bottomPanel = new JPanel();
-    JPanel supplierPanel = new JPanel();
 
 
     // Panels og indhold
@@ -80,12 +36,12 @@ public class NewCustomerFrame extends JFrame {
     JLabel customerPhonenumberLabel = new JLabel("Telefon:");
     JTextField customerPhonenumberField = new JTextField("");
 
-    //VareName
+    
     JPanel customerEmailPanel = new JPanel();
     JLabel customerEmailLabel = new JLabel("Email");
     JTextField customerEmailField = new JTextField();
+   
     
-        //Address
     JPanel customerAddressPanel = new JPanel();
     JLabel customerAddressLabel = new JLabel("Vejnavn:");
     JTextField customerAddressField = new JTextField();
@@ -98,30 +54,26 @@ public class NewCustomerFrame extends JFrame {
 
     JLabel countryLabel = new JLabel("Land:");
     JTextField countryField = new JTextField();
+    
     //Buttons
     JPanel buttonPanel = new JPanel();
     JButton confirmJButton = new JButton("Opret kunde");
     JButton cancelJButton = new JButton("Annullér");
 
 
-    //method that builds the frame and buttons
+    //frameBuild - builds the frame
     private void frameBuild() {
         this.setTitle("WaterWise - Tilføj Kunde");
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         this.setSize(500, 280);
         this.setLocationRelativeTo(null);
 
-        //ProductArrayList
-        //ScrollPane initialiseres
-        
-
         //Panels
         ofPanel.setLayout(new BorderLayout());
 
         ofPanel.add(topPanel, BorderLayout.NORTH);
         ofPanel.add(middlePanel, BorderLayout.CENTER);
-        ofPanel.add(productTablePanel, BorderLayout.SOUTH);
-
+    
         //TopPanel
         topPanel.setLayout(new BorderLayout());
         topPanel.add(customerIDPanel, BorderLayout.WEST);
@@ -132,16 +84,11 @@ public class NewCustomerFrame extends JFrame {
         //MiddlePanel
         middlePanel.setLayout(new BorderLayout());
 
-        //middlePanel.add(stockOverviewPanel, BorderLayout.SOUTH);
-
-        //CustomerPanel           
-
-                
-            
+        //CustomerPanel  
     
             middlePanel.add(customerPanel, BorderLayout.CENTER);
             customerPanel.setBorder(new TitledBorder("Opret Kunde - Oplysninger"));
-            customerPanel.setLayout(null);
+            customerPanel.setLayout(null);              // Layout set to null, enables use of setBounds
             customerPanel.add(customerNameLabel);
             customerPanel.add(customerNameField);
             customerPanel.add(customerPhonenumberLabel);
@@ -161,14 +108,9 @@ public class NewCustomerFrame extends JFrame {
             confirmJButton.setPreferredSize(buttonDimension);
             cancelJButton.setPreferredSize(buttonDimension);
             
-            // ActionListener for errorchecking and adding a customer to DB
-            
-            cancelJButton.addActionListener(new Listener().new DisposeFrameButton(this));
-            
+            // ActionListener call to the listener class, for corresponding abstract class
+           cancelJButton.addActionListener(new Listener().new DisposeFrameButton(this));            
             confirmJButton.addActionListener(new Listener().new confirmCustomerButton(this));
-            
-            
-            
             
 
             //productPanelBounds
@@ -194,14 +136,13 @@ public class NewCustomerFrame extends JFrame {
         ofPanel.setVisible(true);
         this.add(ofPanel);
         this.setVisible(true);
-    }
-
-     
+    }     
+    
+        // Method used to set text in the textfields. Used for editting already existing users
         public void setTextCustomer(Customer c) {
                 ErrorChecker ec = new ErrorChecker();
                 
-                customerIDField.setText(c.getPhoneNumber() + "");
-                
+                customerIDField.setText(c.getPhoneNumber() + "");                
                 customerNameField.setText(c.getCustomerName());
                 customerPhonenumberField.setText(c.getPhoneNumber() + "");
                 customerEmailField.setText(c.getCustomerEmail());

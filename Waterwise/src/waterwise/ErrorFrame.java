@@ -2,159 +2,60 @@ package waterwise;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.HashMap;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
-import javax.swing.table.DefaultTableModel;
-
-/**
- *
- * @author BlottoG
- */
 
 
-public class ErrorFrame extends JFrame {
-    
-    Gui gui;
-    String errorShown;
-    Listener listen;
-    String orderID;
-    String startDate;
-    String closedDate;
-    String deliveryType;
-    String paymentType;
-    String customerEmail;
-    String deliveryAddress;
-    String addressCity;
-    String addressZip;
-    String addressCountry;
-    String customerName;
-    int customerPhonenumber;
+// ErrorFrames goal is to display any errors to the user, to secure a correct format is saved in the database
 
-    String supplierName;
-    String supplierEmail;
-    String ownAddress;
-    String ownCity;
-    String ownZip;
-    String ownCountry;
-    int ownPhonenumber;
-
-    String orderStatus;
-    HashMap<Product, Integer> listOfProducts;
-
-    //Dimensions
-    Dimension buttonDimension = new Dimension(100, 30);
+public class ErrorFrame extends JFrame {    
 
     //JPanels
-    JPanel ofPanel = new JPanel();
-    JPanel topPanel = new JPanel();
+    JPanel ofPanel = new JPanel(); 
     JPanel middlePanel = new JPanel();
     JPanel mainPanel = new JPanel();
+ 
     
-//    JPanel productTablePanel = new JPanel();
-    JPanel bottomPanel = new JPanel();
-    JPanel supplierPanel = new JPanel();
-
-    public String getErrorTxt() {
-        return errorTxt;
-    }
-
-    public void setErrorTxt(String errorTxt) {
-        this.errorTxt = errorTxt;
-    }
-
-    public String getErrorCategory() {
-        return errorCategory;
-    }
-
-    public void setErrorCategory(String errorCategory) {
-        this.errorCategory = errorCategory;
-    }
-
-    public JLabel getErrorOne() {
-        return errorOne;
-    }
-
-    public void setErrorOne(JLabel errorOne) {
-        this.errorOne = errorOne;
-    }
-
-    public JLabel getFixOne() {
-        return fixOne;
-    }
-
-    // ErrorFrame
-    public void setFixOne(JLabel fixOne) {
-        this.fixOne = fixOne;
-    }
-    String errorTxt;
-    String errorCategory;
-    String formatFix;
-    String correctExample;
+    // ErrorFrame - Panel and labels
     
     JPanel errorPanel = new JPanel();
     JLabel errorOne = new JLabel();    
     JLabel fixOne = new JLabel();    
 
 
-
-    //Buttons
-    JPanel buttonPanel = new JPanel();
-    JButton confirmJButton = new JButton("Ok");
- 
-
-
-    //method that builds the frame and buttons
+    //frameBuild - Builds the frame
+    
     private void frameBuild() {
         this.setTitle("WaterWise DB Project - Error!");
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         this.setSize(325, 150);
         this.setLocation(540, 700);
-
-
-        //Panels
+                
+        //ofPanel - Panel contains MiddlePanel
+        
         ofPanel.setLayout(new BorderLayout());
-
-        ofPanel.add(topPanel, BorderLayout.NORTH);
         ofPanel.add(middlePanel, BorderLayout.CENTER);
-
-        //TopPanel
-        topPanel.setLayout(new BorderLayout()); 
         
-        //MiddlePanel
+        //MiddlePanel - Contains the mainPanel
+        
         middlePanel.setLayout(new BorderLayout());
-
         
-        //Error Panel
+        //Error Panel - Displays the current recieved errors 
         
-            middlePanel.add(mainPanel, BorderLayout.CENTER);
-            mainPanel.setBorder(new TitledBorder("Fejl - detaljer"));
-            mainPanel.setLayout(null);
-            errorOne.setForeground(Color.RED);
-            fixOne.setForeground(Color.BLUE);
-            mainPanel.add(errorOne);
-            mainPanel.add(fixOne);
+         middlePanel.add(mainPanel, BorderLayout.CENTER);
+         mainPanel.setBorder(new TitledBorder("Fejl - detaljer"));
+         mainPanel.setLayout(null);
+         errorOne.setForeground(Color.RED);
+         fixOne.setForeground(Color.BLUE);
+         mainPanel.add(errorOne);
+         mainPanel.add(fixOne);        
             
-            mainPanel.add(confirmJButton);
+            //errorPanelBounds - Bounds limiting the 2 JLabels. Format is (x , y, width, height)        
             
-            
-            //errorPanelBounds
-            
-            errorOne.setBounds(8, 30, 500, 15);
-            fixOne.setBounds(8, 60, 500, 15);
+        errorOne.setBounds(8, 30, 500, 15);
+        fixOne.setBounds(8, 60, 500, 15);
         
         
         ofPanel.setVisible(true);
@@ -162,22 +63,23 @@ public class ErrorFrame extends JFrame {
         this.setVisible(true);
     }
     
+    // Constructor for ErrorFrame - it has 4 formal parameters: An error, a category, a correct format and a correct example
     public ErrorFrame(String error, String category, String inputFix, String correctExample) {
         
-        switch (category) {
+        switch (category) {     // A switch that changes, depending on what category the reported error has.
             case "Vægt": case "Produkt ID": case "Antal": case "Genbestil": case "Produkt pris" :
-             case "Telefon" : case "Email" : case "Ordre ID": case "Postnummer" : 
+             case "Telefon" : case "Email" : case "Ordre ID": case "Postnummer" :                   // Format cases : where an error can occur in the format
                                   errorOne.setText("fejl: " + error + " i kategorien: " + category); 
                                   fixOne.setText("korrekt format er " + inputFix + " f.eks. " + correctExample);
                                 break;           
-            case "Navn": case "Størrelse": case "Produkter" : case "Betalingstype" : 
+            case "Navn": case "Størrelse": case "Produkter" : case "Betalingstype" :                // No input cases : where an error can occur if a field is left blank
             case "Levering" : case "Adresse" :   
                                      errorOne.setText(inputFix); 
                                      fixOne.setText(correctExample);
                                 break;
            
         }
-        frameBuild();
+        frameBuild();  // Frame is build after the 4 formal parameters has been set.
 
     }
 }

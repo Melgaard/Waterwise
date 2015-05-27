@@ -2,62 +2,20 @@ package waterwise;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.HashMap;
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
-import javax.swing.table.DefaultTableModel;
 
-/**
- *
- * @author BlottoG
- */
+// The NewProductFrame Class is used to create new products
 public class NewProductFrame extends JFrame {
-    ErrorChecker eh;
-    ErrorFrame ef;
-    Listener listen;
     //Fields
-    //this will be set to the order we are working on
-    Order orderShown;
-    //variable to determine wheter it is an incoming or outgoing order - 
-    //true is incoming
-
-    String orderID;
-    String startDate;
-    String closedDate;
-    String deliveryType;
-    String paymentType;
-    String customerEmail;
-    String deliveryAddress;
-    String addressCity;
-    String addressZip;
-    String addressCountry;
-    String customerName;
-    int customerPhonenumber;
-
-    String supplierName;
-    String supplierEmail;
-    String ownAddress;
-    String ownCity;
-    String ownZip;
-    String ownCountry;
-    int ownPhonenumber;
-
-    String orderStatus;
-    HashMap<Product, Integer> listOfProducts;
-
-    //Dimensions
+    ErrorChecker eh;
+    //Dimensions    
     Dimension buttonDimension = new Dimension(100, 30);
     Dimension productPaneDimension = new Dimension(200, 120);
     Dimension productTableDimension = new Dimension(200, 200);
@@ -68,15 +26,8 @@ public class NewProductFrame extends JFrame {
     JPanel topPanel = new JPanel();
     JPanel middlePanel = new JPanel();
     JPanel customerPanel = new JPanel();
-    JPanel customerPanelWEST = new JPanel();
-    JPanel customerPanelEAST = new JPanel();
-    JPanel stockOverviewPanel = new JPanel();
-    JPanel productTablePanel = new JPanel();
-    JPanel bottomPanel = new JPanel();
-    JPanel supplierPanel = new JPanel();
+    
 
-    private String tempProductPrice;
-    //Vare
     JPanel productIDPanel = new JPanel();
     JLabel productIDLabel = new JLabel("Vare ID:");
     JTextField productIDField = new JTextField("1", 4);    
@@ -92,20 +43,19 @@ public class NewProductFrame extends JFrame {
     JLabel productNameLabel = new JLabel("Vare navn:");
     JTextField productNameField = new JTextField();
     
-        //VarePris
     JPanel productPricePanel = new JPanel();
     JLabel productPriceLabel = new JLabel("Pris:");
     JTextField productPriceField = new JTextField();
 
     
-   //ProductdropDown
+   //ProductSize dropDown
     JPanel productSizePanel = new JPanel();
     JLabel productSizeLabel = new JLabel("Størrelse: ");
     ArrayList<String> productComboList = new ArrayList<>();
     String[] productarray = {"Standard", "Stor", "Lille"};
     JComboBox<String> productSize = new JComboBox<>(productarray);
 
-        //VarePris
+    
     JPanel reorderPanel = new JPanel();
     JLabel reorderLabel = new JLabel("Genbestil:");
     JTextField reorderField = new JTextField("1");
@@ -116,23 +66,17 @@ public class NewProductFrame extends JFrame {
     JButton cancelJButton = new JButton("Annullér");
     
 
-    //method that builds the frame and buttons
+    //frameBuild - builds the frame
     private void frameBuild() {
         this.setTitle("WaterWise DB Project - OrderFrame");
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         this.setSize(300, 330);
         this.setLocationRelativeTo(null);
-
-        //ProductArrayList
-
-
+ 
         //Panels
         ofPanel.setLayout(new BorderLayout());
-
         ofPanel.add(topPanel, BorderLayout.NORTH);
         ofPanel.add(middlePanel, BorderLayout.CENTER);
-        ofPanel.add(productTablePanel, BorderLayout.SOUTH);
-
         //TopPanel
         topPanel.setLayout(new BorderLayout());
         topPanel.add(productIDPanel, BorderLayout.WEST);
@@ -149,7 +93,7 @@ public class NewProductFrame extends JFrame {
 
             middlePanel.add(customerPanel, BorderLayout.CENTER);
             customerPanel.setBorder(new TitledBorder("Vare Oplysninger"));
-            customerPanel.setLayout(null);
+            customerPanel.setLayout(null);      // Layout set to null, which enables custom layout via setBounds
             customerPanel.add(productNameLabel);
             customerPanel.add(productNameField);
             customerPanel.add(productPriceLabel);
@@ -166,10 +110,8 @@ public class NewProductFrame extends JFrame {
             customerPanel.add(cancelJButton);
             confirmJButton.setPreferredSize(buttonDimension);
             cancelJButton.setPreferredSize(buttonDimension);
-//            confirmJButton.addActionListener(listen.new showErrorFrame());
-            
-            cancelJButton.addActionListener(new Listener().new DisposeFrameButton(this));
-            
+            // ActionListener calls via the Listener class, calling the corresponding Abstract Class
+            cancelJButton.addActionListener(new Listener().new DisposeFrameButton(this));            
             confirmJButton.addActionListener(new Listener().new newProductFrameConfirmButton(this)); 
             
 
@@ -195,15 +137,7 @@ public class NewProductFrame extends JFrame {
         this.setVisible(true);
     }  
 
-    public String getTempProductPrice() {
-        return tempProductPrice;
-    }
-
-    public void setTempProductPrice(String tempProductPrice) {
-        this.tempProductPrice = tempProductPrice;
-    }
-    
-         public void setTextProduct(Product p) {
+         public void setTextProduct(Product p) {    // Method for setting text in fields, used when editting a product
                 ErrorChecker ec = new ErrorChecker();
 
                 productIDField.setText(p.getProductID()+"");
