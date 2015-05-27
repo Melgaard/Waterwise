@@ -17,10 +17,7 @@ import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 
-/**
- *
- * @author BlottoG
- */
+// @Design author Marcus Melgaard, implementering Jesper Smith
 public class AddProductFrame extends JFrame {
 
     //Fields
