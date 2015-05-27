@@ -1,5 +1,5 @@
 package waterwise;
-
+// @Author Jesper Smith
 
  // The Error class builds the ErrorFrame with an appropriate suggested solution
 public class Error {    

@@ -1,5 +1,5 @@
 package waterwise;
-
+// @Design author Marcus Melgaard, implementering Jesper Smith
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import javax.swing.JButton;

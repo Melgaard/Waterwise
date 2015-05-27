@@ -1,5 +1,6 @@
 package waterwise;
 
+// @Author Jesper Smith
 import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -227,7 +228,7 @@ public class ErrorChecker {
         Error er;
         boolean bool = false;
 
-        if (isOrderIDValid(ofcheck.orderIDField.getText())) {                                                               
+        if (isOrderIDValid(ofcheck.orderIDField.getText())) {             // Various method calls in this class, for checking the input OrderFrame                                                  
             if (!ofcheck.chosenProducts.isEmpty()) {                                                    
                 if (isDeliveryValid(ofcheck.deliveryTypeField.getText())) {
                     if (isPaymentValid(ofcheck.paymentTypeField.getText())) {
