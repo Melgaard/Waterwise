@@ -1,22 +1,14 @@
 package waterwise;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+//Author Marcus Melgaard Jensen
 
 public abstract class DataBaseElement {
 
-    public String getDateTime() {
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd");
-        Date date = new Date();
-        return dateFormat.format(date);
-    }
+    //Update and Delete methods that all classes inheriting from DataBaseElement will have
+    //They do nothing
+    //They has to be overridden in each subclass
     
-    public void Update() {
-        System.out.println("Update method has not been Overridden correctly");
-    }
+    abstract void Update();
 
-    public void Delete() {
-        System.out.println("Delete method has not been Overridden correctly");
-    }
+    abstract void Delete();
 }

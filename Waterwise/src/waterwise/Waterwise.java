@@ -6,10 +6,8 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.plaf.nimbus.NimbusLookAndFeel;
 
-/**
- *
- * @author BlottoG
- */
+//Author Emil Møller Nielsen
+
 public class Waterwise {
 
     public static void main(String[] args) throws UnsupportedLookAndFeelException {

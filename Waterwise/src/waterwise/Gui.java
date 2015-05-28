@@ -1,5 +1,7 @@
 package waterwise;
 
+//Author Emil Møller Nielsen
+
 import com.sun.glass.events.KeyEvent;
 import java.awt.BorderLayout;
 import java.awt.Dimension;

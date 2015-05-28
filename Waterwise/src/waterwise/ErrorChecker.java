@@ -1,9 +1,11 @@
 package waterwise;
 
-// @Author Jesper Smith
+
 import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+//Author Jesper Smith
 
     // The ErrorChecker Class contains various methods, used to check different formats, or convert from one format to another
 public class ErrorChecker {

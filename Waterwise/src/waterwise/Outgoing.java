@@ -2,6 +2,8 @@ package waterwise;
 
 import java.util.HashMap;
 
+//Marcus Melgaard Jensen
+
 public class Outgoing extends Order {
 
     //Outgoing specific fields
@@ -13,15 +15,16 @@ public class Outgoing extends Order {
     private String ownCountry;
     private String ownPhonenumber;
 
-    //Creates an order objects and a new database entry
+    //Creates an Outgoing order object from the given parameters
+    //The boolean determines whether to save it in the database immediately
+    //Therefore it should be false when called from the database
     public Outgoing() {
 
         OrderFrame tempOF = new OrderFrame(this);
-        this.setStartDate(this.getDateTime());
     }
 
     //Creates an order object from the given parameters
-    //The boolean determines whether to save it in the database
+    //The boolean determines whether to save it in the database immediately
     //Therefore it should be false when called from the database
     public Outgoing(String orderID, String startDate, String closedDate,
             HashMap<Product, Integer> productMap, String paymentType,
@@ -55,8 +58,8 @@ public class Outgoing extends Order {
 
     }
 
-    //Override of databaseelement method to call the correct update method
-    @Override
+    //Override methods inherited from DataBaseElement
+    //They call the correct methods in the FileWrappper    @Override
     public void Update() {
         FileWrapper fw = new FileWrapper();
         try {

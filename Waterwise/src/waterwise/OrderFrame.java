@@ -17,10 +17,8 @@ import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 
-/**
- *
- * @author BlottoG
- */
+//Author Marcus Melgaard Jensen & Emil Møller Nielsen
+
 public class OrderFrame extends JFrame {
 
     //Fields
@@ -202,6 +200,8 @@ public class OrderFrame extends JFrame {
         middlePanel.add(productPanel, BorderLayout.SOUTH);
 
         //CustomerPanel
+        //If sentence that checks whether the order we are showing is 
+        //either an Incoming or an Outgoing and sets the frame accordingly
         if (orderShown instanceof Incoming) {
 
             middlePanel.add(customerPanel);
@@ -244,7 +244,7 @@ public class OrderFrame extends JFrame {
             deliveryAddressCountryLabel.setBounds(260, 120, 75, 15);
             deliveryAddressCountryField.setBounds(318, 118, 150, 30);
             deliveryTypeLabel.setBounds(260, 150, 75, 25);
-            
+
             deliveryTypeField.setBounds(318, 148, 150, 30);
 
         } else if (orderShown instanceof Outgoing) {
@@ -309,6 +309,7 @@ public class OrderFrame extends JFrame {
         productPanel.setBorder(new TitledBorder("Produkter"));
         productPanel.setLayout(new FlowLayout());
 
+        //Loop that removes already added products from the product dropdown
         ArrayList<Product> temporary = ElementListCollection.getPList();
 
         for (Product temp : temporary) {
@@ -359,6 +360,7 @@ public class OrderFrame extends JFrame {
         this.setVisible(true);
     }
 
+    //Method that updates the available products list
     public void updateProductComboBox() {
         productbox.setModel(new DefaultComboBoxModel(productComboList.toArray()));
     }
@@ -381,6 +383,7 @@ public class OrderFrame extends JFrame {
         chosenProductsTableModel.setColumnIdentifiers(new String[]{"ProduktID", "ProduktNavn", "Antal", "Pris"});
         chosenProductsTableModel.setRowCount(listOfProducts.keySet().size() + 1);
 
+        //Loops through the list, setting the value in the table from Products
         int row = 0;
         for (Product products : listOfProducts.keySet()) {
             chosenProductsTableModel.setValueAt(products.getProductID(), row, 0);
@@ -394,6 +397,7 @@ public class OrderFrame extends JFrame {
         productTable.setModel(chosenProductsTableModel);
     }
 
+    //Constructor that takes and order to edit and show
     public OrderFrame(Order orderToShow) {
 
         orderShown = orderToShow;
@@ -407,6 +411,7 @@ public class OrderFrame extends JFrame {
 
     }
 
+    //Settext method that sets text in the fields, shared by incoming and outgoing
     private void setTextCommon(Order ots) {
         orderIDField.setText(ots.getOrderID());
         deliveryTypeField.setText(ots.getDeliveryType());
@@ -429,11 +434,12 @@ public class OrderFrame extends JFrame {
 
         }
     }
+//Settext method that sets text in the fields for outgoing
 
     private void setTextOutgoing(Outgoing ots) {
 
         //supplier
-        if (ots.getSupplierName()!= null) {
+        if (ots.getSupplierName() != null) {
             supplierEmailField.setText(ots.getSupplierEmail());
             supplierNameField.setText(ots.getSupplierName());
             ownAddressField.setText(ots.getOwnAddress());
@@ -449,6 +455,7 @@ public class OrderFrame extends JFrame {
 
     }
 
+    //Settext method that sets text in the fields for incoming
     private void setTextIncoming(Incoming ots) {
 
         //Customer

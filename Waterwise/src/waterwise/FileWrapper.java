@@ -11,15 +11,13 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+
+//Author Markus Sørensen
+
 public class FileWrapper
 {
 
-    /**
-     * ********************
-     * ********************
-     * Author: Markus Sørensen **********************
-    *********************
-     */
+    
     //Global attributes initiated
     //SQL Attributes
     private Connection connect = null;

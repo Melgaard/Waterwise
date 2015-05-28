@@ -1,5 +1,5 @@
 package waterwise;
-// @Author Jesper Smith
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import javax.swing.JFrame;
@@ -7,7 +7,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 
-
+//Author Jesper Smith
 // ErrorFrames goal is to display any errors to the user, to secure a correct format is saved in the database
 
 public class ErrorFrame extends JFrame {    

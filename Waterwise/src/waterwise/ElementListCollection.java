@@ -2,13 +2,11 @@ package waterwise;
 
 import java.util.ArrayList;
 
-/**
- *
- * @author BlottoG
- */
+//Author Marcus Melgaard Jensen
+
 public class ElementListCollection {
 
-    //Field
+    //The lists are static so they can be accessed from anywhere
     private static ArrayList<Product> pList = new ArrayList<>();
     private static ArrayList<Order> oList = new ArrayList<>();
     private static ArrayList<Customer> cList = new ArrayList<>();
@@ -32,6 +30,8 @@ public class ElementListCollection {
     }
 
     //Getter
+    //Each getter refreshes the list from the database (or throws an exeption)
+    //This makes sure the most up-to-date list is returned
     public static ArrayList<Product> getPList() {
         FileWrapper fw = new FileWrapper();
         try {

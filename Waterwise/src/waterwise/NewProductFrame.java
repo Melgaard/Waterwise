@@ -1,5 +1,6 @@
 package waterwise;
-// @Design author Marcus Melgaard, implementering Jesper Smith
+
+
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.util.ArrayList;
@@ -10,6 +11,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
+
+//Author Jesper Smith
 
 // The NewProductFrame Class is used to create new products
 public class NewProductFrame extends JFrame {

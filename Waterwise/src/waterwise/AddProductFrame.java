@@ -17,7 +17,7 @@ import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 
-// @Design author Marcus Melgaard, implementering Jesper Smith
+//Author Jesper Smith
 public class AddProductFrame extends JFrame {
 
     //Fields
@@ -196,8 +196,6 @@ public class AddProductFrame extends JFrame {
 
         middlePanel.add(productPanel, BorderLayout.CENTER);
 
-        
-        
         //ProductPanel
         productPanel.setPreferredSize(productPaneDimension);
         productPanel.setBorder(new TitledBorder("Produkter"));
@@ -235,37 +233,33 @@ public class AddProductFrame extends JFrame {
         addButton.addActionListener(new Listener().new addProductFrameButton(this));
         confirmJButton.addActionListener(new Listener().new AddProductAmountButton(this));
         cancelJButton.addActionListener(new Listener().new DisposeFrameButton(this));
-       // removeProductButton.addActionListener(new Listener().new RemoveFromTableButton(this));
+        // removeProductButton.addActionListener(new Listener().new RemoveFromTableButton(this));
 
         ofPanel.setVisible(true);
         this.add(ofPanel);
         this.setVisible(true);
     }
-    
-    
-    public void addProductsToStock(){
-        for (Product key : listOfProducts.keySet()){
+
+    public void addProductsToStock() {
+        for (Product key : listOfProducts.keySet()) {
             int x = listOfProducts.get(key);
             x += key.getAmountInStorage();
             key.setAmountInStorage(x);
             key.Update();
         }
     }
-    
-    
-    
 
     public void updateProductComboBox() {
         productbox.setModel(new DefaultComboBoxModel(productComboList.toArray()));
     }
-    
+
     public void updateProductList() {
         DefaultTableModel chosenProductsTableModel = new DefaultTableModel() {
             @Override
             public boolean isCellEditable(int row, int col) {
-                if(col == 2){
+                if (col == 2) {
                     return true;
-                } else{
+                } else {
                     return false;
                 }
             }
@@ -292,8 +286,4 @@ public class AddProductFrame extends JFrame {
         frameBuild();
     }
 
-
-   
-
-   
 }

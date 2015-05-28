@@ -1,5 +1,7 @@
 package waterwise;
 
+//Author Marcus Melgaard Jensen
+
 public class Customer extends DataBaseElement {
 
     //Fields
@@ -12,34 +14,33 @@ public class Customer extends DataBaseElement {
     private String deliveryCountryAddress;
     private String creationDate;
 
-    
-
+    //Override methods inherited from DataBaseElement
+    //They call the correct methods in the FileWrappper
     @Override
     public void Update() {
         FileWrapper fw = new FileWrapper();
         try {
             fw.createCustomer(this);
         } catch (Exception ex) {
-            System.out.println( ex + " thrown from - " + this.getClass().toString());
+            System.out.println(ex + " thrown from - " + this.getClass().toString());
         }
     }
-    
-     @Override
+
+    @Override
     public void Delete() {
         FileWrapper fw = new FileWrapper();
         try {
             fw.deleteCustomer(phoneNumber);
         } catch (Exception ex) {
-            System.out.println( ex + " thrown from - " + this.getClass().toString());
+            System.out.println(ex + " thrown from - " + this.getClass().toString());
         }
     }
-    
+
     //Constructor
-    //To create an entirely new customer
-    public Customer(int phone, String email, String name, String deliveryaddress,  
-                     String city, String zip, String country) {
-        
-        
+    //To create an entirely new customer, and update to the database
+    public Customer(int phone, String email, String name, String deliveryaddress,
+            String city, String zip, String country) {
+
         this.phoneNumber = phone;
         this.customerEmail = email;
         this.customerName = name;
@@ -47,13 +48,15 @@ public class Customer extends DataBaseElement {
         this.deliveryCityAddress = city;
         this.deliveryZipAddress = zip;
         this.deliveryCountryAddress = country;
-        
+
         this.Update();
     }
+
     //To create customer objects from database
-    public Customer(int phone, String email, String name, String deliveryaddress,  
-                     String city, String zip, String country, String creation) {
-        
+    //This doesnt update to the database
+    public Customer(int phone, String email, String name, String deliveryaddress,
+            String city, String zip, String country, String creation) {
+
         this.phoneNumber = phone;
         this.customerEmail = email;
         this.customerName = name;
@@ -62,9 +65,9 @@ public class Customer extends DataBaseElement {
         this.deliveryZipAddress = zip;
         this.deliveryCountryAddress = country;
         creationDate = creation;
-        
+
     }
-    
+
     //Getters
     public String getCustomerEmail() {
         return this.customerEmail;
@@ -86,44 +89,36 @@ public class Customer extends DataBaseElement {
         return this.creationDate;
     }
 
-    public String getDeliveryCityAddress()
-    {
+    public String getDeliveryCityAddress() {
         return deliveryCityAddress;
     }
 
-    public String getDeliveryZipAddress()
-    {
+    public String getDeliveryZipAddress() {
         return deliveryZipAddress;
     }
 
-    public String getDeliveryCountryAddress()
-    {
+    public String getDeliveryCountryAddress() {
         return deliveryCountryAddress;
     }
-    
+
     //Setters
-    public void setPhoneNumber(int phoneNumber)
-    {
+    public void setPhoneNumber(int phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
 
-    public void setCustomerEmail(String customerEmail)
-    {
+    public void setCustomerEmail(String customerEmail) {
         this.customerEmail = customerEmail;
     }
 
-    public void setDeliveryAddress(String deliveryAddress)
-    {
+    public void setDeliveryAddress(String deliveryAddress) {
         this.deliveryAddress = deliveryAddress;
     }
 
-    public void setCustomerName(String customerName)
-    {
+    public void setCustomerName(String customerName) {
         this.customerName = customerName;
     }
 
-    public void setCreationDate(String creationDate)
-    {
+    public void setCreationDate(String creationDate) {
         this.creationDate = creationDate;
     }
 }

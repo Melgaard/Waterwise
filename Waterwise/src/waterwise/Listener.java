@@ -10,10 +10,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 
-/**
- *
- * @author BlottoG
- */
+//Author Marcus Melgaard, Jesper Smith & Emil Møller Nielsen
 public class Listener {
 
     Controller controller = new Controller();
