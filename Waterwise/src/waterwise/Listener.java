@@ -64,7 +64,7 @@ public class Listener {
         @Override
         public void actionPerformed(ActionEvent ae) {
 
-            if (orderList.getSelectedRow() != 1) {
+            if (orderList.getSelectedRowCount() != 1) {
                 JOptionPane.showMessageDialog(null, "Du skal vælge et element i listen.");
 
             } else {
@@ -89,7 +89,7 @@ public class Listener {
         @Override
         public void actionPerformed(ActionEvent ae) {
 
-            if (customerList.getSelectedRow() != 1) {
+            if (customerList.getSelectedRowCount() != 1) {
                 JOptionPane.showMessageDialog(null, "Du skal vælge et element i listen.");
             } else {
                 Customer c = (Customer) controller.getElementFromTable(customerList, cTTF);
@@ -112,7 +112,7 @@ public class Listener {
 
         @Override
         public void actionPerformed(ActionEvent ae) {
-            if (productList.getSelectedRow() != 1) {
+            if (productList.getSelectedRowCount() != 1) {
                 JOptionPane.showMessageDialog(null, "Du skal vælge et element i listen.");
             } else {
                 Product p = (Product) controller.getElementFromTable(productList, productToEdit);

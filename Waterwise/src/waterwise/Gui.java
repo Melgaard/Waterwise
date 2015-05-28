@@ -32,6 +32,7 @@ public class Gui extends JFrame {
 
     ElementListCollection of = new ElementListCollection();
 
+    //Tabbedpane Card names. Should be final and static.
     final static String ROOT = "ROOT";
     final static String ORDRER = "ORDRER";
     final static String LAGER = "LAGER";
@@ -58,7 +59,6 @@ public class Gui extends JFrame {
     JLabel imageLabel = new JLabel();
     ImageIcon waterwise = new ImageIcon("waterwise.jpg");
     JLabel info = new JLabel("Waterwise Lagerstyring - v.1.0 - KEA 2015");
-
     ImageIcon icon = new ImageIcon("drop2.png");
 
     //ORDER    
@@ -164,23 +164,26 @@ public class Gui extends JFrame {
         setResizable(false);
 
         this.addComponentToPane();
+
+        //Resetview() will load and update all the tables used by GUI class from the database.
         controller.resetView();
 
         setVisible(true);
 
     }
 
+    //This method will add all the components, set their position, sizes and actionlisteners.
     private void addComponentToPane() {
 
         Listener listen = new Listener();
         JTabbedPane tabbedPane = new JTabbedPane();
 
-        tabbedPane.addTab(ROOT, cardRoot);
+        
         tabbedPane.addTab(ORDRER, cardOrder);
         tabbedPane.addTab(LAGER, cardProducts);
         tabbedPane.addTab(KUNDER, cardCustomers);
         tabbedPane.addTab(BESTILLINGER, cardStockOrders);
-        //tabbedPane.addTab(INDSTILLINGER, cardSettings);
+        tabbedPane.addTab(ROOT, cardRoot);
 
         this.add(tabbedPane, BorderLayout.CENTER);
 
@@ -277,27 +280,6 @@ public class Gui extends JFrame {
         editCustomer.addActionListener(listen.new EditCustomerButton(customerTable, "Customer"));
         deleteCustomer.addActionListener(listen.new DeleteElementButton(customerTable, "Customer"));
 
-        //Settings
-        cardSettings.add(settingsPanel);
-        settingsPanel.setLayout(new BorderLayout());
-
-        settingsPanel.add(checkBox1, BorderLayout.CENTER);
-        checkBox1.setMnemonic(KeyEvent.VK_G);
-        checkBox1.setSelected(true);
-
-        settingsPanel.add(checkBox2, BorderLayout.WEST);
-        checkBox2.setMnemonic(KeyEvent.VK_G);
-        checkBox2.setSelected(true);
-
-        settingsPanel.add(southSettingsPanel, BorderLayout.SOUTH);
-        southSettingsPanel.setLayout(new FlowLayout());
-
-        southSettingsPanel.add(commit);
-        commit.setPreferredSize(buttonSize);
-
-        southSettingsPanel.add(cancel);
-        cancel.setPreferredSize(buttonSize);
-
         //StockOrder
         cardStockOrders.add(stockOrderPanel);
         stockOrderPanel.setLayout(new BorderLayout());
@@ -335,8 +317,11 @@ public class Gui extends JFrame {
 
     }
 
+    //UpdateorderList will load and update the updateorderlist with new information from the database. This method will most likely not be called alone, but through resetView() in Controller class.
     public void updateOrderList() {
         //Orders
+        
+        //The following method sets the cell to not editable
         DefaultTableModel orderTableModel = new DefaultTableModel() {
             @Override
             public boolean isCellEditable(int orderRow, int orderCol) {
@@ -344,10 +329,15 @@ public class Gui extends JFrame {
             }
         };
 
+        
+        //The following sorting function creates an arraylist, and adds all the elements with the selected prerequisite, i.e. "Uafsluttet".
+        //After all the elements have been added to the loop, the elements will be displayed in a table.
         ArrayList<Order> templist = new ArrayList<>();
         String viewSort = orderSorter.getSelectedItem().toString();
 
         switch (viewSort) {
+            
+            //Sorts for "Uafsluttede"
             case "Uafsluttede":
                 for (Order loop : ElementListCollection.getOList()) {
                     if (loop.getOrderStatus().equals("Uafsluttet")) {
@@ -355,6 +345,7 @@ public class Gui extends JFrame {
                     }
                 }
                 break;
+                //Sorts for "Afsluttede"
             case "Afsluttede":
                 for (Order loop : ElementListCollection.getOList()) {
                     if (loop.getOrderStatus().equals("Afsluttet")) {
@@ -362,6 +353,10 @@ public class Gui extends JFrame {
                     }
                 }
                 break;
+                //Sorts for "seneste 14 dage"
+                //This loops gets the startdate of the element from the database and
+                //converts it to a simple date format, in the end it displays the elements from the last 14 days.
+                
             case "Seneste 14 dage":
                 for (Order loop : ElementListCollection.getOList()) {
                     SimpleDateFormat tempdateformat = new SimpleDateFormat("dd-MM-yyyy");
@@ -391,6 +386,12 @@ public class Gui extends JFrame {
                 break;
         }
 
+        
+        //This method sets up the tablemodel with columnidentifiers.
+        //It loops over templist, which holds all the elements we wish to list, to get the number of rows to create.
+        //The value we are interested in from templist, is put in a specific column.
+        //we loop over all the elements in the list and adds the values on each row before we continue to the next.
+        
         orderTable.setAutoCreateRowSorter(true);
 
         orderTableModel.setColumnIdentifiers(new String[]{"OrderID", "StartDato", "SlutDato", "Betalingstype", "Totalpris", "Leveringstype", "OrdreStatus"});
@@ -412,8 +413,10 @@ public class Gui extends JFrame {
         orderTable.setModel(orderTableModel);
 
     }
-//Customers
 
+    //Same as updateorderlist, with customers. Will not be called alone.
+    //Theres no sorter function in customers.
+   
     public void updateCustomerList() {
 
         DefaultTableModel customerTableModel = new DefaultTableModel() {
@@ -448,7 +451,8 @@ public class Gui extends JFrame {
 
     }
 
-//        //StockOrders
+//Same as updateorderlist, with stockorders. Will not be called alone.
+    //Sort function works the same way as in updateOrderList();
     public void updateStockOrderList() {
         DefaultTableModel stockOrderTableModel = new DefaultTableModel() {
             @Override
@@ -523,6 +527,8 @@ public class Gui extends JFrame {
         stockOrderTable.setModel(stockOrderTableModel);
 
     }
+    //Same as updateorderlist, with products1. Will not be called alone.
+    //No sorter function for products.
 
     public void updateProductList() {
         //Products
@@ -558,7 +564,7 @@ public class Gui extends JFrame {
 
     }
 
-    //PrintFrame "OrderID", "StartDato", "SlutDato", "TotalPris", "Betalingstype", "Leveringstype", "OrdreStatus
+    //method will recieve an Order object and send it to a new frame for copying
     public void printLabelFrame(Order toLabel) {
 
         Incoming printOrder = (Incoming) toLabel;
@@ -599,6 +605,7 @@ public class Gui extends JFrame {
         printLabelFrame.setVisible(true);
 
     }
+//method will recieve an order object and send it to a new frame for copying
 
     public void printEmailFrame(Order outgoingOrder) {
 
@@ -619,9 +626,11 @@ public class Gui extends JFrame {
         textToPrint.setWrapStyleWord(true);
 
         //Text
+        
         textToPrint.append("OrderID: " + outgoingOrder.getOrderID() + "\n");
         textToPrint.append("Amount    --   Product ID\n\n");
-
+        
+        //We loop over the hashmap to get the products and amounts to display them in the textbox.
         HashMap<Product, Integer> map = outgoingOrder.getListOfProducts();
 
         for (Product p : map.keySet()) {
@@ -639,3 +648,4 @@ public class Gui extends JFrame {
     }
 
 }
+    
