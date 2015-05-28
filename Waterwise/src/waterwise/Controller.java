@@ -126,6 +126,7 @@ public class Controller {
         return elementToReturn;
     }
 
+    //The string variables are gathered in a single string with a § symbol dividing the stringsections
     public String packageCustomerAddress(String address, String city, String zip, String country) {
         String divide = "§";
         String completeAddress = address + divide + city + divide + zip + divide + country;
@@ -137,7 +138,7 @@ public class Controller {
         String completeSupplier = supplierName + divide + supplierEmail + divide + ownAddress + divide + ownCity + divide + ownZip + divide + ownCountry + divide + ownPhonenumber;
         return completeSupplier;
     }
-
+    //The large string variable i split by the § symbols and returned as an array of strings containing the sections of the variable
     public String[] unpackage(String completeString) {
         String[] address = completeString.split("§");
         return address;
