@@ -484,6 +484,39 @@ public class Listener {
         }
     }
 
+    public class RemoveAmountFromTableButton extends AbstractAction {
+
+        AddProductFrame removeAmountOfProducts;
+        int selectedRow;
+        String selectedProduct;
+
+        public RemoveAmountFromTableButton(AddProductFrame removeAmountFromTable) {
+            removeAmountOfProducts = removeAmountFromTable;
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent ae) {
+            try {
+
+                selectedRow = removeAmountOfProducts.productTable.getSelectedRow();
+                if (removeAmountOfProducts.productTable.getValueAt(selectedRow, 1) == null) {
+                    JOptionPane.showMessageDialog(null, "Du har markeret et tomt felt.");
+                }
+                for (Product p : removeAmountOfProducts.listOfProducts.keySet()) {
+                    if (p.getProductName().equals(removeAmountOfProducts.productTable.getValueAt(selectedRow, 1))) {
+                        removeAmountOfProducts.listOfProducts.remove(p);
+                        selectedProduct = p.getProductName();
+                    }
+                }
+                removeAmountOfProducts.productComboList.add(selectedProduct);
+                removeAmountOfProducts.updateProductComboBox();
+                removeAmountOfProducts.updateProductList();
+            } catch (IndexOutOfBoundsException iob) {
+                JOptionPane.showMessageDialog(null, "Du skal markere et produkt.");
+            }
+        }
+    }
+
     public class RemoveFromTableButton extends AbstractAction {
 
         OrderFrame removeProduct;
@@ -498,6 +531,7 @@ public class Listener {
         @Override
         public void actionPerformed(ActionEvent ae) {
             try {
+
                 selectedRow = removeProduct.productTable.getSelectedRow();
                 if (removeProduct.productTable.getValueAt(selectedRow, 1) == null) {
                     JOptionPane.showMessageDialog(null, "Du har markeret et tomt felt.");
@@ -514,8 +548,6 @@ public class Listener {
                 removeProduct.productComboList.add(selectedProduct);
                 removeProduct.updateProductComboBox();
                 removeProduct.updateProductList();
-
-                System.out.println(removeProduct.productTable.getValueAt(selectedRow, 1));
 
             } catch (IndexOutOfBoundsException iob) {
                 JOptionPane.showMessageDialog(null, "Du skal markere et produkt.");

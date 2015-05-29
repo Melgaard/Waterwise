@@ -21,33 +21,6 @@ import javax.swing.table.DefaultTableModel;
 public class AddProductFrame extends JFrame {
 
     //Fields
-    //this will be set to the order we are working on
-    Order orderShown;
-    //variable to determine wheter it is an incoming or outgoing order - 
-    //true is incoming
-
-    String orderID;
-    String startDate;
-    String closedDate;
-    String deliveryType;
-    String paymentType;
-    String customerEmail;
-    String deliveryAddress;
-    String addressCity;
-    String addressZip;
-    String addressCountry;
-    String customerName;
-    int customerPhonenumber;
-
-    String supplierName;
-    String supplierEmail;
-    String ownAddress;
-    String ownCity;
-    String ownZip;
-    String ownCountry;
-    int ownPhonenumber;
-
-    String orderStatus;
     HashMap<Product, Integer> listOfProducts = new HashMap<Product, Integer>();
 
     //Dimensions
@@ -58,92 +31,16 @@ public class AddProductFrame extends JFrame {
 
     //JPanels
     JPanel ofPanel = new JPanel();
-    JPanel topPanel = new JPanel();
     JPanel middlePanel = new JPanel();
-    JPanel customerPanel = new JPanel();
-    JPanel customerPanelWEST = new JPanel();
-    JPanel customerPanelEAST = new JPanel();
     JPanel productPanel = new JPanel();
     JPanel productTablePanel = new JPanel();
     JPanel bottomPanel = new JPanel();
     JPanel supplierPanel = new JPanel();
 
-    //Supplier
-    JLabel supplierNameLabel = new JLabel("Supplier:");
-    JTextField supplierNameField = new JTextField();
-
-    JLabel supplierEmailLabel = new JLabel("Email:");
-    JTextField supplierEmailField = new JTextField();
-
-    JLabel ownAddressLabel = new JLabel("Addresse:");
-    JTextField ownAddressField = new JTextField();
-
-    JLabel ownCityLabel = new JLabel("By:");
-    JTextField ownCityField = new JTextField();
-
-    JLabel ownZipLabel = new JLabel("Postnr:");
-    JTextField ownZipField = new JTextField();
-
-    JLabel ownCountryLabel = new JLabel("Land:");
-    JTextField ownCountryField = new JTextField();
-
-    JLabel ownPhonenumberLabel = new JLabel("Telefon:");
-    JTextField ownPhonenumberField = new JTextField();
-
     //ScrollPane
     JTable productTable = new JTable();
     JScrollPane productTableScrollPane = new JScrollPane(productTable);
     ArrayList<Product> chosenProducts = new ArrayList<>(); // Hvad gør vi her?
-
-    //OrdreID
-    JPanel orderIDPanel = new JPanel();
-    JLabel orderIDLabel = new JLabel("OrdreID:");
-    JTextField orderIDField = new JTextField("", 5);
-
-    //Delivery
-    JPanel deliveryTypePanel = new JPanel();
-    JLabel deliveryTypeLabel = new JLabel("Lev.type:");
-    JTextField deliveryTypeField = new JTextField("", 15);
-
-    //Paymenttype
-    JPanel paymentTypePanel = new JPanel();
-    JLabel paymentTypeLabel = new JLabel("Btl.type:");
-    JTextField paymentTypeField = new JTextField();
-
-    //Customer Email
-    JPanel customerEmailPanel = new JPanel();
-    JLabel customerEmailLabel = new JLabel("Email:");
-    JTextField customerEmailField = new JTextField();
-
-    //Delivery address
-    JPanel deliveryAddressPanel = new JPanel();
-    JLabel deliveryAddressLabel = new JLabel("Adresse:");
-    JTextField deliveryAddressField = new JTextField();
-
-    JLabel deliveryAddressCityLabel = new JLabel("By:");
-    JTextField deliveryAddressCityField = new JTextField();
-
-    JLabel deliveryAddressZipLabel = new JLabel("Postnr:");
-    JTextField deliveryAddressZipField = new JTextField();
-
-    JLabel deliveryAddressCountryLabel = new JLabel("Land:");
-    JTextField deliveryAddressCountryField = new JTextField("Danmark");
-
-    //CustomerName
-    JPanel customerNamePanel = new JPanel();
-    JLabel customerNameLabel = new JLabel("Kundenavn:");
-    JTextField customerNameField = new JTextField();
-
-    //Customer Phone
-    JPanel customerPhonenumberPanel = new JPanel();
-    JLabel customerPhonenumberLabel = new JLabel("Telefon:");
-    JTextField customerPhonenumberField = new JTextField();
-
-    //Status 
-    JPanel statusPanel = new JPanel();
-    JLabel statusLabel = new JLabel("Status:");
-    String[] statusdrop = {"Afsluttet", "Uafsluttet"};
-    JComboBox statusmenu = new JComboBox(statusdrop);
 
     //ProductdropDown
     JPanel productListPanel = new JPanel();
@@ -171,25 +68,13 @@ public class AddProductFrame extends JFrame {
         this.setLocationRelativeTo(null);
 
         //ProductArrayList
-        //ScrollPane initialiseres
         updateProductList();
 
         //Panels
         ofPanel.setLayout(new BorderLayout());
 
-        //ofPanel.add(topPanel, BorderLayout.NORTH);
         ofPanel.add(middlePanel, BorderLayout.NORTH);
         ofPanel.add(productTablePanel, BorderLayout.SOUTH);
-
-        //TopPanel
-        topPanel.setLayout(new BorderLayout());
-        topPanel.add(orderIDPanel, BorderLayout.WEST);
-        orderIDPanel.add(orderIDLabel);
-        orderIDPanel.add(orderIDField);
-        orderIDField.setEditable(false);
-        topPanel.add(statusPanel, BorderLayout.EAST);
-        statusPanel.add(statusLabel);
-        statusPanel.add(statusmenu);
 
         //MiddlePanel
         middlePanel.setLayout(new BorderLayout());
@@ -233,7 +118,7 @@ public class AddProductFrame extends JFrame {
         addButton.addActionListener(new Listener().new addProductFrameButton(this));
         confirmJButton.addActionListener(new Listener().new AddProductAmountButton(this));
         cancelJButton.addActionListener(new Listener().new DisposeFrameButton(this));
-        // removeProductButton.addActionListener(new Listener().new RemoveFromTableButton(this));
+        removeProductButton.addActionListener(new Listener().new RemoveAmountFromTableButton(this));
 
         ofPanel.setVisible(true);
         this.add(ofPanel);
@@ -268,10 +153,10 @@ public class AddProductFrame extends JFrame {
         productTable.setAutoCreateRowSorter(true);
 
         chosenProductsTableModel.setColumnIdentifiers(new String[]{"ProduktID", "ProduktNavn", "Antal"});
-        chosenProductsTableModel.setRowCount(ElementListCollection.getPList().size());
+        chosenProductsTableModel.setRowCount(listOfProducts.keySet().size());
 
         int row = 0;
-        for (Product products : chosenProducts) {
+        for (Product products : listOfProducts.keySet()) {
             chosenProductsTableModel.setValueAt(products.getProductID(), row, 0);
             chosenProductsTableModel.setValueAt(products.getProductName(), row, 1);
             chosenProductsTableModel.setValueAt(listOfProducts.get(products), row, 2);

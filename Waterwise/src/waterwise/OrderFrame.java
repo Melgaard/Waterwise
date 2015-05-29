@@ -175,8 +175,6 @@ public class OrderFrame extends JFrame {
         this.setSize(500, 600);
         this.setLocationRelativeTo(null);
 
-        //ProductArrayList
-        //ScrollPane initialiseres
         //Panels
         ofPanel.setLayout(new BorderLayout());
 
@@ -381,7 +379,7 @@ public class OrderFrame extends JFrame {
         productTable.setAutoCreateRowSorter(true);
 
         chosenProductsTableModel.setColumnIdentifiers(new String[]{"ProduktID", "ProduktNavn", "Antal", "Pris"});
-        chosenProductsTableModel.setRowCount(listOfProducts.keySet().size() + 1);
+        chosenProductsTableModel.setRowCount(listOfProducts.keySet().size());
 
         //Loops through the list, setting the value in the table from Products
         int row = 0;

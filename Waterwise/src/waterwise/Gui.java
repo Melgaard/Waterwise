@@ -2,10 +2,8 @@ package waterwise;
 
 //Author Emil Møller Nielsen
 
-import com.sun.glass.events.KeyEvent;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -104,16 +102,6 @@ public class Gui extends JFrame {
     JButton editProduct = new JButton("Rediger vare");
     JButton orderProducts = new JButton("Bestil vare");
     JButton deleteProduct = new JButton("Slet vare");
-
-    //Settings
-    JPanel settingsPanel = new JPanel();
-    JCheckBox checkBox1 = new JCheckBox("Settings 1");
-    JCheckBox checkBox2 = new JCheckBox("Settings 2");
-    JPanel southSettingsPanel = new JPanel();
-
-    //SettingsButtons
-    JButton commit = new JButton("Bekræft");
-    JButton cancel = new JButton("Annulér");
 
     //Customers
     JPanel customerPanel = new JPanel();
